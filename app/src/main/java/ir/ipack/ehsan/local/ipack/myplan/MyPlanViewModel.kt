@@ -15,6 +15,6 @@ class MyPlanViewModel(
     fun getPlanStream(): Observable<BasePlan> {
         Log.i("ETest" , "ViewModel")
 
-        return repository.getPlanStream()
+        return repository.getBasePlan()
     }
 }

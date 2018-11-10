@@ -3,16 +3,13 @@ package ir.ipack.ehsan.local.ipack.data.source.local
 import android.support.annotation.VisibleForTesting
 import android.util.Log
 import ir.ipack.ehsan.local.ipack.data.BasePlan
-import ir.ipack.ehsan.local.ipack.utils.AppExecutors
+import ir.ipack.ehsan.local.ipack.data.source.DataSource
 import rx.Observable
 import rx.subjects.PublishSubject
 
-class LocalDataSource private constructor() {
+class LocalDataSource private constructor() : DataSource {
 
-    fun getBasePlanStream(): Observable<BasePlan> = Observable.merge(Observable.just(mBasePlan), mBasePlanStream)
-        .also {
-            Log.i("ETest", "LocalDataSource")
-        }
+    override fun getBasePlan(): Observable<BasePlan> = Observable.merge(Observable.just(mBasePlan), mBasePlanStream)
 
     companion object {
         private val mBasePlan = BasePlan()
@@ -21,17 +18,16 @@ class LocalDataSource private constructor() {
         private var INSTANCE: LocalDataSource? = null
 
         @JvmStatic
-        fun getInstance(): LocalDataSource {
-            if (INSTANCE == null) {
-                synchronized(LocalDataSource::javaClass) {
-                    INSTANCE = LocalDataSource()
+        fun getInstance(): LocalDataSource =
+            INSTANCE ?: synchronized(LocalDataSource::class.java) {
+                INSTANCE ?: LocalDataSource().also {
+                    INSTANCE = it
                 }
             }
-            return INSTANCE!!
-        }
 
         @VisibleForTesting
-        fun clearInstance() {
+        @JvmStatic
+        fun destroyInstance() {
             INSTANCE = null
         }
     }

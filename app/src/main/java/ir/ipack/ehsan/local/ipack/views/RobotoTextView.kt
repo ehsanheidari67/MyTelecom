@@ -1,10 +1,8 @@
 package ir.ipack.ehsan.local.ipack.views
 
 import android.content.Context
-import android.support.v4.widget.TextViewCompat
 import android.support.v7.widget.AppCompatTextView
 import android.util.AttributeSet
-import android.widget.TextView
 import ir.ipack.ehsan.local.ipack.R
 import ir.ipack.ehsan.local.ipack.utils.FontCache
 
@@ -32,6 +30,8 @@ class RobotoTextView(context: Context, attrs: AttributeSet) : AppCompatTextView(
     fun setFont(context: Context, robotoFont: String) {
         val font = FontCache.get(robotoFont, context)
         this.typeface = font
+
+        font.also{}
     }
 
 }

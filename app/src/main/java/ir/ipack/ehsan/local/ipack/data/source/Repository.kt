@@ -4,10 +4,10 @@ import ir.ipack.ehsan.local.ipack.data.BasePlan
 import ir.ipack.ehsan.local.ipack.data.source.local.LocalDataSource
 import rx.Observable
 
-class Repository(private val localDataSource: LocalDataSource) {
+class Repository private constructor(private val localDataSource: LocalDataSource) : DataSource {
 
-    fun getPlanStream(): Observable<BasePlan> {
-        return localDataSource.getBasePlanStream()
+    override fun getBasePlan(): Observable<BasePlan> {
+        return localDataSource.getBasePlan()
     }
 
     companion object {

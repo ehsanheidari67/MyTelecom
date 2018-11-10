@@ -48,7 +48,7 @@ class ViewModelFactory private constructor(
         fun getInstance(application: Application) =
                 INSTANCE ?: synchronized(ViewModelFactory::class.java) {
                     INSTANCE ?: ViewModelFactory(application,
-                            Repository(LocalDataSource.getInstance())
+                            Repository.getInstance(LocalDataSource.getInstance())
                     )
                             .also { INSTANCE = it }
                 }
