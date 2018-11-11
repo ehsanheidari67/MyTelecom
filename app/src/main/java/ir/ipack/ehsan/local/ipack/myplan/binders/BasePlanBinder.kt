@@ -1,4 +1,4 @@
-package ir.ipack.ehsan.local.ipack.myplan
+package ir.ipack.ehsan.local.ipack.myplan.binders
 
 import android.support.v7.widget.RecyclerView
 import android.util.Log
@@ -10,7 +10,6 @@ import com.yqritc.recyclerviewmultipleviewtypesadapter.DataBinder
 import ir.ipack.ehsan.local.ipack.R
 import ir.ipack.ehsan.local.ipack.data.BasePlan
 import ir.ipack.ehsan.local.ipack.utils.Currency
-import ir.ipack.ehsan.local.ipack.views.RobotoTextView
 import kotlinx.android.synthetic.main.base_plan_info.view.*
 
 
@@ -41,7 +40,4 @@ class BasePlanBinder(dataBindAdapter: DataBindAdapter) : DataBinder<BasePlanBind
         val baseCost = itemView.base_cost
         val addonCost = itemView.addon_cost
     }
-
-
-
 }

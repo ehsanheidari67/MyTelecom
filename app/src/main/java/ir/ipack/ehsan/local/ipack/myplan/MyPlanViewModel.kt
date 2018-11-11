@@ -2,7 +2,6 @@ package ir.ipack.ehsan.local.ipack.myplan
 
 import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
-import android.util.Log
 import ir.ipack.ehsan.local.ipack.data.BasePlan
 import ir.ipack.ehsan.local.ipack.data.source.Repository
 import rx.Observable
@@ -12,9 +11,10 @@ class MyPlanViewModel(
     private val repository: Repository
 ) : AndroidViewModel(context) {
 
-    fun getPlanStream(): Observable<BasePlan> {
-        Log.i("ETest" , "ViewModel")
+    fun getPlanStream(): Observable<BasePlan> = repository.getBasePlanStreams()
 
-        return repository.getBasePlan()
-    }
+
+    fun getDataCycleStream() = repository.getDataCycleStreams()
+    fun getTalkCycleStream() = repository.getTalkCycleStreams()
+    fun getTextCycleStream() = repository.getTextCycleStreams()
 }

@@ -4,7 +4,6 @@ import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,26 +23,41 @@ class MyPlanFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mViewModel = ViewModelProviders.of(this, ViewModelFactory.getInstance(activity!!.application)).get(MyPlanViewModel::class.java)
-
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.fragment_my_plan, container, false)
         val coorLayout  = (activity as MainActivity).coordinator_layout
-        mPlanAdapter = MyPlanRecyclerAdapter(context, coorLayout)
+        mPlanAdapter = MyPlanRecyclerAdapter(context!!, coorLayout)
         rootView.recyclerView.adapter = mPlanAdapter
-        val layoutManager = LinearLayoutManager(activity)
-        rootView.recyclerView.setLayoutManager(layoutManager)
-
-        Log.i("ETest", "Fragment")
+        rootView.recyclerView.layoutManager = LinearLayoutManager(activity)
 
         mViewModel.getPlanStream()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe{
-                Log.i("ETest", "Fragment subscribe")
                 mPlanAdapter.setBasePlanInfo(it)
             }
+
+        mViewModel.getDataCycleStream()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                mPlanAdapter.setDataCycle(it)
+            }
+        mViewModel.getTalkCycleStream()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                mPlanAdapter.setTalkCycle(it)
+            }
+        mViewModel.getTextCycleStream()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                mPlanAdapter.setTextCycle(it)
+            }
+
         return rootView
     }
 }

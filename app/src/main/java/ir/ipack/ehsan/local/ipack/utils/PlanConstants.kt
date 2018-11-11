@@ -7,9 +7,9 @@ object PlanConstants {
     val DATA = 1
     val TALK = 2
     val TEXT = 3
-    val DATA_UNIT = MainActivity.context?.resources?.getString(R.string.data_units) // gigabytes
-    val TALK_UNIT = MainActivity.context?.resources?.getString(R.string.talk_units) // minutes
-    val TEXT_UNIT = MainActivity.context?.resources?.getString(R.string.text_units) // texts
+    val DATA_UNIT = MainActivity.context!!.resources!!.getString(R.string.data_units) // gigabytes
+    val TALK_UNIT = MainActivity.context!!.resources!!.getString(R.string.talk_units) // minutes
+    val TEXT_UNIT = MainActivity.context!!.resources!!.getString(R.string.text_units) // texts
     val MIN_UNIT = 1
     val INITIAL_DATA_AMOUNT = 5 // in gigabytes
     val INITIAL_TALK_AMOUNT = 500 // in minutes
