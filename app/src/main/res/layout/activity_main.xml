@@ -88,8 +88,7 @@
                     android:id="@+id/data_tab_image"
                     android:contentDescription="@string/con_desc_my_data_tab"
                     style="@style/TabImages"
-                    android:src="@drawable/data_white"
-                    android:visibility="gone"/>
+                    android:src="@drawable/data_white"/>
 
             <ImageView
                     android:id="@+id/talk_tab_image"

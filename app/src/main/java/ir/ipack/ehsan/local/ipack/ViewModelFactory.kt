@@ -23,6 +23,7 @@ import android.support.annotation.VisibleForTesting
 
 import ir.ipack.ehsan.local.ipack.data.source.Repository
 import ir.ipack.ehsan.local.ipack.data.source.local.LocalDataSource
+import ir.ipack.ehsan.local.ipack.mydata.MyDataViewModel
 import ir.ipack.ehsan.local.ipack.myplan.MyPlanViewModel
 
 class ViewModelFactory private constructor(
@@ -35,6 +36,8 @@ class ViewModelFactory private constructor(
                 when {
                     isAssignableFrom(MyPlanViewModel::class.java) ->
                         MyPlanViewModel(application, tasksRepository)
+                    isAssignableFrom(MyDataViewModel::class.java) ->
+                        MyDataViewModel(application, tasksRepository)
                     else ->
                         throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
                 }

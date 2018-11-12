@@ -13,8 +13,7 @@ class MyPlanRecyclerAdapter(context: Context, coordinatorLayout: CoordinatorLayo
     init {
         val basePlanBinder = BasePlanBinder(this)
         val planOverviewBinder = PlanOverviewBinder(context, this)
-        addAllBinder(basePlanBinder)
-        addAllBinder(planOverviewBinder)
+        addAllBinder(basePlanBinder, planOverviewBinder)
     }
 
     fun setBasePlanInfo(basePlan: BasePlan) {
@@ -24,9 +23,11 @@ class MyPlanRecyclerAdapter(context: Context, coordinatorLayout: CoordinatorLayo
     fun setDataCycle(dataCycle: Cycle) {
         getDataBinder<PlanOverviewBinder>(1).addData(dataCycle)
     }
+
     fun setTalkCycle(talkCycle: Cycle) {
         getDataBinder<PlanOverviewBinder>(1).addTalk(talkCycle)
     }
+
     fun setTextCycle(textCycle: Cycle) {
         getDataBinder<PlanOverviewBinder>(1).addText(textCycle)
     }
