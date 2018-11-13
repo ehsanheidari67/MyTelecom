@@ -41,8 +41,8 @@ data class Offer(
 data class Usage(
     val total: Int,
     val appName: String,
-    val usageImage: Int,
-    val seekBarProgress: Int,
+    var usageImage: Int,
+    var seekBarProgress: Int,
     val usedData: String,
     val used: Double,
     val limit: Int,

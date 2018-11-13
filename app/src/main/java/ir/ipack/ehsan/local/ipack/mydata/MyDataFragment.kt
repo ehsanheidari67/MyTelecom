@@ -22,12 +22,6 @@ class MyDataFragment : Fragment() {
     private lateinit var mViewModel: MyDataViewModel
     private lateinit var mResources: Resources
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        mViewModel = ViewModelProviders.of(this, ViewModelFactory.getInstance(activity!!.application)).get(
-            MyDataViewModel::class.java)
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.fragment_my_data, container, false)
         val coorLayout  = (activity as MainActivity).coordinator_layout
@@ -39,6 +33,15 @@ class MyDataFragment : Fragment() {
         rootView.my_data_recyclerview.adapter = mDataAdapter
         rootView.my_data_recyclerview.layoutManager = LinearLayoutManager(activity)
 
+        return rootView
+
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        mViewModel = ViewModelProviders.of(this, ViewModelFactory.getInstance(activity!!.application)).get(
+            MyDataViewModel::class.java)
+
         initialDataRecyclerList()
 
         mViewModel.getDataCycleStream()
@@ -47,7 +50,14 @@ class MyDataFragment : Fragment() {
             .subscribe {
                 mDataAdapter.setCycle(it)
             }
-        return rootView
+
+        mViewModel.getUsagesStream()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .toList()
+            .subscribe {
+                mDataAdapter.setAppUsage(it)
+            }
     }
 
     private fun initialDataRecyclerList() {

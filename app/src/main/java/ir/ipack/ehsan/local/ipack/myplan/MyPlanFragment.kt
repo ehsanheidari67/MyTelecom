@@ -20,11 +20,6 @@ class MyPlanFragment : Fragment() {
     private lateinit var mPlanAdapter: MyPlanRecyclerAdapter
     private lateinit var mViewModel: MyPlanViewModel
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        mViewModel = ViewModelProviders.of(this, ViewModelFactory.getInstance(activity!!.application)).get(MyPlanViewModel::class.java)
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.fragment_my_plan, container, false)
         val coorLayout  = (activity as MainActivity).coordinator_layout
@@ -32,6 +27,17 @@ class MyPlanFragment : Fragment() {
         rootView.recyclerView.adapter = mPlanAdapter
         rootView.recyclerView.layoutManager = LinearLayoutManager(activity)
 
+        return rootView
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        mViewModel = ViewModelProviders.of(this, ViewModelFactory.getInstance(activity!!.application)).get(MyPlanViewModel::class.java)
+
+        subscribeToModels()
+    }
+
+    private fun subscribeToModels() {
         mViewModel.getPlanStream()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -58,6 +64,5 @@ class MyPlanFragment : Fragment() {
                 mPlanAdapter.setTextCycle(it)
             }
 
-        return rootView
     }
 }

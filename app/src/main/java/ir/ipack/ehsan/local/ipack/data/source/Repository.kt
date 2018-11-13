@@ -1,7 +1,9 @@
 package ir.ipack.ehsan.local.ipack.data.source
 
+import android.content.Context
 import ir.ipack.ehsan.local.ipack.data.BasePlan
 import ir.ipack.ehsan.local.ipack.data.Cycle
+import ir.ipack.ehsan.local.ipack.data.Usage
 import ir.ipack.ehsan.local.ipack.data.source.local.LocalDataSource
 import rx.Observable
 
@@ -9,9 +11,13 @@ class Repository private constructor(private val localDataSource: LocalDataSourc
 
     override fun getBasePlanStreams(): Observable<BasePlan> = localDataSource.getBasePlanStreams()
 
-    override fun getDataCycleStreams(): Observable<Cycle> = localDataSource.getDataCycleStreams()
-    override fun getTalkCycleStreams(): Observable<Cycle> = localDataSource.getTalkCycleStreams()
-    override fun getTextCycleStreams(): Observable<Cycle> = localDataSource.getTextCycleStreams()
+    override fun getDataCycleStream(): Observable<Cycle> = localDataSource.getDataCycleStream()
+    override fun getTalkCycleStream(): Observable<Cycle> = localDataSource.getTalkCycleStream()
+    override fun getTextCycleStream(): Observable<Cycle> = localDataSource.getTextCycleStream()
+
+    override fun getUsagesStream(context: Context): Observable<Usage> = localDataSource.getUsagesStream(context)
+    override fun getTalkUsageStream(context: Context): Observable<Usage> = localDataSource.getTalkUsageStream(context)
+    override fun getTextUsageStream(context: Context): Observable<Usage> = localDataSource.getTextUsageStream(context)
 
     companion object {
         private var INSTANCE: Repository? = null

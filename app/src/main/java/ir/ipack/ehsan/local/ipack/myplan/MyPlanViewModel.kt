@@ -13,7 +13,7 @@ class MyPlanViewModel(
 
     fun getPlanStream(): Observable<BasePlan> = repository.getBasePlanStreams()
 
-    fun getDataCycleStream() = repository.getDataCycleStreams()
-    fun getTalkCycleStream() = repository.getTalkCycleStreams()
-    fun getTextCycleStream() = repository.getTextCycleStreams()
+    fun getDataCycleStream() = repository.getDataCycleStream()
+    fun getTalkCycleStream() = repository.getTalkCycleStream()
+    fun getTextCycleStream() = repository.getTextCycleStream()
 }
