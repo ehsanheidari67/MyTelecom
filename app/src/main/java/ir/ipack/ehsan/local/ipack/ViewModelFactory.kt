@@ -25,6 +25,8 @@ import ir.ipack.ehsan.local.ipack.data.source.Repository
 import ir.ipack.ehsan.local.ipack.data.source.local.LocalDataSource
 import ir.ipack.ehsan.local.ipack.mydata.MyDataViewModel
 import ir.ipack.ehsan.local.ipack.myplan.MyPlanViewModel
+import ir.ipack.ehsan.local.ipack.mytalk.MyTalkViewModel
+import ir.ipack.ehsan.local.ipack.mytext.MyTextViewModel
 
 class ViewModelFactory private constructor(
         private val application: Application,
@@ -38,6 +40,10 @@ class ViewModelFactory private constructor(
                         MyPlanViewModel(application, tasksRepository)
                     isAssignableFrom(MyDataViewModel::class.java) ->
                         MyDataViewModel(application, tasksRepository)
+                    isAssignableFrom(MyTalkViewModel::class.java) ->
+                        MyTalkViewModel(application, tasksRepository)
+                    isAssignableFrom(MyTextViewModel::class.java) ->
+                        MyTextViewModel(application, tasksRepository)
                     else ->
                         throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
                 }

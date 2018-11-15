@@ -13,6 +13,8 @@ import android.widget.TextView
 import ir.ipack.ehsan.local.ipack.R
 import ir.ipack.ehsan.local.ipack.mydata.MyDataFragment
 import ir.ipack.ehsan.local.ipack.myplan.MyPlanFragment
+import ir.ipack.ehsan.local.ipack.mytalk.MyTalkFragment
+import ir.ipack.ehsan.local.ipack.mytext.MyTextFragment
 import ir.ipack.ehsan.local.ipack.utils.FontCache
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -29,12 +31,14 @@ class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        mTabImages = Arrays.asList(plan_tab_image, data_tab_image/*, talk_tab_image, text_tab_image*/)
+        mTabImages = Arrays.asList(plan_tab_image, data_tab_image, talk_tab_image/*, text_tab_image*/)
         mPagerAdapter = ViewPagerAdapter(supportFragmentManager)
         mPagerAdapter.addTabFragment(TabFragment(getString(R.string.my_plan), MyPlanFragment()))
         mPagerAdapter.addTabFragment(TabFragment(getString(R.string.data), MyDataFragment()))
+        mPagerAdapter.addTabFragment(TabFragment(getString(R.string.talk), MyTalkFragment()))
+        mPagerAdapter.addTabFragment(TabFragment(getString(R.string.text), MyTextFragment()))
         view_pager.adapter = mPagerAdapter
-        view_pager.offscreenPageLimit = 2
+        view_pager.offscreenPageLimit = 3
 
         tab_layout.setupWithViewPager(view_pager)
         tab_layout.setOnTabSelectedListener(this)

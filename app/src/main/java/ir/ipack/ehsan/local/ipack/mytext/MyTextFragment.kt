@@ -1,4 +1,4 @@
-package ir.ipack.ehsan.local.ipack.mydata
+package ir.ipack.ehsan.local.ipack.mytext
 
 import android.arch.lifecycle.ViewModelProviders
 import android.content.res.Resources
@@ -11,59 +11,52 @@ import android.view.ViewGroup
 import ir.ipack.ehsan.local.ipack.R
 import ir.ipack.ehsan.local.ipack.ViewModelFactory
 import ir.ipack.ehsan.local.ipack.activities.MainActivity
-import ir.ipack.ehsan.local.ipack.utils.RecyclerDivider
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_my_data.view.*
+import kotlinx.android.synthetic.main.fragment_text.view.*
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 
-class MyDataFragment : Fragment() {
-    private lateinit var mDataAdapter: MyDataRecyclerAdapter
-    private lateinit var mViewModel: MyDataViewModel
+class MyTextFragment : Fragment() {
+    private lateinit var mTextAdapter: MyTextRecyclerAdapter
+    private lateinit var mViewModel: MyTextViewModel
     private lateinit var mResources: Resources
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val rootView = inflater.inflate(R.layout.fragment_my_data, container, false)
+        val rootView = inflater.inflate(R.layout.fragment_text, container, false)
         val coorLayout  = (activity as MainActivity).coordinator_layout
 
         mResources = activity!!.resources
 
-        mDataAdapter = MyDataRecyclerAdapter(context!!, coorLayout)
+        mTextAdapter = MyTextRecyclerAdapter(context!!, coorLayout)
 
-        rootView.my_data_recyclerview.adapter = mDataAdapter
-        rootView.my_data_recyclerview.layoutManager = LinearLayoutManager(activity)
+        rootView.my_text_recyclerview.adapter = mTextAdapter
+        rootView.my_text_recyclerview.layoutManager = LinearLayoutManager(activity)
 
         return rootView
-
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         mViewModel = ViewModelProviders.of(this, ViewModelFactory.getInstance(activity!!.application)).get(
-            MyDataViewModel::class.java)
+            MyTextViewModel::class.java)
 
         subscribeToModels()
-        initialDataRecyclerList()
     }
 
     private fun subscribeToModels() {
-        mViewModel.getDataCycleStream()
+        mViewModel.getTextCycleStream()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
-                mDataAdapter.setCycle(it)
+                mTextAdapter.setCycle(it)
             }
 
-        mViewModel.getUsagesStream()
+        mViewModel.getTextUsageStream()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .toList()
             .subscribe {
-                mDataAdapter.setAppUsage(it)
+                mTextAdapter.setTextUsage(it)
             }
     }
 
-    private fun initialDataRecyclerList() {
-        mDataAdapter.setDividerHeader(RecyclerDivider(mResources.getString(R.string.app_usage_header), -1))
-    }
 }

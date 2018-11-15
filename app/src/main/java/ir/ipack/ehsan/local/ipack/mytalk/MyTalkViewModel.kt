@@ -1,15 +1,16 @@
-package ir.ipack.ehsan.local.ipack.mydata
+package ir.ipack.ehsan.local.ipack.mytalk
 
 import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
 import ir.ipack.ehsan.local.ipack.data.source.Repository
 
-class MyDataViewModel(
+class MyTalkViewModel (
     val context: Application,
     private val repository: Repository
 ) : AndroidViewModel(context) {
 
-    fun getDataCycleStream() = repository.getDataCycleStream()
+    fun getTalkCycleStream() = repository.getTalkCycleStream()
 
-    fun getUsagesStream() = repository.getUsagesStream(context)
+    fun getTalkUsageStream() = repository.getTalkUsageStream(context)
+
 }

@@ -94,15 +94,13 @@
                     android:id="@+id/talk_tab_image"
                     android:contentDescription="@string/con_desc_my_talk_tab"
                     style="@style/TabImages"
-                    android:src="@drawable/talk_white"
-                    android:visibility="gone"/>
+                    android:src="@drawable/talk_white"/>
 
             <ImageView
                     android:id="@+id/text_tab_image"
                     android:contentDescription="@string/con_desc_my_text_tab"
                     style="@style/TabImages"
-                    android:src="@drawable/text_white"
-                    android:visibility="gone"/>
+                    android:src="@drawable/text_white"/>
 
         </LinearLayout>
 
