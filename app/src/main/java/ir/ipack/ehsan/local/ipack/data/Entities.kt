@@ -16,7 +16,7 @@ data class BasePlan(
 data class Cycle(
     val cycleImage: Int,
     val used: Float,
-    val limit: Int,
+    var limit: Int,
     val unit: String,
     val type: Int
 )

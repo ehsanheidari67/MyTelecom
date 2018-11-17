@@ -5,6 +5,7 @@ import android.content.res.Resources
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,27 +22,29 @@ class MyTalkFragment : Fragment() {
     private lateinit var mTalkAdapter: MyTalkRecyclerAdapter
     private lateinit var mViewModel: MyTalkViewModel
     private lateinit var mResources: Resources
+    private lateinit var mRootView : View
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val rootView = inflater.inflate(R.layout.fragment_talk, container, false)
-        val coorLayout  = (activity as MainActivity).coordinator_layout
-
-        mResources = activity!!.resources
-
-        mTalkAdapter = MyTalkRecyclerAdapter(context!!, coorLayout)
-
-        rootView.my_talk_recyclerview.adapter = mTalkAdapter
-        rootView.my_talk_recyclerview.layoutManager = LinearLayoutManager(activity)
-
-        return rootView
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.fragment_talk, container, false).also {
+            mRootView = it
+        }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         mViewModel = ViewModelProviders.of(this, ViewModelFactory.getInstance(activity!!.application)).get(
             MyTalkViewModel::class.java)
 
+        setupListAdapter()
         subscribeToModels()
+    }
+
+    private fun setupListAdapter() {
+        val coorLayout  = (activity as MainActivity).coordinator_layout
+        mResources = activity!!.resources
+        mRootView.my_talk_recyclerview.layoutManager = LinearLayoutManager(activity)
+        mTalkAdapter = MyTalkRecyclerAdapter(context!!, coorLayout, mViewModel)
+        mRootView.my_talk_recyclerview.adapter = mTalkAdapter
+
     }
 
     private fun subscribeToModels() {

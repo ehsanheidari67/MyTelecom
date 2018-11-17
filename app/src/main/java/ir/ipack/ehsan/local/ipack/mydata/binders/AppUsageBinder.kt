@@ -67,5 +67,9 @@ class AppUsageBinder(context: Context, dataBindAdapter: DataBindAdapter) :
         val usageBottomLeftText = itemView.bottom_left_text
         val usageBottomRightText = itemView.bottom_right_text
         val usageProgressBar = itemView.progress_bar
+
+        init {
+
+        }
     }
 }

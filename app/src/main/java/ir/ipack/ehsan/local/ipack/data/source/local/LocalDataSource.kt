@@ -66,6 +66,26 @@ class LocalDataSource private constructor() : DataSource {
     override fun getBasePlanStreams(): Observable<BasePlan> =
         Observable.merge(Observable.just(mBasePlan), mBasePlanStream)
 
+    override fun updateDataCycle(cycle: Cycle) {
+        mDataCycle = cycle
+        mDataCycleStream.onNext(cycle)
+    }
+
+    override fun updateTalkCycle(cycle: Cycle) {
+        mTalkCycle = cycle
+        mTalkCycleStream.onNext(cycle)
+    }
+
+    override fun updateTextCycle(cycle: Cycle) {
+        mTextCycle = cycle
+        mTextCycleStream.onNext(cycle)
+    }
+
+    override fun updateBaseCost(changeAmount: Int) {
+        mBasePlan.baseCost += changeAmount
+        mBasePlanStream.onNext(mBasePlan)
+    }
+
     companion object {
 
         private var INSTANCE: LocalDataSource? = null

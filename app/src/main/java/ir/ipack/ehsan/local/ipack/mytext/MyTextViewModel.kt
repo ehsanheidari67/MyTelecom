@@ -2,15 +2,22 @@ package ir.ipack.ehsan.local.ipack.mytext
 
 import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
+import ir.ipack.ehsan.local.ipack.BaseViewModel
+import ir.ipack.ehsan.local.ipack.data.Cycle
 import ir.ipack.ehsan.local.ipack.data.source.Repository
 
-class MyTextViewModel (
-    val context: Application,
+class MyTextViewModel(
+    override val context: Application,
     private val repository: Repository
-) : AndroidViewModel(context) {
+) : BaseViewModel(context) {
 
     fun getTextCycleStream() = repository.getTextCycleStream()
 
     fun getTextUsageStream() = repository.getTextUsageStream(context)
 
+    fun updateTextCycle(cycle: Cycle) = repository.updateTextCycle(cycle)
+
+    override fun updateBaseCost(changeAmount: Int) {
+        repository.updateBaseCost(changeAmount)
+    }
 }

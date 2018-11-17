@@ -13,9 +13,13 @@ interface DataSource {
     fun getTalkCycleStream(): Observable<Cycle>
     fun getTextCycleStream(): Observable<Cycle>
 
+    fun updateDataCycle(cycle: Cycle)
+    fun updateTalkCycle(cycle: Cycle)
+    fun updateTextCycle(cycle: Cycle)
+
     fun getUsagesStream(context: Context): Observable<Usage>
     fun getTalkUsageStream(context: Context): Observable<Usage>
     fun getTextUsageStream(context: Context): Observable<Usage>
 
-
+    fun updateBaseCost(changeAmount : Int)
 }

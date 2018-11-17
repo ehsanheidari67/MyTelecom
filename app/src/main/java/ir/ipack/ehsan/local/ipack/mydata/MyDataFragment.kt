@@ -5,6 +5,7 @@ import android.content.res.Resources
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,29 +22,32 @@ class MyDataFragment : Fragment() {
     private lateinit var mDataAdapter: MyDataRecyclerAdapter
     private lateinit var mViewModel: MyDataViewModel
     private lateinit var mResources: Resources
+    private lateinit var mRootView: View
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val rootView = inflater.inflate(R.layout.fragment_my_data, container, false)
-        val coorLayout  = (activity as MainActivity).coordinator_layout
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.fragment_my_data, container, false).also {
+            mRootView = it
+        }
 
-        mResources = activity!!.resources
-
-        mDataAdapter = MyDataRecyclerAdapter(context!!, coorLayout)
-
-        rootView.my_data_recyclerview.adapter = mDataAdapter
-        rootView.my_data_recyclerview.layoutManager = LinearLayoutManager(activity)
-
-        return rootView
-
-    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         mViewModel = ViewModelProviders.of(this, ViewModelFactory.getInstance(activity!!.application)).get(
-            MyDataViewModel::class.java)
+            MyDataViewModel::class.java
+        )
 
+        setupListAdapter()
         subscribeToModels()
         initialDataRecyclerList()
+    }
+
+    private fun setupListAdapter() {
+        val coorLayout = (activity as MainActivity).coordinator_layout
+        mResources = activity!!.resources
+        mDataAdapter = MyDataRecyclerAdapter(context!!, coorLayout, mViewModel)
+        mRootView.my_data_recyclerview.adapter = mDataAdapter
+        mRootView.my_data_recyclerview.layoutManager = LinearLayoutManager(activity)
+
     }
 
     private fun subscribeToModels() {
