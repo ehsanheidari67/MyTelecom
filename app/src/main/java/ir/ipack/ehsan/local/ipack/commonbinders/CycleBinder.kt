@@ -1,6 +1,5 @@
 package ir.ipack.ehsan.local.ipack.commonbinders
 
-import android.arch.lifecycle.AndroidViewModel
 import android.content.Context
 import android.content.res.Resources
 import android.support.design.widget.CoordinatorLayout
@@ -16,7 +15,6 @@ import ir.ipack.ehsan.local.ipack.BaseViewModel
 import ir.ipack.ehsan.local.ipack.R
 import ir.ipack.ehsan.local.ipack.data.Cycle
 import ir.ipack.ehsan.local.ipack.mydata.MyDataViewModel
-import ir.ipack.ehsan.local.ipack.myplan.MyPlanViewModel
 import ir.ipack.ehsan.local.ipack.mytalk.MyTalkViewModel
 import ir.ipack.ehsan.local.ipack.mytext.MyTextViewModel
 import ir.ipack.ehsan.local.ipack.utils.CommonUtil
