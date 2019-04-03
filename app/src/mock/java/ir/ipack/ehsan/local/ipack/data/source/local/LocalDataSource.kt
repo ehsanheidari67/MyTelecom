@@ -17,18 +17,17 @@ class LocalDataSource private constructor() : DataSource {
     private val mBasePlan = BasePlan()
 
     private val mBasePlanStream = PublishSubject.create<BasePlan>()
-    private var mDataCycle: Cycle? = null;
+    private var mDataCycle: Cycle? = null
 
     private val mDataCycleStream = PublishSubject.create<Cycle>()
-    private var mTalkCycle: Cycle? = null;
+    private var mTalkCycle: Cycle? = null
     private val mTalkCycleStream = PublishSubject.create<Cycle>()
-    private var mTextCycle: Cycle? = null;
+    private var mTextCycle: Cycle? = null
     private val mTextCycleStream = PublishSubject.create<Cycle>()
 
     private var mAppUsages: List<Usage>? = null
     private var mTalkUsage: Usage? = null
     private var mTextUsage: Usage? = null
-
 
     override fun getUsagesStream(context: Context): Observable<Usage> = Observable.from(createUsages(context))
 
@@ -105,14 +104,12 @@ class LocalDataSource private constructor() : DataSource {
         }
     }
 
-
     private fun createUsages(context: Context): List<Usage>? {
         mAppUsages?.let {
             return it
         }
 
         val token = object : TypeToken<List<Usage>>() {
-
         }
         val initialUsages = JsonUtils.parseJsonFile(context, "app_usages.json", token)
 
@@ -126,15 +123,13 @@ class LocalDataSource private constructor() : DataSource {
         return mAppUsages
     }
 
-
     private fun createTalkUsage(context: Context): Usage? {
 
         mTalkUsage?.let {
-            return mTalkUsage;
+            return mTalkUsage
         }
 
         val token = object : TypeToken<List<Usage>>() {
-
         }
         val initTalkIO = JsonUtils.parseJsonFile(context, "talk_io.json", token)
         mTalkUsage = initTalkIO[0]
@@ -148,12 +143,10 @@ class LocalDataSource private constructor() : DataSource {
         }
 
         val token = object : TypeToken<List<Usage>>() {
-
         }
         val initTextIO = JsonUtils.parseJsonFile(context, "text_io.json", token)
         mTextUsage = initTextIO[0]
 
         return mTextUsage
     }
-
 }

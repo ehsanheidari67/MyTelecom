@@ -20,8 +20,7 @@ class MyTextRecyclerAdapter(context: Context, coordinatorLayout: CoordinatorLayo
         getDataBinder<CycleBinder>(0).add(cycle)
     }
 
-
-    fun setTextUsage(textUsage: Usage){
+    fun setTextUsage(textUsage: Usage) {
         getDataBinder<TextIncomingOutgoingBinder>(1).add(textUsage)
     }
 }

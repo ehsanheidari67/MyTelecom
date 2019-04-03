@@ -12,9 +12,8 @@ import ir.ipack.ehsan.local.ipack.data.BasePlan
 import ir.ipack.ehsan.local.ipack.utils.localizedCurrency
 import kotlinx.android.synthetic.main.base_plan_info.view.*
 
-
 class BasePlanBinder(dataBindAdapter: DataBindAdapter) : DataBinder<BasePlanBinder.BasePlanHolder>(dataBindAdapter) {
-    var mBasePlan : BasePlan? = null
+    var mBasePlan: BasePlan? = null
     override fun bindViewHolder(holder: BasePlanHolder?, position: Int) {
         Log.i("ETest", "bindViewHolder " + mBasePlan?.baseCost)
         mBasePlan?.let {
@@ -26,11 +25,11 @@ class BasePlanBinder(dataBindAdapter: DataBindAdapter) : DataBinder<BasePlanBind
     override fun getItemCount(): Int = 1
 
     override fun newViewHolder(parent: ViewGroup?): BasePlanHolder {
-        val view = LayoutInflater.from(parent?.context).inflate(R.layout.base_plan_info, parent,false)
+        val view = LayoutInflater.from(parent?.context).inflate(R.layout.base_plan_info, parent, false)
         return BasePlanHolder(view)
     }
 
-    fun add(basePlan: BasePlan){
+    fun add(basePlan: BasePlan) {
         mBasePlan = basePlan
         Log.i("ETest", "add " + mBasePlan?.baseCost)
         notifyBinderDataSetChanged()

@@ -11,7 +11,7 @@ data class BasePlan(
         get() = baseCost + addonCost
 }
 
-//Todo change type type
+// Todo change type type
 data class Cycle(
     val cycleImage: Int,
     val used: Float,
@@ -51,4 +51,3 @@ data class Usage(
     val outgoing: Int,
     val imageName: String
 )
-

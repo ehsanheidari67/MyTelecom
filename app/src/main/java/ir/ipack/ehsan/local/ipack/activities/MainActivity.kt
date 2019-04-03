@@ -16,7 +16,8 @@ import ir.ipack.ehsan.local.ipack.mytalk.MyTalkFragment
 import ir.ipack.ehsan.local.ipack.mytext.MyTextFragment
 import ir.ipack.ehsan.local.ipack.utils.FontCache
 import kotlinx.android.synthetic.main.activity_main.*
-import java.util.*
+import java.util.ArrayList
+import java.util.Arrays
 
 class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener {
 
@@ -45,7 +46,7 @@ class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener {
 
     private fun updateTabText(mPagerAdapter: ViewPagerAdapter) {
         val font = FontCache.get("Roboto-Regular.ttf", this)
-        for (i in 0 until mPagerAdapter.count){
+        for (i in 0 until mPagerAdapter.count) {
             val tv = ((((tab_layout.getChildAt(0) as LinearLayout).getChildAt(i)) as LinearLayout).getChildAt(1)) as TextView
             tv.isAllCaps = false
             tv.typeface = font
@@ -53,15 +54,12 @@ class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener {
     }
 
     override fun onTabReselected(p0: TabLayout.Tab?) {
-
     }
 
     override fun onTabUnselected(p0: TabLayout.Tab?) {
-
     }
 
     override fun onTabSelected(p0: TabLayout.Tab?) {
-
     }
 
     companion object {

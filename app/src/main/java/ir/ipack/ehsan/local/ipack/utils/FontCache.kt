@@ -2,8 +2,7 @@ package ir.ipack.ehsan.local.ipack.utils
 
 import android.content.Context
 import android.graphics.Typeface
-import java.lang.Exception
-import java.util.*
+import java.util.Hashtable
 
 object FontCache {
     private val fontCache = Hashtable<String, Typeface>()

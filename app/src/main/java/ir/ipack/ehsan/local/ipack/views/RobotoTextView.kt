@@ -21,17 +21,15 @@ class RobotoTextView(context: Context, attrs: AttributeSet) : AppCompatTextView(
 
         robotoFontName?.let {
             setFont(context, it)
-        }?:run{
+        } ?: run {
             robotoFontName = "Roboto-Regular.ttf"
         }
-
     }
 
     fun setFont(context: Context, robotoFont: String) {
         val font = FontCache.get(robotoFont, context)
         this.typeface = font
 
-        font.also{}
+        font.also {}
     }
-
 }

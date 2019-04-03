@@ -21,5 +21,5 @@ interface DataSource {
     fun getTalkUsageStream(context: Context): Observable<Usage>
     fun getTextUsageStream(context: Context): Observable<Usage>
 
-    fun updateBaseCost(changeAmount : Int)
+    fun updateBaseCost(changeAmount: Int)
 }

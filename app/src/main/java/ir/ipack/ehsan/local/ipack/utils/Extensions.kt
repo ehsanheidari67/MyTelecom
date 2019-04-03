@@ -3,7 +3,7 @@ package ir.ipack.ehsan.local.ipack.utils
 import ir.ipack.ehsan.local.ipack.data.Cycle
 import java.text.DecimalFormat
 import java.text.NumberFormat
-import java.util.*
+import java.util.Locale
 
 fun Cycle.getUsedPercentage(): Float {
     var usedPercent = used * 100 / limit

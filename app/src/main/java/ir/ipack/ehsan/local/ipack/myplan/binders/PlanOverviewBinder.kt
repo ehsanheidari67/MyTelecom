@@ -38,9 +38,7 @@ class PlanOverviewBinder(context: Context, dataBinderAdapter: DataBindAdapter) :
                 it.textUsageView.setBottomLeftText(setUsedVsLimit(cycle))
                 it.textUsageView.setBottomRightText(cycle.getUsedPercentage().toString() + resources.getString(R.string.percent_used))
             }
-
         }
-
     }
 
     override fun getItemCount(): Int = 1
@@ -74,6 +72,4 @@ class PlanOverviewBinder(context: Context, dataBinderAdapter: DataBindAdapter) :
     private fun setUsedVsLimit(cycle: Cycle): String {
         return cycle.used.toString() + "/" + cycle.limit + " " + cycle.unit
     }
-
-
 }

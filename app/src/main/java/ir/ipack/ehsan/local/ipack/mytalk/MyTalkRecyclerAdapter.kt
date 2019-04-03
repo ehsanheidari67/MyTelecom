@@ -5,12 +5,9 @@ import android.support.design.widget.CoordinatorLayout
 import com.yqritc.recyclerviewmultipleviewtypesadapter.ListBindAdapter
 import ir.ipack.ehsan.local.ipack.BaseViewModel
 import ir.ipack.ehsan.local.ipack.commonbinders.CycleBinder
-import ir.ipack.ehsan.local.ipack.commonbinders.UsageHeaderBinder
 import ir.ipack.ehsan.local.ipack.data.Cycle
 import ir.ipack.ehsan.local.ipack.data.Usage
-import ir.ipack.ehsan.local.ipack.mydata.MyDataViewModel
 import ir.ipack.ehsan.local.ipack.mytalk.binders.TalkIncomingOutgoingBinder
-import ir.ipack.ehsan.local.ipack.utils.RecyclerDivider
 
 class MyTalkRecyclerAdapter(context: Context, coordinatorLayout: CoordinatorLayout, baseViewModel: BaseViewModel) : ListBindAdapter() {
     init {
@@ -23,8 +20,7 @@ class MyTalkRecyclerAdapter(context: Context, coordinatorLayout: CoordinatorLayo
         getDataBinder<CycleBinder>(0).add(cycle)
     }
 
-
-    fun setTalkUsage(talkUsage: Usage){
+    fun setTalkUsage(talkUsage: Usage) {
         getDataBinder<TalkIncomingOutgoingBinder>(1).add(talkUsage)
     }
 }
