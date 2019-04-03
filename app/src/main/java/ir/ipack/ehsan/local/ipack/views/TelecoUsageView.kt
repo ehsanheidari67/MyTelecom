@@ -33,7 +33,6 @@ class TelecoUsageView(context: Context, attrs: AttributeSet) : LinearLayout(cont
         init()
     }
 
-
     private fun init() {
         val view = View.inflate(context, R.layout.telco_usage_view, this)
 
@@ -44,7 +43,6 @@ class TelecoUsageView(context: Context, attrs: AttributeSet) : LinearLayout(cont
         setTextView(bottom_right_text, bottomRightText)
     }
 
-
     private fun setProgressBarUI() {
         if (progressBarHidden) {
             progress_bar.setVisibility(View.GONE)
@@ -54,8 +52,6 @@ class TelecoUsageView(context: Context, attrs: AttributeSet) : LinearLayout(cont
         }
     }
 
-
-
     private fun setUsageImageUI() {
         if (imageSource != null) {
             usage_image.setImageDrawable(imageSource)
@@ -64,8 +60,6 @@ class TelecoUsageView(context: Context, attrs: AttributeSet) : LinearLayout(cont
             usage_image.setVisibility(View.GONE)
         }
     }
-
-
 
     private fun setTextView(textView: TextView, text: String?) {
         if (text != null && !text.isEmpty()) {
@@ -81,23 +75,18 @@ class TelecoUsageView(context: Context, attrs: AttributeSet) : LinearLayout(cont
         setProgressBarUI()
     }
 
-
     fun setImageSource(imageSource: Drawable) {
         this.imageSource = imageSource
         setUsageImageUI()
     }
-
 
     fun setBottomLeftText(text: String) {
         this.bottomLeftText = text
         setTextView(bottom_left_text, text)
     }
 
-
     fun setBottomRightText(text: String) {
         this.bottomRightText = text
         setTextView(bottom_right_text, text)
     }
-
-
 }

@@ -13,8 +13,8 @@ import ir.ipack.ehsan.local.ipack.data.Usage
 import ir.ipack.ehsan.local.ipack.utils.PlanConstants
 import kotlinx.android.synthetic.main.incoming_outgoing.view.*
 
-class TextIncomingOutgoingBinder(context: Context, dataBindAdapter: DataBindAdapter)
-    : DataBinder<TextIncomingOutgoingBinder.TextUsageViewHolder>(dataBindAdapter) {
+class TextIncomingOutgoingBinder(context: Context, dataBindAdapter: DataBindAdapter) :
+    DataBinder<TextIncomingOutgoingBinder.TextUsageViewHolder>(dataBindAdapter) {
     private var mTextUsage: Usage? = null
     private val mResources = context.resources
 
@@ -50,7 +50,7 @@ class TextIncomingOutgoingBinder(context: Context, dataBindAdapter: DataBindAdap
         return TextUsageViewHolder(view)
     }
 
-    fun add(textUsage: Usage){
+    fun add(textUsage: Usage) {
         mTextUsage = textUsage
         notifyBinderDataSetChanged()
     }

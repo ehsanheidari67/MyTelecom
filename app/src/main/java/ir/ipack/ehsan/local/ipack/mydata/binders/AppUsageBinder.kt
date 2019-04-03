@@ -43,7 +43,6 @@ class AppUsageBinder(context: Context, dataBindAdapter: DataBindAdapter) :
                 it.usageBottomLeftText.setFont(mContext, mResources.getString(R.string.roboto_medium))
                 it.usageBottomRightText.setText(mResources.getString(R.string.unlimited_offer))
             }
-
         }
     }
 
@@ -54,7 +53,6 @@ class AppUsageBinder(context: Context, dataBindAdapter: DataBindAdapter) :
             LayoutInflater.from(parent?.context).inflate(R.layout.data_app_usage, parent, false)
         return AppUsageViewHolder(appUsageView)
     }
-
 
     fun addAll(usages: List<Usage>) {
         mAppUsages = usages
@@ -69,7 +67,6 @@ class AppUsageBinder(context: Context, dataBindAdapter: DataBindAdapter) :
         val usageProgressBar = itemView.progress_bar
 
         init {
-
         }
     }
 }

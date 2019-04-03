@@ -1,7 +1,6 @@
 package ir.ipack.ehsan.local.ipack.mytalk
 
 import android.app.Application
-import android.arch.lifecycle.AndroidViewModel
 import ir.ipack.ehsan.local.ipack.BaseViewModel
 import ir.ipack.ehsan.local.ipack.data.Cycle
 import ir.ipack.ehsan.local.ipack.data.source.Repository

@@ -31,6 +31,4 @@ class MyPlanRecyclerAdapter(context: Context, coordinatorLayout: CoordinatorLayo
     fun setTextCycle(textCycle: Cycle) {
         getDataBinder<PlanOverviewBinder>(1).addText(textCycle)
     }
-
-
 }

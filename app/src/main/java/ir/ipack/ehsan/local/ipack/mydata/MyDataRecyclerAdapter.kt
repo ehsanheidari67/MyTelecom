@@ -23,12 +23,11 @@ class MyDataRecyclerAdapter(context: Context, coordinatorLayout: CoordinatorLayo
         getDataBinder<CycleBinder>(0).add(cycle)
     }
 
-    fun setDividerHeader(divider: RecyclerDivider){
+    fun setDividerHeader(divider: RecyclerDivider) {
         getDataBinder<UsageHeaderBinder>(1).add(divider)
     }
 
     fun setAppUsage(appUsages: List<Usage>) {
         getDataBinder<AppUsageBinder>(2).addAll(appUsages)
     }
-
 }

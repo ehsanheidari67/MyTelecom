@@ -23,7 +23,9 @@ import kotlinx.android.synthetic.main.data_add_gb.view.*
 import kotlinx.android.synthetic.main.telco_usage_view.view.*
 
 class CycleBinder(
-    context: Context, dataBindAdapter: DataBindAdapter, val mSnackbarLayout: CoordinatorLayout,
+    context: Context,
+    dataBindAdapter: DataBindAdapter,
+    val mSnackbarLayout: CoordinatorLayout,
     val viewModel: BaseViewModel
 ) :
     DataBinder<CycleBinder.CurrentCycleViewHolder>(dataBindAdapter) {
@@ -93,7 +95,6 @@ class CycleBinder(
         return 0
     }
 
-
     inner class CurrentCycleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
         val usageImage = itemView.usage_image
@@ -107,7 +108,6 @@ class CycleBinder(
         val unit = itemView.usage_unit
 
         private var prevLimit = 0
-
 
         init {
             upArrow.setOnClickListener(this)
@@ -142,7 +142,6 @@ class CycleBinder(
                     }
                     monthlyUsage.text = limit.toString()
                 }
-
             }
         }
 
@@ -156,7 +155,6 @@ class CycleBinder(
                 .setAction(resources.getString(R.string.undo), undoAction)
                 .setActionTextColor(resources.getColor(R.color.light_indigo))
                 .show()
-
         }
 
         private fun updateBasePlan(addedCost: Int) {

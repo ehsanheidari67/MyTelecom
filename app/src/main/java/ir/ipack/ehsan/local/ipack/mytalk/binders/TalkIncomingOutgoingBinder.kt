@@ -1,7 +1,5 @@
 package ir.ipack.ehsan.local.ipack.mytalk.binders
 
-import android.content.Context
-import android.content.res.Resources
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -13,8 +11,8 @@ import ir.ipack.ehsan.local.ipack.data.Usage
 import ir.ipack.ehsan.local.ipack.utils.PlanConstants
 import kotlinx.android.synthetic.main.incoming_outgoing.view.*
 
-class TalkIncomingOutgoingBinder(dataBindAdapter: DataBindAdapter)
-    : DataBinder<TalkIncomingOutgoingBinder.TalkUsageViewHolder>(dataBindAdapter) {
+class TalkIncomingOutgoingBinder(dataBindAdapter: DataBindAdapter) :
+    DataBinder<TalkIncomingOutgoingBinder.TalkUsageViewHolder>(dataBindAdapter) {
     private var mTalkUsage: Usage? = null
 
     override fun bindViewHolder(holder: TalkUsageViewHolder?, position: Int) {
@@ -35,7 +33,7 @@ class TalkIncomingOutgoingBinder(dataBindAdapter: DataBindAdapter)
         return TalkUsageViewHolder(view)
     }
 
-    fun add(talkUsage: Usage){
+    fun add(talkUsage: Usage) {
         mTalkUsage = talkUsage
         notifyBinderDataSetChanged()
     }

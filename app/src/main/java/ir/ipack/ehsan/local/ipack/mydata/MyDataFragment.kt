@@ -5,7 +5,6 @@ import android.content.res.Resources
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,7 +28,6 @@ class MyDataFragment : Fragment() {
             mRootView = it
         }
 
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         mViewModel = ViewModelProviders.of(this, ViewModelFactory.getInstance(activity!!.application)).get(
@@ -47,7 +45,6 @@ class MyDataFragment : Fragment() {
         mDataAdapter = MyDataRecyclerAdapter(context!!, coorLayout, mViewModel)
         mRootView.my_data_recyclerview.adapter = mDataAdapter
         mRootView.my_data_recyclerview.layoutManager = LinearLayoutManager(activity)
-
     }
 
     private fun subscribeToModels() {

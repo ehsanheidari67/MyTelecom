@@ -5,14 +5,12 @@ import android.content.res.Resources
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import ir.ipack.ehsan.local.ipack.R
 import ir.ipack.ehsan.local.ipack.ViewModelFactory
 import ir.ipack.ehsan.local.ipack.activities.MainActivity
-import ir.ipack.ehsan.local.ipack.utils.RecyclerDivider
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_talk.view.*
 import rx.android.schedulers.AndroidSchedulers
@@ -22,7 +20,7 @@ class MyTalkFragment : Fragment() {
     private lateinit var mTalkAdapter: MyTalkRecyclerAdapter
     private lateinit var mViewModel: MyTalkViewModel
     private lateinit var mResources: Resources
-    private lateinit var mRootView : View
+    private lateinit var mRootView: View
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
         inflater.inflate(R.layout.fragment_talk, container, false).also {
@@ -39,12 +37,11 @@ class MyTalkFragment : Fragment() {
     }
 
     private fun setupListAdapter() {
-        val coorLayout  = (activity as MainActivity).coordinator_layout
+        val coorLayout = (activity as MainActivity).coordinator_layout
         mResources = activity!!.resources
         mRootView.my_talk_recyclerview.layoutManager = LinearLayoutManager(activity)
         mTalkAdapter = MyTalkRecyclerAdapter(context!!, coorLayout, mViewModel)
         mRootView.my_talk_recyclerview.adapter = mTalkAdapter
-
     }
 
     private fun subscribeToModels() {
@@ -62,5 +59,4 @@ class MyTalkFragment : Fragment() {
                 mTalkAdapter.setTalkUsage(it)
             }
     }
-
 }

@@ -29,8 +29,8 @@ import ir.ipack.ehsan.local.ipack.mytalk.MyTalkViewModel
 import ir.ipack.ehsan.local.ipack.mytext.MyTextViewModel
 
 class ViewModelFactory private constructor(
-        private val application: Application,
-        private val tasksRepository: Repository
+    private val application: Application,
+    private val tasksRepository: Repository
 ) : ViewModelProvider.NewInstanceFactory() {
 
     override fun <T : ViewModel> create(modelClass: Class<T>) =
@@ -61,7 +61,6 @@ class ViewModelFactory private constructor(
                     )
                             .also { INSTANCE = it }
                 }
-
 
         @VisibleForTesting fun destroyInstance() {
             INSTANCE = null

@@ -5,7 +5,6 @@ import android.content.res.Resources
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,7 +21,6 @@ class MyTextFragment : Fragment() {
     private lateinit var mViewModel: MyTextViewModel
     private lateinit var mResources: Resources
     private lateinit var mRootView: View
-
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
         inflater.inflate(R.layout.fragment_text, container, false).also {
@@ -45,7 +43,6 @@ class MyTextFragment : Fragment() {
         mTextAdapter = MyTextRecyclerAdapter(context!!, coorLayout, mViewModel)
         mRootView.my_text_recyclerview.adapter = mTextAdapter
         mRootView.my_text_recyclerview.layoutManager = LinearLayoutManager(activity)
-
     }
 
     private fun subscribeToModels() {
@@ -63,5 +60,4 @@ class MyTextFragment : Fragment() {
                 mTextAdapter.setTextUsage(it)
             }
     }
-
 }

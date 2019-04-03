@@ -43,5 +43,4 @@ class UsageHeaderBinder(dataBindAdapter: DataBindAdapter) :
         this.mRecyclerDivider = header
         notifyBinderDataSetChanged()
     }
-
 }
