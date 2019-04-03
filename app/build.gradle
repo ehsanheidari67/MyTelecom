@@ -31,16 +31,12 @@ android {
             dimension "default"
         }
     }
-
-
     android.variantFilter { variant ->
         if (!(variant.buildType.name == 'debug'
                 && variant.flavors[0].name == 'mock')) {
             variant.ignore = true
         }
     }
-
-
 }
 
 dependencies {
@@ -57,6 +53,7 @@ dependencies {
     implementation 'android.arch.lifecycle:extensions:1.1.1'
     implementation 'android.arch.lifecycle:viewmodel:1.1.1'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.0.1'
+    implementation 'com.squareup.moshi:moshi:1.8.0'
 
     implementation 'com.google.code.gson:gson:2.3'
 
