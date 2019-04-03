@@ -17,8 +17,8 @@ import ir.ipack.ehsan.local.ipack.data.Cycle
 import ir.ipack.ehsan.local.ipack.mydata.MyDataViewModel
 import ir.ipack.ehsan.local.ipack.mytalk.MyTalkViewModel
 import ir.ipack.ehsan.local.ipack.mytext.MyTextViewModel
-import ir.ipack.ehsan.local.ipack.utils.CommonUtil
 import ir.ipack.ehsan.local.ipack.utils.PlanConstants
+import ir.ipack.ehsan.local.ipack.utils.getUsedPercentage
 import kotlinx.android.synthetic.main.data_add_gb.view.*
 import kotlinx.android.synthetic.main.telco_usage_view.view.*
 
@@ -38,7 +38,7 @@ class CycleBinder(
     override fun bindViewHolder(holder: CurrentCycleViewHolder?, position: Int) {
         holder?.let {
             mCurrentCycle?.let { cycle ->
-                val usedPercent = CommonUtil.getUsedPercentage(cycle)
+                val usedPercent = cycle.getUsedPercentage()
                 it.usageImage.setImageResource(cycle.cycleImage)
                 it.usageBottomLeftUsage.text = cycle.used.toString() + "/" + cycle.limit + " " + cycle.unit
                 it.usageBottomRightText.text = usedPercent.toString() +
@@ -67,7 +67,7 @@ class CycleBinder(
 
     private fun getStepAmount(): Int {
 
-        when (mCurrentCycle!!.type) {
+        when (mCurrentCycle?.type) {
             PlanConstants.DATA -> return PlanConstants.DATA_STEP_AMOUNT
             PlanConstants.TALK -> return PlanConstants.TALK_STEP_AMOUNT
             PlanConstants.TEXT -> return PlanConstants.TEXT_STEP_AMOUNT
@@ -76,7 +76,7 @@ class CycleBinder(
     }
 
     private fun getDollarsPerStep(): Int {
-        when (mCurrentCycle!!.type) {
+        when (mCurrentCycle?.type) {
             PlanConstants.DATA -> return PlanConstants.DATA_DOLLARS_PER_STEP
             PlanConstants.TALK -> return PlanConstants.TALK_DOLLARS_PER_STEP
             PlanConstants.TEXT -> return PlanConstants.TEXT_DOLLARS_PER_STEP
@@ -85,7 +85,7 @@ class CycleBinder(
     }
 
     private fun getMaxAmount(): Int {
-        when (mCurrentCycle!!.type) {
+        when (mCurrentCycle?.type) {
             PlanConstants.DATA -> return PlanConstants.DATA_MAX_AMOUNT
             PlanConstants.TALK -> return PlanConstants.TALK_MAX_AMOUNT
             PlanConstants.TEXT -> return PlanConstants.TEXT_MAX_AMOUNT
