@@ -9,7 +9,7 @@ import com.yqritc.recyclerviewmultipleviewtypesadapter.DataBindAdapter
 import com.yqritc.recyclerviewmultipleviewtypesadapter.DataBinder
 import ir.ipack.ehsan.local.ipack.R
 import ir.ipack.ehsan.local.ipack.data.BasePlan
-import ir.ipack.ehsan.local.ipack.utils.Currency
+import ir.ipack.ehsan.local.ipack.utils.localizedCurrency
 import kotlinx.android.synthetic.main.base_plan_info.view.*
 
 
@@ -18,8 +18,8 @@ class BasePlanBinder(dataBindAdapter: DataBindAdapter) : DataBinder<BasePlanBind
     override fun bindViewHolder(holder: BasePlanHolder?, position: Int) {
         Log.i("ETest", "bindViewHolder " + mBasePlan?.baseCost)
         mBasePlan?.let {
-            holder?.baseCost?.text = Currency.localize(it.baseCost, false)
-            holder?.addonCost?.text = Currency.localize(it.addonCost, false)
+            holder?.baseCost?.text = it.baseCost.localizedCurrency(false)
+            holder?.addonCost?.text = it.addonCost.localizedCurrency(false)
         }
     }
 

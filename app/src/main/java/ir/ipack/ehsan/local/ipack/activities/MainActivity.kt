@@ -1,6 +1,5 @@
 package ir.ipack.ehsan.local.ipack.activities
 
-import android.content.Context
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
@@ -17,14 +16,12 @@ import ir.ipack.ehsan.local.ipack.mytalk.MyTalkFragment
 import ir.ipack.ehsan.local.ipack.mytext.MyTextFragment
 import ir.ipack.ehsan.local.ipack.utils.FontCache
 import kotlinx.android.synthetic.main.activity_main.*
-
 import java.util.*
 
 class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener {
 
     private lateinit var mTabImages: List<ImageView>
     private lateinit var mPagerAdapter: ViewPagerAdapter
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,19 +41,16 @@ class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener {
         tab_layout.setOnTabSelectedListener(this)
 
         updateTabText(mPagerAdapter)
-
-        context = this
     }
 
     private fun updateTabText(mPagerAdapter: ViewPagerAdapter) {
-        val font = FontCache.get("Roboto-Regular.ttf", context)
+        val font = FontCache.get("Roboto-Regular.ttf", this)
         for (i in 0 until mPagerAdapter.count){
             val tv = ((((tab_layout.getChildAt(0) as LinearLayout).getChildAt(i)) as LinearLayout).getChildAt(1)) as TextView
             tv.isAllCaps = false
             tv.typeface = font
         }
     }
-
 
     override fun onTabReselected(p0: TabLayout.Tab?) {
 
@@ -70,9 +64,7 @@ class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener {
 
     }
 
-
     companion object {
-        var context: Context? = null
         private class TabFragment(val title: String, val fragment: Fragment)
         private class ViewPagerAdapter(fragmentManager: FragmentManager) : FragmentPagerAdapter(fragmentManager) {
             private val fragmentList = ArrayList<TabFragment>()

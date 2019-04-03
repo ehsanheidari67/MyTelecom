@@ -10,7 +10,7 @@ import com.yqritc.recyclerviewmultipleviewtypesadapter.DataBindAdapter
 import com.yqritc.recyclerviewmultipleviewtypesadapter.DataBinder
 import ir.ipack.ehsan.local.ipack.R
 import ir.ipack.ehsan.local.ipack.data.Cycle
-import ir.ipack.ehsan.local.ipack.utils.CommonUtil
+import ir.ipack.ehsan.local.ipack.utils.getUsedPercentage
 import kotlinx.android.synthetic.main.my_plan_header.view.*
 
 class PlanOverviewBinder(context: Context, dataBinderAdapter: DataBindAdapter) :
@@ -24,19 +24,19 @@ class PlanOverviewBinder(context: Context, dataBinderAdapter: DataBindAdapter) :
     override fun bindViewHolder(holder: PlanOverviewHolder?, position: Int) {
         holder?.let {
             mDataCycle?.let { cycle ->
-                it.dataUsageView.setPercentUsed(CommonUtil.getUsedPercentage(cycle).toInt())
+                it.dataUsageView.setPercentUsed(cycle.getUsedPercentage().toInt())
                 it.dataUsageView.setBottomLeftText(setUsedVsLimit(cycle))
-                it.dataUsageView.setBottomRightText(CommonUtil.getUsedPercentage(cycle).toString() + resources.getString(R.string.percent_used))
+                it.dataUsageView.setBottomRightText(cycle.getUsedPercentage().toString() + resources.getString(R.string.percent_used))
             }
             mTalkCycle?.let { cycle ->
-                it.talkUsageView.setPercentUsed(CommonUtil.getUsedPercentage(cycle).toInt())
+                it.talkUsageView.setPercentUsed(cycle.getUsedPercentage().toInt())
                 it.talkUsageView.setBottomLeftText(setUsedVsLimit(cycle))
-                it.talkUsageView.setBottomRightText(CommonUtil.getUsedPercentage(cycle).toString() + resources.getString(R.string.percent_used))
+                it.talkUsageView.setBottomRightText(cycle.getUsedPercentage().toString() + resources.getString(R.string.percent_used))
             }
             mTextCycle?.let { cycle ->
-                it.textUsageView.setPercentUsed(CommonUtil.getUsedPercentage(cycle).toInt())
+                it.textUsageView.setPercentUsed(cycle.getUsedPercentage().toInt())
                 it.textUsageView.setBottomLeftText(setUsedVsLimit(cycle))
-                it.textUsageView.setBottomRightText(CommonUtil.getUsedPercentage(cycle).toString() + resources.getString(R.string.percent_used))
+                it.textUsageView.setBottomRightText(cycle.getUsedPercentage().toString() + resources.getString(R.string.percent_used))
             }
 
         }
