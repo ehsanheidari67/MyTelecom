@@ -1,8 +1,7 @@
 package ir.ipack.ehsan.local.ipack.data.source.local
 
 import android.content.Context
-import android.support.annotation.VisibleForTesting
-import com.google.gson.reflect.TypeToken
+import androidx.annotation.VisibleForTesting
 import ir.ipack.ehsan.local.ipack.R
 import ir.ipack.ehsan.local.ipack.data.BasePlan
 import ir.ipack.ehsan.local.ipack.data.Cycle
@@ -109,9 +108,7 @@ class LocalDataSource private constructor() : DataSource {
             return it
         }
 
-        val token = object : TypeToken<List<Usage>>() {
-        }
-        val initialUsages = JsonUtils.parseJsonFile(context, "app_usages.json", token)
+        val initialUsages = JsonUtils.parseJsonListFile<Usage>(context, "app_usages.json", Usage::class.java)
 
         for (usage in initialUsages) {
             val resId = context.resources.getIdentifier(usage.imageName, "drawable", context.packageName)
@@ -129,9 +126,7 @@ class LocalDataSource private constructor() : DataSource {
             return mTalkUsage
         }
 
-        val token = object : TypeToken<List<Usage>>() {
-        }
-        val initTalkIO = JsonUtils.parseJsonFile(context, "talk_io.json", token)
+        val initTalkIO = JsonUtils.parseJsonListFile<Usage>(context, "talk_io.json", Usage::class.java)
         mTalkUsage = initTalkIO[0]
 
         return mTalkUsage
@@ -142,9 +137,7 @@ class LocalDataSource private constructor() : DataSource {
             return mTextUsage
         }
 
-        val token = object : TypeToken<List<Usage>>() {
-        }
-        val initTextIO = JsonUtils.parseJsonFile(context, "text_io.json", token)
+        val initTextIO = JsonUtils.parseJsonListFile<Usage>(context, "text_io.json", Usage::class.java)
         mTextUsage = initTextIO[0]
 
         return mTextUsage

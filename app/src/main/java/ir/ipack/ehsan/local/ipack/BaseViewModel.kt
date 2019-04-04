@@ -1,7 +1,7 @@
 package ir.ipack.ehsan.local.ipack
 
 import android.app.Application
-import android.arch.lifecycle.AndroidViewModel
+import androidx.lifecycle.AndroidViewModel
 
 abstract class BaseViewModel(
     open val context: Application

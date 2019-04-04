@@ -1,7 +1,7 @@
 package ir.ipack.ehsan.local.ipack.mytext
 
 import android.content.Context
-import android.support.design.widget.CoordinatorLayout
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.yqritc.recyclerviewmultipleviewtypesadapter.ListBindAdapter
 import ir.ipack.ehsan.local.ipack.BaseViewModel
 import ir.ipack.ehsan.local.ipack.commonbinders.CycleBinder
