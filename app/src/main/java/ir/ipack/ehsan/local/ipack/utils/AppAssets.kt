@@ -12,7 +12,10 @@ class AppAssets(private val context: Context) {
         }
     }
 
-    fun readAsString(file: File): String {
+    fun readAsString(file: File?): String {
+        if (file == null) {
+            return ""
+        }
         return try {
             context.assets.open(file.path).bufferedReader().use {
                 it.readText()
