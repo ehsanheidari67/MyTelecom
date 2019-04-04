@@ -1,6 +1,7 @@
 package ir.ipack.ehsan.local.ipack.utils
 
 import android.content.Context
+import timber.log.Timber
 import java.io.File
 
 class AppAssets(private val context: Context) {
@@ -20,7 +21,8 @@ class AppAssets(private val context: Context) {
             context.assets.open(file.path).bufferedReader().use {
                 it.readText()
             }
-        } catch (e: Throwable) {
+        } catch (t: Throwable) {
+            Timber.e(t)
             ""
         }
     }
