@@ -1,10 +1,10 @@
 package ir.ipack.ehsan.local.ipack.myplan.binders
 
-import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.yqritc.recyclerviewmultipleviewtypesadapter.DataBindAdapter
 import com.yqritc.recyclerviewmultipleviewtypesadapter.DataBinder
 import ir.ipack.ehsan.local.ipack.R

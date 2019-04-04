@@ -3,7 +3,7 @@
   ~ © Copyright IBM Corporation 2015. All Rights Reserved.
   -->
 
-<android.support.design.widget.CoordinatorLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/data_frag"
@@ -13,12 +13,12 @@
     android:background="@color/material_gray"
     tools:context="ir.ipack.ehsan.local.ipack.mydata.MyDataFragment">
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/my_data_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
         android:paddingBottom="@dimen/recyclerView_bottom_padding" />
 
-</android.support.design.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
 

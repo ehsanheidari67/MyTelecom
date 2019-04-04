@@ -1,8 +1,8 @@
 package ir.ipack.ehsan.local.ipack.views
 
 import android.content.Context
-import android.support.v7.widget.AppCompatTextView
 import android.util.AttributeSet
+import androidx.appcompat.widget.AppCompatTextView
 import ir.ipack.ehsan.local.ipack.R
 import ir.ipack.ehsan.local.ipack.utils.FontCache
 

@@ -1,7 +1,7 @@
 package ir.ipack.ehsan.local.ipack.myplan
 
 import android.app.Application
-import android.arch.lifecycle.AndroidViewModel
+import androidx.lifecycle.AndroidViewModel
 import ir.ipack.ehsan.local.ipack.data.BasePlan
 import ir.ipack.ehsan.local.ipack.data.source.Repository
 import rx.Observable

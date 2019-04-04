@@ -1,15 +1,23 @@
 package ir.ipack.ehsan.local.ipack.utils
 
 import android.content.Context
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.Types
 import java.io.IOException
+import java.lang.reflect.Type
 import kotlin.text.Charsets.UTF_8
 
-// TODO: Replace with Moshi in a future PR
 object JsonUtils {
-    fun <T> parseJsonFile(ctx: Context, filename: String, token: TypeToken<T>): T {
-        return Gson().fromJson<T>(parseJsonFile(ctx, filename), token.type)
+    //TODO: Remove redundant generic in a future PR
+    fun <T> parseJsonListFile(ctx: Context, filename: String, type: Type): List<T> {
+        return try {
+            val moshi = Moshi.Builder().build()
+            val listOfObjects = Types.newParameterizedType(List::class.java, type)
+            val jsonAdapter = moshi.adapter<List<T>>(listOfObjects)
+            jsonAdapter.fromJson(parseJsonFile(ctx, filename) ?: "") ?: emptyList()
+        } catch (e: Exception) {
+            emptyList()
+        }
     }
 
     fun parseJsonFile(ctx: Context, filename: String): String? {
