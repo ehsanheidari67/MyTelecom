@@ -22,21 +22,6 @@ android {
 
     flavorDimensions "default"
 
-    productFlavors {
-        mock {
-            applicationIdSuffix = ".mock"
-            dimension "default"
-        }
-        prod {
-            dimension "default"
-        }
-    }
-    android.variantFilter { variant ->
-        if (!(variant.buildType.name == 'debug'
-                && variant.flavors[0].name == 'mock')) {
-            variant.ignore = true
-        }
-    }
     testOptions {
         unitTests.includeAndroidResources = true
     }
