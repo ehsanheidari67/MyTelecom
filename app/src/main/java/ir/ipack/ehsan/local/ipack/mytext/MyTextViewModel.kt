@@ -12,7 +12,7 @@ class MyTextViewModel(
 
     fun getTextCycleStream() = repository.getTextCycleStream()
 
-    fun getTextUsageStream() = repository.getTextUsageStream(context)
+    fun getTextUsageStream() = repository.getTextUsageStream()
 
     fun updateTextCycle(cycle: Cycle) = repository.updateTextCycle(cycle)
 

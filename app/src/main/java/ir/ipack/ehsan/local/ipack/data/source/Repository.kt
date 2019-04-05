@@ -28,8 +28,8 @@ class Repository(private val localDataSource: LocalDataSource) : DataSource {
     }
 
     override fun getUsagesStream(context: Context): Observable<Usage> = localDataSource.getUsagesStream(context)
-    override fun getTalkUsageStream(context: Context): Observable<Usage> = localDataSource.getTalkUsageStream(context)
-    override fun getTextUsageStream(context: Context): Observable<Usage> = localDataSource.getTextUsageStream(context)
+    override fun getTalkUsageStream(): Observable<Usage> = localDataSource.getTalkUsageStream()
+    override fun getTextUsageStream(): Observable<Usage> = localDataSource.getTextUsageStream()
 
     override fun updateBaseCost(changeAmount: Int) = localDataSource.updateBaseCost(changeAmount)
 }

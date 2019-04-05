@@ -42,7 +42,7 @@ data class Usage(
     val appName: String,
     var usageImage: Int,
     var seekBarProgress: Int,
-    val usedData: String,
+    val usedData: String?,
     val used: Double,
     val limit: Int,
     val isUnlimited: Boolean,
