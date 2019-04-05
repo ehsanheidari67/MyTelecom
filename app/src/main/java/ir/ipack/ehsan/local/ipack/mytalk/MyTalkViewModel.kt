@@ -12,7 +12,7 @@ class MyTalkViewModel(
 
     fun getTalkCycleStream() = repository.getTalkCycleStream()
 
-    fun getTalkUsageStream() = repository.getTalkUsageStream(context)
+    fun getTalkUsageStream() = repository.getTalkUsageStream()
 
     fun updateTalkCycle(cycle: Cycle) = repository.updateTalkCycle(cycle)
 

@@ -32,9 +32,9 @@ class LocalDataSource(private val appAssets: AppAssets) : DataSource {
 
     override fun getUsagesStream(context: Context): Observable<Usage> = Observable.from(createUsages(context))
 
-    override fun getTalkUsageStream(context: Context): Observable<Usage> = Observable.just(createTalkUsage(context))
+    override fun getTalkUsageStream(): Observable<Usage> = Observable.just(createTalkUsage())
 
-    override fun getTextUsageStream(context: Context): Observable<Usage> = Observable.just(createTextUsage(context))
+    override fun getTextUsageStream(): Observable<Usage> = Observable.just(createTextUsage())
 
     private fun getDataCycle(): Cycle =
         mDataCycle ?: Cycle(
@@ -86,45 +86,32 @@ class LocalDataSource(private val appAssets: AppAssets) : DataSource {
         mBasePlanStream.onNext(mBasePlan)
     }
 
-    private fun createUsages(context: Context): List<Usage>? {
-        mAppUsages?.let {
-            return it
+    private fun createUsages(context: Context): List<Usage>? =
+        mAppUsages ?: run {
+            appUsage.map { usage ->
+                usage.apply {
+                    val resId = context.resources.getIdentifier(usage.imageName, "drawable", context.packageName)
+                    usage.usageImage = resId
+                    usage.seekBarProgress = (usage.used * 100 / usage.limit).toInt()
+                }
+            }.also {
+                mAppUsages = it
+            }
         }
 
-        val initialUsages = appUsage
-
-        for (usage in initialUsages) {
-            val resId = context.resources.getIdentifier(usage.imageName, "drawable", context.packageName)
-            usage.usageImage = resId
-            usage.seekBarProgress = (usage.used * 100 / usage.limit).toInt()
-        }
-        mAppUsages = initialUsages
-
-        return mAppUsages
-    }
-
-    private fun createTalkUsage(context: Context): Usage? {
-
-        mTalkUsage?.let {
-            return mTalkUsage
+    private fun createTalkUsage(): Usage? =
+        mTalkUsage ?: run {
+            talkUsage.firstOrNull().also {
+                mTalkUsage = it
+            }
         }
 
-        val initTalkIO = talkUsage
-        mTalkUsage = initTalkIO[0]
-
-        return mTalkUsage
-    }
-
-    private fun createTextUsage(context: Context): Usage? {
-        mTextUsage?.let {
-            return mTextUsage
+    private fun createTextUsage(): Usage? =
+        mTextUsage ?: run {
+            textUsage.firstOrNull().also {
+                mTextUsage = it
+            }
         }
-
-        val initTextIO = textUsage
-        mTextUsage = initTextIO[0]
-
-        return mTextUsage
-    }
 
     private val talkUsage: List<Usage>
         get() = readUsageFromJson("talk_io.json")
