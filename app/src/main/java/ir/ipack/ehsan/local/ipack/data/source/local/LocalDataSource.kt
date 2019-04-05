@@ -1,18 +1,20 @@
 package ir.ipack.ehsan.local.ipack.data.source.local
 
 import android.content.Context
-import androidx.annotation.VisibleForTesting
+import com.squareup.moshi.Moshi
 import ir.ipack.ehsan.local.ipack.R
 import ir.ipack.ehsan.local.ipack.data.BasePlan
 import ir.ipack.ehsan.local.ipack.data.Cycle
 import ir.ipack.ehsan.local.ipack.data.Usage
 import ir.ipack.ehsan.local.ipack.data.source.DataSource
-import ir.ipack.ehsan.local.ipack.utils.JsonUtils
+import ir.ipack.ehsan.local.ipack.utils.AppAssets
 import ir.ipack.ehsan.local.ipack.utils.PlanConstants
+import ir.ipack.ehsan.local.ipack.utils.jsonToList
 import rx.Observable
 import rx.subjects.PublishSubject
+import timber.log.Timber
 
-class LocalDataSource private constructor() : DataSource {
+class LocalDataSource(private val appAssets: AppAssets) : DataSource {
     private val mBasePlan = BasePlan()
 
     private val mBasePlanStream = PublishSubject.create<BasePlan>()
@@ -84,31 +86,12 @@ class LocalDataSource private constructor() : DataSource {
         mBasePlanStream.onNext(mBasePlan)
     }
 
-    companion object {
-
-        private var INSTANCE: LocalDataSource? = null
-
-        @JvmStatic
-        fun getInstance(): LocalDataSource =
-            INSTANCE ?: synchronized(LocalDataSource::class.java) {
-                INSTANCE ?: LocalDataSource().also {
-                    INSTANCE = it
-                }
-            }
-
-        @VisibleForTesting
-        @JvmStatic
-        fun destroyInstance() {
-            INSTANCE = null
-        }
-    }
-
     private fun createUsages(context: Context): List<Usage>? {
         mAppUsages?.let {
             return it
         }
 
-        val initialUsages = JsonUtils.parseJsonListFile<Usage>(context, "app_usages.json", Usage::class.java)
+        val initialUsages = appUsage
 
         for (usage in initialUsages) {
             val resId = context.resources.getIdentifier(usage.imageName, "drawable", context.packageName)
@@ -126,7 +109,7 @@ class LocalDataSource private constructor() : DataSource {
             return mTalkUsage
         }
 
-        val initTalkIO = JsonUtils.parseJsonListFile<Usage>(context, "talk_io.json", Usage::class.java)
+        val initTalkIO = talkUsage
         mTalkUsage = initTalkIO[0]
 
         return mTalkUsage
@@ -137,9 +120,27 @@ class LocalDataSource private constructor() : DataSource {
             return mTextUsage
         }
 
-        val initTextIO = JsonUtils.parseJsonListFile<Usage>(context, "text_io.json", Usage::class.java)
+        val initTextIO = textUsage
         mTextUsage = initTextIO[0]
 
         return mTextUsage
+    }
+
+    private val talkUsage: List<Usage>
+        get() = readUsageFromJson("talk_io.json")
+    private val textUsage: List<Usage>
+        get() = readUsageFromJson("text_io.json")
+    private val appUsage: List<Usage>
+        get() = readUsageFromJson("app_usages.json")
+
+    private fun readUsageFromJson(filename: String): List<Usage> {
+        return try {
+            with(Moshi.Builder().build()) {
+                jsonToList(appAssets.readAsString(appAssets.getFile(filename)), Usage::class.java)
+            }
+        } catch (t: Throwable) {
+            Timber.e(t)
+            emptyList()
+        }
     }
 }

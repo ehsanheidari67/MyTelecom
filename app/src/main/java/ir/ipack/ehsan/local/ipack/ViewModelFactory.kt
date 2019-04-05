@@ -22,7 +22,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 
 import ir.ipack.ehsan.local.ipack.data.source.Repository
-import ir.ipack.ehsan.local.ipack.data.source.local.LocalDataSource
 import ir.ipack.ehsan.local.ipack.mydata.MyDataViewModel
 import ir.ipack.ehsan.local.ipack.myplan.MyPlanViewModel
 import ir.ipack.ehsan.local.ipack.mytalk.MyTalkViewModel
@@ -34,33 +33,34 @@ class ViewModelFactory private constructor(
 ) : ViewModelProvider.NewInstanceFactory() {
 
     override fun <T : ViewModel> create(modelClass: Class<T>) =
-            with(modelClass) {
-                when {
-                    isAssignableFrom(MyPlanViewModel::class.java) ->
-                        MyPlanViewModel(application, tasksRepository)
-                    isAssignableFrom(MyDataViewModel::class.java) ->
-                        MyDataViewModel(application, tasksRepository)
-                    isAssignableFrom(MyTalkViewModel::class.java) ->
-                        MyTalkViewModel(application, tasksRepository)
-                    isAssignableFrom(MyTextViewModel::class.java) ->
-                        MyTextViewModel(application, tasksRepository)
-                    else ->
-                        throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
-                }
-            } as T
+        with(modelClass) {
+            when {
+                isAssignableFrom(MyPlanViewModel::class.java) ->
+                    MyPlanViewModel(application, tasksRepository)
+                isAssignableFrom(MyDataViewModel::class.java) ->
+                    MyDataViewModel(application, tasksRepository)
+                isAssignableFrom(MyTalkViewModel::class.java) ->
+                    MyTalkViewModel(application, tasksRepository)
+                isAssignableFrom(MyTextViewModel::class.java) ->
+                    MyTextViewModel(application, tasksRepository)
+                else ->
+                    throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
+            }
+        } as T
 
     companion object {
 
         @SuppressLint("StaticFieldLeak")
-        @Volatile private var INSTANCE: ViewModelFactory? = null
+        @Volatile
+        private var INSTANCE: ViewModelFactory? = null
 
         fun getInstance(application: Application) =
-                INSTANCE ?: synchronized(ViewModelFactory::class.java) {
-                    INSTANCE ?: ViewModelFactory(application,
-                            Repository.getInstance(LocalDataSource.getInstance())
-                    )
-                            .also { INSTANCE = it }
-                }
+            INSTANCE ?: synchronized(ViewModelFactory::class.java) {
+                INSTANCE ?: ViewModelFactory(
+                    application,
+                    (application as MyApplication).repository
+                ).also { INSTANCE = it }
+            }
 
         @VisibleForTesting
         fun destroyInstance() {
