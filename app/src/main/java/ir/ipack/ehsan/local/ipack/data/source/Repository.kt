@@ -7,7 +7,7 @@ import ir.ipack.ehsan.local.ipack.data.Usage
 import ir.ipack.ehsan.local.ipack.data.source.local.LocalDataSource
 import rx.Observable
 
-class Repository private constructor(private val localDataSource: LocalDataSource) : DataSource {
+class Repository(private val localDataSource: LocalDataSource) : DataSource {
 
     override fun getBasePlanStreams(): Observable<BasePlan> = localDataSource.getBasePlanStreams()
 
@@ -32,20 +32,4 @@ class Repository private constructor(private val localDataSource: LocalDataSourc
     override fun getTextUsageStream(context: Context): Observable<Usage> = localDataSource.getTextUsageStream(context)
 
     override fun updateBaseCost(changeAmount: Int) = localDataSource.updateBaseCost(changeAmount)
-
-    companion object {
-        private var INSTANCE: Repository? = null
-
-        @JvmStatic
-        fun getInstance(localDataSource: LocalDataSource): Repository {
-            return INSTANCE ?: synchronized(Repository::class.java) {
-                INSTANCE ?: Repository(localDataSource).also { INSTANCE = it }
-            }
-        }
-
-        @JvmStatic
-        fun destroyInstance() {
-            INSTANCE = null
-        }
-    }
 }
