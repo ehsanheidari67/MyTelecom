@@ -1,25 +1,25 @@
 package ir.ipack.ehsan.local.ipack.data.source
 
 import android.content.Context
-import ir.ipack.ehsan.local.ipack.data.BasePlan
-import ir.ipack.ehsan.local.ipack.data.Cycle
-import ir.ipack.ehsan.local.ipack.data.Usage
+import ir.ipack.ehsan.local.ipack.data.db.entity.BasePlanEntity
+import ir.ipack.ehsan.local.ipack.data.db.entity.CycleEntity
+import ir.ipack.ehsan.local.ipack.data.db.entity.UsageEntity
 import rx.Observable
 
 interface DataSource {
-    fun getBasePlanStreams(): Observable<BasePlan>
+    fun getBasePlanStreams(): Observable<BasePlanEntity>
 
-    fun getDataCycleStream(): Observable<Cycle>
-    fun getTalkCycleStream(): Observable<Cycle>
-    fun getTextCycleStream(): Observable<Cycle>
+    fun getDataCycleStream(): Observable<CycleEntity>
+    fun getTalkCycleStream(): Observable<CycleEntity>
+    fun getTextCycleStream(): Observable<CycleEntity>
 
-    fun updateDataCycle(cycle: Cycle)
-    fun updateTalkCycle(cycle: Cycle)
-    fun updateTextCycle(cycle: Cycle)
+    fun updateDataCycle(cycle: CycleEntity)
+    fun updateTalkCycle(cycle: CycleEntity)
+    fun updateTextCycle(cycle: CycleEntity)
 
-    fun getUsagesStream(context: Context): Observable<Usage>
-    fun getTalkUsageStream(): Observable<Usage>
-    fun getTextUsageStream(): Observable<Usage>
+    fun getUsagesStream(context: Context): Observable<UsageEntity>
+    fun getTalkUsageStream(): Observable<UsageEntity>
+    fun getTextUsageStream(): Observable<UsageEntity>
 
     fun updateBaseCost(changeAmount: Int)
 }

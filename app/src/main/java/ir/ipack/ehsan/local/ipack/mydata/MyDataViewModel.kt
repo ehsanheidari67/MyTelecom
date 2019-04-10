@@ -2,7 +2,7 @@ package ir.ipack.ehsan.local.ipack.mydata
 
 import android.app.Application
 import ir.ipack.ehsan.local.ipack.BaseViewModel
-import ir.ipack.ehsan.local.ipack.data.Cycle
+import ir.ipack.ehsan.local.ipack.data.db.entity.CycleEntity
 import ir.ipack.ehsan.local.ipack.data.source.Repository
 
 class MyDataViewModel(
@@ -14,7 +14,7 @@ class MyDataViewModel(
 
     fun getUsagesStream() = repository.getUsagesStream(context)
 
-    fun updateDataCycle(cycle: Cycle) = repository.updateDataCycle(cycle)
+    fun updateDataCycle(cycle: CycleEntity) = repository.updateDataCycle(cycle)
 
     override fun updateBaseCost(changeAmount: Int) {
         repository.updateBaseCost(changeAmount)

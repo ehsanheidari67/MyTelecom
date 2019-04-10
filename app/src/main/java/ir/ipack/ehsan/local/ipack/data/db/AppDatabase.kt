@@ -14,6 +14,8 @@ import ir.ipack.ehsan.local.ipack.data.db.entity.BasePlanEntity
 import ir.ipack.ehsan.local.ipack.data.db.entity.CycleEntity
 import ir.ipack.ehsan.local.ipack.data.db.entity.OfferEntity
 import ir.ipack.ehsan.local.ipack.data.db.entity.UsageEntity
+import ir.ipack.ehsan.local.ipack.utils.CycleTypeEnum
+import ir.ipack.ehsan.local.ipack.utils.PlanConstants
 import java.util.concurrent.Executors
 
 @Database(
@@ -49,14 +51,49 @@ abstract class AppDatabase : RoomDatabase() {
                     super.onCreate(db)
                     Executors.newSingleThreadExecutor().execute {
                         AppDatabase.getInstance(context).apply {
-                            insertInitialConfig(this)
+                            initialDb(this)
                         }
                     }
                 }
-            }).build()
+            })
+                .allowMainThreadQueries() // TODO: Run the queries in a background thread in a future PR
+                .build()
 
-        private fun insertInitialConfig(db: AppDatabase) {
-            // TODO: Initial DB in a future PR
+        private fun initialDb(db: AppDatabase) {
+            db.basePlanDao().insertBasePlan(
+                BasePlanEntity(
+                    baseCost = PlanConstants.INITIAL_BASE_COST,
+                    addonCost = PlanConstants.INITIAL_ADDON_COST
+                )
+            )
+            db.usageDao().insert(
+                UsageEntity(
+                    total = 200, isUnlimited = true, type = CycleTypeEnum.TALK, incoming = 29, outgoing = 96
+                )
+            )
+            db.usageDao().insert(
+                UsageEntity(
+                    total = 350, isUnlimited = false, type = CycleTypeEnum.TEXT, incoming = 186, outgoing = 164
+                )
+            )
+            db.usageDao().insert(
+                UsageEntity(
+                    appName = "Facebook", imageName = "social_dark_gray", type = CycleTypeEnum.INTERNET, used = 0.75,
+                    limit = 2, isUnlimited = false
+                )
+            )
+            db.usageDao().insert(
+                UsageEntity(
+                    appName = "YouTube", imageName = "video_dark_gray", type = CycleTypeEnum.INTERNET, used = 0.3,
+                    limit = 2, isUnlimited = false
+                )
+            )
+            db.usageDao().insert(
+                UsageEntity(
+                    appName = "WhatsApp", imageName = "social_dark_gray", type = CycleTypeEnum.INTERNET, used = 0.2,
+                    limit = 2, isUnlimited = false
+                )
+            )
         }
     }
 }

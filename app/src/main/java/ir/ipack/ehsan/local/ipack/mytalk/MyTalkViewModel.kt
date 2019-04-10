@@ -2,7 +2,7 @@ package ir.ipack.ehsan.local.ipack.mytalk
 
 import android.app.Application
 import ir.ipack.ehsan.local.ipack.BaseViewModel
-import ir.ipack.ehsan.local.ipack.data.Cycle
+import ir.ipack.ehsan.local.ipack.data.db.entity.CycleEntity
 import ir.ipack.ehsan.local.ipack.data.source.Repository
 
 class MyTalkViewModel(
@@ -14,7 +14,7 @@ class MyTalkViewModel(
 
     fun getTalkUsageStream() = repository.getTalkUsageStream()
 
-    fun updateTalkCycle(cycle: Cycle) = repository.updateTalkCycle(cycle)
+    fun updateTalkCycle(cycle: CycleEntity) = repository.updateTalkCycle(cycle)
 
     override fun updateBaseCost(changeAmount: Int) {
         repository.updateBaseCost(changeAmount)
