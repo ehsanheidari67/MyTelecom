@@ -9,34 +9,33 @@ import androidx.recyclerview.widget.RecyclerView
 import com.yqritc.recyclerviewmultipleviewtypesadapter.DataBindAdapter
 import com.yqritc.recyclerviewmultipleviewtypesadapter.DataBinder
 import ir.ipack.ehsan.local.ipack.R
-import ir.ipack.ehsan.local.ipack.data.Cycle
-import ir.ipack.ehsan.local.ipack.utils.getUsedPercentage
+import ir.ipack.ehsan.local.ipack.data.db.entity.CycleEntity
 import kotlinx.android.synthetic.main.my_plan_header.view.*
 
 class PlanOverviewBinder(context: Context, dataBinderAdapter: DataBindAdapter) :
     DataBinder<PlanOverviewBinder.PlanOverviewHolder>(dataBinderAdapter) {
-    private var mDataCycle: Cycle? = null
-    private var mTalkCycle: Cycle? = null
-    private var mTextCycle: Cycle? = null
+    private var mDataCycle: CycleEntity? = null
+    private var mTalkCycle: CycleEntity? = null
+    private var mTextCycle: CycleEntity? = null
 
     private val resources: Resources = context.resources
 
     override fun bindViewHolder(holder: PlanOverviewHolder?, position: Int) {
         holder?.let {
             mDataCycle?.let { cycle ->
-                it.dataUsageView.setPercentUsed(cycle.getUsedPercentage().toInt())
+                it.dataUsageView.setPercentUsed(cycle.usedPercentage.toInt())
                 it.dataUsageView.setBottomLeftText(setUsedVsLimit(cycle))
-                it.dataUsageView.setBottomRightText(cycle.getUsedPercentage().toString() + resources.getString(R.string.percent_used))
+                it.dataUsageView.setBottomRightText(cycle.usedPercentage.toString() + resources.getString(R.string.percent_used))
             }
             mTalkCycle?.let { cycle ->
-                it.talkUsageView.setPercentUsed(cycle.getUsedPercentage().toInt())
+                it.talkUsageView.setPercentUsed(cycle.usedPercentage.toInt())
                 it.talkUsageView.setBottomLeftText(setUsedVsLimit(cycle))
-                it.talkUsageView.setBottomRightText(cycle.getUsedPercentage().toString() + resources.getString(R.string.percent_used))
+                it.talkUsageView.setBottomRightText(cycle.usedPercentage.toString() + resources.getString(R.string.percent_used))
             }
             mTextCycle?.let { cycle ->
-                it.textUsageView.setPercentUsed(cycle.getUsedPercentage().toInt())
+                it.textUsageView.setPercentUsed(cycle.usedPercentage.toInt())
                 it.textUsageView.setBottomLeftText(setUsedVsLimit(cycle))
-                it.textUsageView.setBottomRightText(cycle.getUsedPercentage().toString() + resources.getString(R.string.percent_used))
+                it.textUsageView.setBottomRightText(cycle.usedPercentage.toString() + resources.getString(R.string.percent_used))
             }
         }
     }
@@ -54,22 +53,22 @@ class PlanOverviewBinder(context: Context, dataBinderAdapter: DataBindAdapter) :
         val textUsageView = itemView.textUsageView
     }
 
-    fun addData(dataCycle: Cycle) {
+    fun addData(dataCycle: CycleEntity) {
         this.mDataCycle = dataCycle
         notifyBinderDataSetChanged()
     }
 
-    fun addTalk(talkCycle: Cycle) {
+    fun addTalk(talkCycle: CycleEntity) {
         this.mTalkCycle = talkCycle
         notifyBinderDataSetChanged()
     }
 
-    fun addText(textCycle: Cycle) {
+    fun addText(textCycle: CycleEntity) {
         this.mTextCycle = textCycle
         notifyBinderDataSetChanged()
     }
 
-    private fun setUsedVsLimit(cycle: Cycle): String {
+    private fun setUsedVsLimit(cycle: CycleEntity): String {
         return cycle.used.toString() + "/" + cycle.limit + " " + cycle.unit
     }
 }

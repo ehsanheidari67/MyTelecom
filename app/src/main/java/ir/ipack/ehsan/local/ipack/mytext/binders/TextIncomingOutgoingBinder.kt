@@ -9,13 +9,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.yqritc.recyclerviewmultipleviewtypesadapter.DataBindAdapter
 import com.yqritc.recyclerviewmultipleviewtypesadapter.DataBinder
 import ir.ipack.ehsan.local.ipack.R
-import ir.ipack.ehsan.local.ipack.data.Usage
+import ir.ipack.ehsan.local.ipack.data.db.entity.UsageEntity
 import ir.ipack.ehsan.local.ipack.utils.PlanConstants
 import kotlinx.android.synthetic.main.incoming_outgoing.view.*
 
 class TextIncomingOutgoingBinder(context: Context, dataBindAdapter: DataBindAdapter) :
     DataBinder<TextIncomingOutgoingBinder.TextUsageViewHolder>(dataBindAdapter) {
-    private var mTextUsage: Usage? = null
+    private var mTextUsage: UsageEntity? = null
     private val mResources = context.resources
 
     override fun bindViewHolder(holder: TextUsageViewHolder?, position: Int) {
@@ -50,7 +50,7 @@ class TextIncomingOutgoingBinder(context: Context, dataBindAdapter: DataBindAdap
         return TextUsageViewHolder(view)
     }
 
-    fun add(textUsage: Usage) {
+    fun add(textUsage: UsageEntity) {
         mTextUsage = textUsage
         notifyBinderDataSetChanged()
     }

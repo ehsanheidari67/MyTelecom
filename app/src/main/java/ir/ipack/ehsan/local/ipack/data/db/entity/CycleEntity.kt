@@ -12,5 +12,14 @@ class CycleEntity(
     @ColumnInfo(name = "unit") val unit: UnitEnum?,
     @ColumnInfo(name = "cycle_image") val cycleImage: Int?,
     @ColumnInfo(name = "used") val used: Double?,
-    @ColumnInfo(name = "limit") val limit: Int?
-)
+    @ColumnInfo(name = "limit") var limit: Int?
+) {
+    val usedPercentage: Double
+        get() {
+            return used?.let { used ->
+                limit?.let { limit ->
+                    used * 100 / limit
+                }
+            } ?: 0.0
+        }
+}

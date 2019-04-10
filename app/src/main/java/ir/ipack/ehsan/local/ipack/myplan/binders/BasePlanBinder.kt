@@ -8,17 +8,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.yqritc.recyclerviewmultipleviewtypesadapter.DataBindAdapter
 import com.yqritc.recyclerviewmultipleviewtypesadapter.DataBinder
 import ir.ipack.ehsan.local.ipack.R
-import ir.ipack.ehsan.local.ipack.data.BasePlan
+import ir.ipack.ehsan.local.ipack.data.db.entity.BasePlanEntity
 import ir.ipack.ehsan.local.ipack.utils.localizedCurrency
 import kotlinx.android.synthetic.main.base_plan_info.view.*
 
 class BasePlanBinder(dataBindAdapter: DataBindAdapter) : DataBinder<BasePlanBinder.BasePlanHolder>(dataBindAdapter) {
-    var mBasePlan: BasePlan? = null
+    var mBasePlan: BasePlanEntity? = null
     override fun bindViewHolder(holder: BasePlanHolder?, position: Int) {
         Log.i("ETest", "bindViewHolder " + mBasePlan?.baseCost)
         mBasePlan?.let {
-            holder?.baseCost?.text = it.baseCost.localizedCurrency(false)
-            holder?.addonCost?.text = it.addonCost.localizedCurrency(false)
+            holder?.baseCost?.text = it.baseCost?.localizedCurrency(false)
+            holder?.addonCost?.text = it.addonCost?.localizedCurrency(false)
         }
     }
 
@@ -29,7 +29,7 @@ class BasePlanBinder(dataBindAdapter: DataBindAdapter) : DataBinder<BasePlanBind
         return BasePlanHolder(view)
     }
 
-    fun add(basePlan: BasePlan) {
+    fun add(basePlan: BasePlanEntity) {
         mBasePlan = basePlan
         Log.i("ETest", "add " + mBasePlan?.baseCost)
         notifyBinderDataSetChanged()

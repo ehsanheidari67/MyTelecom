@@ -13,12 +13,12 @@ import com.yqritc.recyclerviewmultipleviewtypesadapter.DataBindAdapter
 import com.yqritc.recyclerviewmultipleviewtypesadapter.DataBinder
 import ir.ipack.ehsan.local.ipack.BaseViewModel
 import ir.ipack.ehsan.local.ipack.R
-import ir.ipack.ehsan.local.ipack.data.Cycle
+import ir.ipack.ehsan.local.ipack.data.db.entity.CycleEntity
 import ir.ipack.ehsan.local.ipack.mydata.MyDataViewModel
 import ir.ipack.ehsan.local.ipack.mytalk.MyTalkViewModel
 import ir.ipack.ehsan.local.ipack.mytext.MyTextViewModel
+import ir.ipack.ehsan.local.ipack.utils.CycleTypeEnum
 import ir.ipack.ehsan.local.ipack.utils.PlanConstants
-import ir.ipack.ehsan.local.ipack.utils.getUsedPercentage
 import kotlinx.android.synthetic.main.data_add_gb.view.*
 import kotlinx.android.synthetic.main.telco_usage_view.view.*
 
@@ -30,7 +30,7 @@ class CycleBinder(
 ) :
     DataBinder<CycleBinder.CurrentCycleViewHolder>(dataBindAdapter) {
 
-    var mCurrentCycle: Cycle? = null
+    var mCurrentCycle: CycleEntity? = null
 
     private var DOLLARS_PER_STEP: Int = 0
     private var STEP_AMOUNT: Int = 0
@@ -40,14 +40,17 @@ class CycleBinder(
     override fun bindViewHolder(holder: CurrentCycleViewHolder?, position: Int) {
         holder?.let {
             mCurrentCycle?.let { cycle ->
-                val usedPercent = cycle.getUsedPercentage()
-                it.usageImage.setImageResource(cycle.cycleImage)
+                val usedPercent = cycle.usedPercentage
+                cycle.cycleImage?.let { cycleImage ->
+                    it.usageImage.setImageResource(cycle.cycleImage)
+                }
                 it.usageBottomLeftUsage.text = cycle.used.toString() + "/" + cycle.limit + " " + cycle.unit
                 it.usageBottomRightText.text = usedPercent.toString() +
                         resources.getString(R.string.percent_used)
                 it.usageProgressBar.progress = usedPercent.toInt()
                 it.monthlyUsage.text = cycle.limit.toString()
-                it.unit.text = cycle.unit
+
+                it.unit.text = cycle.unit?.unit
             }
         }
     }
@@ -59,7 +62,7 @@ class CycleBinder(
         return CurrentCycleViewHolder(view)
     }
 
-    fun add(cycle: Cycle) {
+    fun add(cycle: CycleEntity) {
         mCurrentCycle = cycle
         DOLLARS_PER_STEP = getDollarsPerStep()
         STEP_AMOUNT = getStepAmount()
@@ -70,27 +73,27 @@ class CycleBinder(
     private fun getStepAmount(): Int {
 
         when (mCurrentCycle?.type) {
-            PlanConstants.DATA -> return PlanConstants.DATA_STEP_AMOUNT
-            PlanConstants.TALK -> return PlanConstants.TALK_STEP_AMOUNT
-            PlanConstants.TEXT -> return PlanConstants.TEXT_STEP_AMOUNT
+            CycleTypeEnum.INTERNET -> return PlanConstants.DATA_STEP_AMOUNT
+            CycleTypeEnum.TALK -> return PlanConstants.TALK_STEP_AMOUNT
+            CycleTypeEnum.TEXT -> return PlanConstants.TEXT_STEP_AMOUNT
         }
         return 0
     }
 
     private fun getDollarsPerStep(): Int {
         when (mCurrentCycle?.type) {
-            PlanConstants.DATA -> return PlanConstants.DATA_DOLLARS_PER_STEP
-            PlanConstants.TALK -> return PlanConstants.TALK_DOLLARS_PER_STEP
-            PlanConstants.TEXT -> return PlanConstants.TEXT_DOLLARS_PER_STEP
+            CycleTypeEnum.INTERNET -> return PlanConstants.DATA_DOLLARS_PER_STEP
+            CycleTypeEnum.TALK -> return PlanConstants.TALK_DOLLARS_PER_STEP
+            CycleTypeEnum.TEXT -> return PlanConstants.TEXT_DOLLARS_PER_STEP
         }
         return 0
     }
 
     private fun getMaxAmount(): Int {
         when (mCurrentCycle?.type) {
-            PlanConstants.DATA -> return PlanConstants.DATA_MAX_AMOUNT
-            PlanConstants.TALK -> return PlanConstants.TALK_MAX_AMOUNT
-            PlanConstants.TEXT -> return PlanConstants.TEXT_MAX_AMOUNT
+            CycleTypeEnum.INTERNET -> return PlanConstants.DATA_MAX_AMOUNT
+            CycleTypeEnum.TALK -> return PlanConstants.TALK_MAX_AMOUNT
+            CycleTypeEnum.TEXT -> return PlanConstants.TEXT_MAX_AMOUNT
         }
         return 0
     }
@@ -118,29 +121,33 @@ class CycleBinder(
         override fun onClick(view: View?) {
             view?.let {
                 mCurrentCycle?.let { currentCycle ->
-                    var limit = monthlyUsage.text.toString().toInt()
-                    prevLimit = currentCycle.limit
-                    if (view == upArrow && limit < MAX_AMOUNT) {
-                        limit += STEP_AMOUNT
+                    currentCycle.limit?.let { currentCycleLimit ->
+                        currentCycle.used?.let { currentCycleUsed ->
+                            var limit = monthlyUsage.text.toString().toInt()
+                            prevLimit = currentCycleLimit
+                            if (view == upArrow && limit < MAX_AMOUNT) {
+                                limit += STEP_AMOUNT
 
-                        if (limit == prevLimit)
-                            confirmUpdate.setTextColor(resources.getColor(R.color.light_gray))
-                        else
-                            confirmUpdate.setTextColor(resources.getColor(R.color.light_indigo))
-                    } else if (view == downArrow && limit > currentCycle.used && limit > PlanConstants.MIN_UNIT) {
-                        limit -= STEP_AMOUNT
+                                if (limit == prevLimit)
+                                    confirmUpdate.setTextColor(resources.getColor(R.color.light_gray))
+                                else
+                                    confirmUpdate.setTextColor(resources.getColor(R.color.light_indigo))
+                            } else if (view == downArrow && limit > currentCycleUsed && limit > PlanConstants.MIN_UNIT) {
+                                limit -= STEP_AMOUNT
 
-                        if (limit == prevLimit)
-                            confirmUpdate.setTextColor(resources.getColor(R.color.light_gray))
-                        else
-                            confirmUpdate.setTextColor(resources.getColor(R.color.light_indigo))
-                    } else if (view == confirmUpdate && limit != prevLimit) {
-                        updateLimit(limit)
-                        val addedCost = (limit - prevLimit) / STEP_AMOUNT * DOLLARS_PER_STEP
-                        updateBasePlan(addedCost)
-                        createSnackBar(addedCost)
+                                if (limit == prevLimit)
+                                    confirmUpdate.setTextColor(resources.getColor(R.color.light_gray))
+                                else
+                                    confirmUpdate.setTextColor(resources.getColor(R.color.light_indigo))
+                            } else if (view == confirmUpdate && limit != prevLimit) {
+                                updateLimit(limit)
+                                val addedCost = (limit - prevLimit) / STEP_AMOUNT * DOLLARS_PER_STEP
+                                updateBasePlan(addedCost)
+                                createSnackBar(addedCost)
+                            }
+                            monthlyUsage.text = limit.toString()
+                        }
                     }
-                    monthlyUsage.text = limit.toString()
                 }
             }
         }

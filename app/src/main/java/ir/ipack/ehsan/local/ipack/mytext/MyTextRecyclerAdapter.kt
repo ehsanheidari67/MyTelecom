@@ -5,8 +5,8 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.yqritc.recyclerviewmultipleviewtypesadapter.ListBindAdapter
 import ir.ipack.ehsan.local.ipack.BaseViewModel
 import ir.ipack.ehsan.local.ipack.commonbinders.CycleBinder
-import ir.ipack.ehsan.local.ipack.data.Cycle
-import ir.ipack.ehsan.local.ipack.data.Usage
+import ir.ipack.ehsan.local.ipack.data.db.entity.CycleEntity
+import ir.ipack.ehsan.local.ipack.data.db.entity.UsageEntity
 import ir.ipack.ehsan.local.ipack.mytext.binders.TextIncomingOutgoingBinder
 
 class MyTextRecyclerAdapter(context: Context, coordinatorLayout: CoordinatorLayout, baseViewModel: BaseViewModel) : ListBindAdapter() {
@@ -16,11 +16,11 @@ class MyTextRecyclerAdapter(context: Context, coordinatorLayout: CoordinatorLayo
         addAllBinder(cycleBinder, textUsageBinder)
     }
 
-    fun setCycle(cycle: Cycle) {
+    fun setCycle(cycle: CycleEntity) {
         getDataBinder<CycleBinder>(0).add(cycle)
     }
 
-    fun setTextUsage(textUsage: Usage) {
+    fun setTextUsage(textUsage: UsageEntity) {
         getDataBinder<TextIncomingOutgoingBinder>(1).add(textUsage)
     }
 }

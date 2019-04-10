@@ -9,14 +9,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.yqritc.recyclerviewmultipleviewtypesadapter.DataBindAdapter
 import com.yqritc.recyclerviewmultipleviewtypesadapter.DataBinder
 import ir.ipack.ehsan.local.ipack.R
-import ir.ipack.ehsan.local.ipack.data.Usage
+import ir.ipack.ehsan.local.ipack.data.db.entity.UsageEntity
 import ir.ipack.ehsan.local.ipack.utils.PlanConstants
 import kotlinx.android.synthetic.main.telco_usage_view.view.*
 
 class AppUsageBinder(context: Context, dataBindAdapter: DataBindAdapter) :
     DataBinder<AppUsageBinder.AppUsageViewHolder>(dataBindAdapter) {
 
-    private var mAppUsages: List<Usage> = ArrayList()
+    private var mAppUsages: List<UsageEntity> = ArrayList()
     private var mContext: Context = context
     private var mResources: Resources = context.resources
 
@@ -29,19 +29,21 @@ class AppUsageBinder(context: Context, dataBindAdapter: DataBindAdapter) :
             it.usageBottomLeftText.setFont(mContext, mResources.getString(R.string.roboto_regular))
             it.usageBottomLeftText.text = dataUsage.used.toString() + " " + PlanConstants.DATA_UNIT
             it.usageTopText.text = dataUsage.appName
-            it.usageImage.setImageResource(dataUsage.usageImage)
 
-            dataUsage.seekBarProgress = (dataUsage.used * 100 / dataUsage.limit).toInt()
+            dataUsage.usageImage?.let { dataUsageUsageImage ->
+                it.usageImage.setImageResource(dataUsageUsageImage)
+            }
 
             it.usageProgressBar.progress = dataUsage.seekBarProgress
+
             it.usageBottomRightText.setText(dataUsage.seekBarProgress.toString() + mResources.getString(R.string.percent_used))
 
             if (dataUsage.isUnlimited) {
-                it.usageProgressBar.setVisibility(View.GONE)
-                it.usageBottomLeftText.setTextSize(14f)
+                it.usageProgressBar.visibility = View.GONE
+                it.usageBottomLeftText.textSize = 14f
                 it.usageBottomLeftText.setTextColor(mResources.getColor(R.color.dark_gray))
                 it.usageBottomLeftText.setFont(mContext, mResources.getString(R.string.roboto_medium))
-                it.usageBottomRightText.setText(mResources.getString(R.string.unlimited_offer))
+                it.usageBottomRightText.text = mResources.getString(R.string.unlimited_offer)
             }
         }
     }
@@ -54,7 +56,7 @@ class AppUsageBinder(context: Context, dataBindAdapter: DataBindAdapter) :
         return AppUsageViewHolder(appUsageView)
     }
 
-    fun addAll(usages: List<Usage>) {
+    fun addAll(usages: List<UsageEntity>) {
         mAppUsages = usages
         notifyBinderDataSetChanged()
     }

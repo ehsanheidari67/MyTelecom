@@ -59,7 +59,12 @@ class DatabaseTest {
 
     @Test
     fun createAndRetrieveUsage() {
-        usageDao.insert(UsageEntity(total = 10, appName = "Facebook", used = 5.0))
+        usageDao.insert(
+            UsageEntity(
+                appName = "Facebook", imageName = "social_dark_gray", type = CycleTypeEnum.INTERNET, used = 0.75,
+                limit = 2, isUnlimited = false
+            )
+        )
         assertEquals("Facebook", usageDao.getAll().firstOrNull()?.appName)
     }
 
