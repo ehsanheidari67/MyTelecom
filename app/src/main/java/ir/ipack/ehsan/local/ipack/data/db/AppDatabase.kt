@@ -14,6 +14,7 @@ import ir.ipack.ehsan.local.ipack.data.db.entity.BasePlanEntity
 import ir.ipack.ehsan.local.ipack.data.db.entity.CycleEntity
 import ir.ipack.ehsan.local.ipack.data.db.entity.OfferEntity
 import ir.ipack.ehsan.local.ipack.data.db.entity.UsageEntity
+import ir.ipack.ehsan.local.ipack.data.source.local.DataPersistence
 import ir.ipack.ehsan.local.ipack.utils.CycleTypeEnum
 import ir.ipack.ehsan.local.ipack.utils.PlanConstants
 import java.util.concurrent.Executors
@@ -24,7 +25,7 @@ import java.util.concurrent.Executors
     exportSchema = false
 )
 @TypeConverters(Converters::class)
-abstract class AppDatabase : RoomDatabase() {
+abstract class AppDatabase : RoomDatabase(), DataPersistence {
     abstract fun basePlanDao(): BasePlanDao
     abstract fun cycleDao(): CycleDao
     abstract fun offerDao(): OfferDao
@@ -96,4 +97,6 @@ abstract class AppDatabase : RoomDatabase() {
             )
         }
     }
+
+    override fun getUsageByType(cycleTypeEnum: CycleTypeEnum) = usageDao().getByType(cycleTypeEnum)
 }

@@ -1,23 +1,18 @@
 package ir.ipack.ehsan.local.ipack.data.source.local
 
 import android.content.Context
-import com.squareup.moshi.Moshi
 import ir.ipack.ehsan.local.ipack.R
-import ir.ipack.ehsan.local.ipack.data.db.AppDatabase
 import ir.ipack.ehsan.local.ipack.data.db.entity.BasePlanEntity
 import ir.ipack.ehsan.local.ipack.data.db.entity.CycleEntity
 import ir.ipack.ehsan.local.ipack.data.db.entity.UsageEntity
 import ir.ipack.ehsan.local.ipack.data.source.DataSource
-import ir.ipack.ehsan.local.ipack.utils.AppAssets
 import ir.ipack.ehsan.local.ipack.utils.CycleTypeEnum
 import ir.ipack.ehsan.local.ipack.utils.PlanConstants
 import ir.ipack.ehsan.local.ipack.utils.UnitEnum
-import ir.ipack.ehsan.local.ipack.utils.jsonToList
 import rx.Observable
 import rx.subjects.PublishSubject
-import timber.log.Timber
 
-class LocalDataSource(private val db: AppDatabase, private val appAssets: AppAssets) : DataSource {
+class LocalDataSource(private val dataPersistence: DataPersistence) : DataSource {
     private val mBasePlan = BasePlanEntity()
 
     private val mBasePlanStream = PublishSubject.create<BasePlanEntity>()
@@ -116,20 +111,13 @@ class LocalDataSource(private val db: AppDatabase, private val appAssets: AppAss
         }
 
     private val talkUsage: List<UsageEntity>
-        get() = db.usageDao().getByType(CycleTypeEnum.TALK)
+        get() = dataPersistence.getUsageByType(CycleTypeEnum.TALK)
     private val textUsage: List<UsageEntity>
-        get() = db.usageDao().getByType(CycleTypeEnum.TEXT)
+        get() = dataPersistence.getUsageByType(CycleTypeEnum.TEXT)
     private val appUsage: List<UsageEntity>
-        get() = db.usageDao().getByType(CycleTypeEnum.INTERNET)
+        get() = dataPersistence.getUsageByType(CycleTypeEnum.INTERNET)
+}
 
-    private fun readUsageFromJson(filename: String): List<UsageEntity> {
-        return try {
-            with(Moshi.Builder().build()) {
-                jsonToList(appAssets.readAsString(appAssets.getFile(filename)), UsageEntity::class.java)
-            }
-        } catch (t: Throwable) {
-            Timber.e(t)
-            emptyList()
-        }
-    }
+interface DataPersistence {
+    fun getUsageByType(cycleTypeEnum: CycleTypeEnum): List<UsageEntity>
 }
