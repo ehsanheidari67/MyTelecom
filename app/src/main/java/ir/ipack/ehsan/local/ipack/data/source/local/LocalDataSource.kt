@@ -6,13 +6,15 @@ import ir.ipack.ehsan.local.ipack.data.db.entity.BasePlanEntity
 import ir.ipack.ehsan.local.ipack.data.db.entity.CycleEntity
 import ir.ipack.ehsan.local.ipack.data.db.entity.UsageEntity
 import ir.ipack.ehsan.local.ipack.data.source.DataSource
+import ir.ipack.ehsan.local.ipack.utils.AppExecutors
 import ir.ipack.ehsan.local.ipack.utils.CycleTypeEnum
 import ir.ipack.ehsan.local.ipack.utils.PlanConstants
 import ir.ipack.ehsan.local.ipack.utils.UnitEnum
 import rx.Observable
 import rx.subjects.PublishSubject
 
-class LocalDataSource(private val dataPersistence: DataPersistence) : DataSource {
+class LocalDataSource(private val dataPersistence: DataPersistence, private val appExecutors: AppExecutors) :
+    DataSource {
     private val mBasePlan = BasePlanEntity()
 
     private val mBasePlanStream = PublishSubject.create<BasePlanEntity>()
