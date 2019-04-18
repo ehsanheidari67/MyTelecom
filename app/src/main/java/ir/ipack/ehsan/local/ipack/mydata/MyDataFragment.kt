@@ -55,6 +55,11 @@ class MyDataFragment : Fragment() {
                 mDataAdapter.setCycle(it)
             }
 
+        mViewModel.getUsagesStreamLive().observe(::getLifecycle) {
+            println("Observing Live Data" + it)
+        }
+
+
         mViewModel.getUsagesStream()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

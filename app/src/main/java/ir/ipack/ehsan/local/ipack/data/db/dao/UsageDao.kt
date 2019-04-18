@@ -1,5 +1,6 @@
 package ir.ipack.ehsan.local.ipack.data.db.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
@@ -13,6 +14,9 @@ interface UsageDao {
 
     @Query("select * from usage where type=:cycleType")
     fun getByType(cycleType: CycleTypeEnum): List<UsageEntity>
+
+    @Query("select * from usage where type=:cycleType")
+    fun getByTypeLive(cycleType: CycleTypeEnum): LiveData<List<UsageEntity>>
 
     @Insert
     fun insert(usageEntity: UsageEntity)
