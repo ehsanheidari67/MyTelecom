@@ -1,6 +1,7 @@
 package ir.ipack.ehsan.local.ipack.data.source
 
 import android.content.Context
+import androidx.lifecycle.LiveData
 import ir.ipack.ehsan.local.ipack.data.db.entity.BasePlanEntity
 import ir.ipack.ehsan.local.ipack.data.db.entity.CycleEntity
 import ir.ipack.ehsan.local.ipack.data.db.entity.UsageEntity
@@ -30,6 +31,9 @@ class Repository(private val localDataSource: LocalDataSource) : DataSource {
     override fun getUsagesStream(context: Context): Observable<UsageEntity> = localDataSource.getUsagesStream(context)
     override fun getTalkUsageStream(): Observable<UsageEntity> = localDataSource.getTalkUsageStream()
     override fun getTextUsageStream(): Observable<UsageEntity> = localDataSource.getTextUsageStream()
+
+    override fun getUsagesStreamLive(context: Context): LiveData<List<UsageEntity>> =
+        localDataSource.getUsagesStreamLive(context)
 
     override fun updateBaseCost(changeAmount: Int) = localDataSource.updateBaseCost(changeAmount)
 }

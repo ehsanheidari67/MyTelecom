@@ -1,6 +1,7 @@
 package ir.ipack.ehsan.local.ipack.data.source.local
 
 import android.content.Context
+import androidx.lifecycle.LiveData
 import ir.ipack.ehsan.local.ipack.R
 import ir.ipack.ehsan.local.ipack.data.db.entity.BasePlanEntity
 import ir.ipack.ehsan.local.ipack.data.db.entity.CycleEntity
@@ -15,6 +16,7 @@ import rx.subjects.PublishSubject
 
 class LocalDataSource(private val dataPersistence: DataPersistence, private val appExecutors: AppExecutors) :
     DataSource {
+
     private val mBasePlan = BasePlanEntity()
 
     private val mBasePlanStream = PublishSubject.create<BasePlanEntity>()
@@ -35,6 +37,10 @@ class LocalDataSource(private val dataPersistence: DataPersistence, private val 
     override fun getTalkUsageStream(): Observable<UsageEntity> = Observable.just(createTalkUsage())
 
     override fun getTextUsageStream(): Observable<UsageEntity> = Observable.just(createTextUsage())
+
+    override fun getUsagesStreamLive(context: Context): LiveData<List<UsageEntity>> {
+        return appUsageLive
+    }
 
     private fun getDataCycle(): CycleEntity =
         mDataCycle ?: CycleEntity(
@@ -118,8 +124,16 @@ class LocalDataSource(private val dataPersistence: DataPersistence, private val 
         get() = dataPersistence.getUsageByType(CycleTypeEnum.TEXT)
     private val appUsage: List<UsageEntity>
         get() = dataPersistence.getUsageByType(CycleTypeEnum.INTERNET)
+
+    private val talkUsageLive: LiveData<List<UsageEntity>>
+        get() = dataPersistence.getUsageByTypeLive(CycleTypeEnum.TALK)
+    private val textUsageLive: LiveData<List<UsageEntity>>
+        get() = dataPersistence.getUsageByTypeLive(CycleTypeEnum.TEXT)
+    private val appUsageLive: LiveData<List<UsageEntity>>
+        get() = dataPersistence.getUsageByTypeLive(CycleTypeEnum.INTERNET)
 }
 
 interface DataPersistence {
     fun getUsageByType(cycleTypeEnum: CycleTypeEnum): List<UsageEntity>
+    fun getUsageByTypeLive(cycleTypeEnum: CycleTypeEnum): LiveData<List<UsageEntity>>
 }
