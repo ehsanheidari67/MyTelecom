@@ -2,7 +2,6 @@ package ir.ipack.ehsan.local.ipack.mydata
 
 import android.app.Application
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
 import ir.ipack.ehsan.local.ipack.BaseViewModel
 import ir.ipack.ehsan.local.ipack.data.db.entity.CycleEntity
 import ir.ipack.ehsan.local.ipack.data.db.entity.UsageEntity
@@ -21,14 +20,15 @@ class MyDataViewModel(
     fun getUsagesStream() = repository.getUsagesStream(context)
 
     fun getUsagesStreamLive(): LiveData<List<UsageEntity>> {
-        return Transformations.map(usagesLive) {
-            it.map {
-                it.usageImage = 12
-                it
-            }
-        }.also {
-            presentationUsagesLive = it
-        }
+        return usagesLive
+//        return Transformations.map(usagesLive) {
+//            it.map {
+//                it.usageImage = 12
+//                it
+//            }
+//        }.also {
+//            presentationUsagesLive = it
+//        }
     }
 
     fun updateDataCycle(cycle: CycleEntity) = repository.updateDataCycle(cycle)

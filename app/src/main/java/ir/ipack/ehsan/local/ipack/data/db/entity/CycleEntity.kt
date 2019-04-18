@@ -7,7 +7,7 @@ import ir.ipack.ehsan.local.ipack.utils.CycleTypeEnum
 import ir.ipack.ehsan.local.ipack.utils.UnitEnum
 
 @Entity(tableName = "cycle")
-class CycleEntity(
+data class CycleEntity(
     @PrimaryKey @ColumnInfo(name = "type") val type: CycleTypeEnum?,
     @ColumnInfo(name = "unit") val unit: UnitEnum?,
     @ColumnInfo(name = "cycle_image") val cycleImage: Int?,

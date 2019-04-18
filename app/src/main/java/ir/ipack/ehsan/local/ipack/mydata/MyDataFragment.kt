@@ -56,17 +56,8 @@ class MyDataFragment : Fragment() {
             }
 
         mViewModel.getUsagesStreamLive().observe(::getLifecycle) {
-            println("Observing Live Data" + it)
+            mDataAdapter.setAppUsage(it)
         }
-
-
-        mViewModel.getUsagesStream()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .toList()
-            .subscribe {
-                mDataAdapter.setAppUsage(it)
-            }
     }
 
     private fun initialDataRecyclerList() {

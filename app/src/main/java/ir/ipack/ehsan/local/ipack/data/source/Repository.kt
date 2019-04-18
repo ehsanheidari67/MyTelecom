@@ -35,6 +35,5 @@ class Repository(private val localDataSource: LocalDataSource) : DataSource {
     override fun getUsagesStreamLive(context: Context): LiveData<List<UsageEntity>> =
         localDataSource.getUsagesStreamLive(context)
 
-
     override fun updateBaseCost(changeAmount: Int) = localDataSource.updateBaseCost(changeAmount)
 }

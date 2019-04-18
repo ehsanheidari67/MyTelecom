@@ -1,6 +1,7 @@
 package ir.ipack.ehsan.local.ipack.data.db
 
 import android.content.Context
+import androidx.lifecycle.LiveData
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -99,4 +100,6 @@ abstract class AppDatabase : RoomDatabase(), DataPersistence {
     }
 
     override fun getUsageByType(cycleTypeEnum: CycleTypeEnum) = usageDao().getByType(cycleTypeEnum)
+    override fun getUsageByTypeLive(cycleTypeEnum: CycleTypeEnum): LiveData<List<UsageEntity>> =
+        usageDao().getByTypeLive(cycleTypeEnum)
 }

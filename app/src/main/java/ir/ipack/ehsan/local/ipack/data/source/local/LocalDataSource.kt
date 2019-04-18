@@ -42,7 +42,6 @@ class LocalDataSource(private val dataPersistence: DataPersistence, private val 
         return appUsageLive
     }
 
-
     private fun getDataCycle(): CycleEntity =
         mDataCycle ?: CycleEntity(
             CycleTypeEnum.INTERNET, UnitEnum.GB, R.drawable.data_dark_gray, PlanConstants.INITIAL_USED_DATA.toDouble(),
