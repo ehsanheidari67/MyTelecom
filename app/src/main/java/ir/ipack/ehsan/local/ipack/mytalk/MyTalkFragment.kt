@@ -30,7 +30,8 @@ class MyTalkFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         mViewModel = ViewModelProviders.of(this, ViewModelFactory.getInstance(activity!!.application)).get(
-            MyTalkViewModel::class.java)
+            MyTalkViewModel::class.java
+        )
 
         setupListAdapter()
         subscribeToModels()
@@ -52,11 +53,10 @@ class MyTalkFragment : Fragment() {
                 mTalkAdapter.setCycle(it)
             }
 
-        mViewModel.getTalkUsageStream()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
+        mViewModel.getTalkUsageStreamLive().observe(::getLifecycle) { usageEntitiy ->
+            usageEntitiy?.let {
                 mTalkAdapter.setTalkUsage(it)
             }
+        }
     }
 }
