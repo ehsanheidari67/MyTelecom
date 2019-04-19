@@ -12,28 +12,11 @@ class MyDataViewModel(
     private val repository: Repository
 ) : BaseViewModel(context) {
 
-    private val usagesLive = repository.getUsagesStreamLive(context)
-    private var presentationUsagesLive: LiveData<List<UsageEntity>>? = null
-
     fun getDataCycleStream() = repository.getDataCycleStream()
 
-    fun getUsagesStream() = repository.getUsagesStream(context)
-
-    fun getUsagesStreamLive(): LiveData<List<UsageEntity>> {
-        return usagesLive
-//        return Transformations.map(usagesLive) {
-//            it.map {
-//                it.usageImage = 12
-//                it
-//            }
-//        }.also {
-//            presentationUsagesLive = it
-//        }
-    }
+    fun getUsagesStreamLive(): LiveData<List<UsageEntity>> = repository.getUsagesStreamLive()
 
     fun updateDataCycle(cycle: CycleEntity) = repository.updateDataCycle(cycle)
 
-    override fun updateBaseCost(changeAmount: Int) {
-        repository.updateBaseCost(changeAmount)
-    }
+    override fun updateBaseCost(changeAmount: Int) = repository.updateBaseCost(changeAmount)
 }

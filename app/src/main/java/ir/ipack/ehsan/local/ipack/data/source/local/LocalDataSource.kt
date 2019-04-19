@@ -1,6 +1,5 @@
 package ir.ipack.ehsan.local.ipack.data.source.local
 
-import android.content.Context
 import androidx.lifecycle.LiveData
 import ir.ipack.ehsan.local.ipack.R
 import ir.ipack.ehsan.local.ipack.data.db.entity.BasePlanEntity
@@ -28,17 +27,15 @@ class LocalDataSource(private val dataPersistence: DataPersistence, private val 
     private var mTextCycle: CycleEntity? = null
     private val mTextCycleStream = PublishSubject.create<CycleEntity>()
 
-    private var mAppUsages: List<UsageEntity>? = null
-    private var mTalkUsage: UsageEntity? = null
-    private var mTextUsage: UsageEntity? = null
+    override fun getTalkUsageStreamLive(): LiveData<List<UsageEntity>> {
+        return talkUsageLive
+    }
 
-    override fun getUsagesStream(context: Context): Observable<UsageEntity> = Observable.from(createUsages(context))
+    override fun getTextUsageStreamLive(): LiveData<List<UsageEntity>> {
+        return textUsageLive
+    }
 
-    override fun getTalkUsageStream(): Observable<UsageEntity> = Observable.just(createTalkUsage())
-
-    override fun getTextUsageStream(): Observable<UsageEntity> = Observable.just(createTextUsage())
-
-    override fun getUsagesStreamLive(context: Context): LiveData<List<UsageEntity>> {
+    override fun getUsagesStreamLive(): LiveData<List<UsageEntity>> {
         return appUsageLive
     }
 
@@ -92,39 +89,6 @@ class LocalDataSource(private val dataPersistence: DataPersistence, private val 
         mBasePlanStream.onNext(mBasePlan)
     }
 
-    private fun createUsages(context: Context): List<UsageEntity>? =
-        mAppUsages ?: run {
-            appUsage.map { usage ->
-                usage.apply {
-                    val resId = context.resources.getIdentifier(usage.imageName, "drawable", context.packageName)
-                    usage.usageImage = resId
-                }
-            }.also {
-                mAppUsages = it
-            }
-        }
-
-    private fun createTalkUsage(): UsageEntity? =
-        mTalkUsage ?: run {
-            talkUsage.firstOrNull().also {
-                mTalkUsage = it
-            }
-        }
-
-    private fun createTextUsage(): UsageEntity? =
-        mTextUsage ?: run {
-            textUsage.firstOrNull().also {
-                mTextUsage = it
-            }
-        }
-
-    private val talkUsage: List<UsageEntity>
-        get() = dataPersistence.getUsageByType(CycleTypeEnum.TALK)
-    private val textUsage: List<UsageEntity>
-        get() = dataPersistence.getUsageByType(CycleTypeEnum.TEXT)
-    private val appUsage: List<UsageEntity>
-        get() = dataPersistence.getUsageByType(CycleTypeEnum.INTERNET)
-
     private val talkUsageLive: LiveData<List<UsageEntity>>
         get() = dataPersistence.getUsageByTypeLive(CycleTypeEnum.TALK)
     private val textUsageLive: LiveData<List<UsageEntity>>
@@ -134,6 +98,5 @@ class LocalDataSource(private val dataPersistence: DataPersistence, private val 
 }
 
 interface DataPersistence {
-    fun getUsageByType(cycleTypeEnum: CycleTypeEnum): List<UsageEntity>
     fun getUsageByTypeLive(cycleTypeEnum: CycleTypeEnum): LiveData<List<UsageEntity>>
 }

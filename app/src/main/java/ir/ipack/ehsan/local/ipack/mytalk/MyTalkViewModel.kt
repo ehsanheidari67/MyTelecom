@@ -1,6 +1,7 @@
 package ir.ipack.ehsan.local.ipack.mytalk
 
 import android.app.Application
+import androidx.lifecycle.Transformations
 import ir.ipack.ehsan.local.ipack.BaseViewModel
 import ir.ipack.ehsan.local.ipack.data.db.entity.CycleEntity
 import ir.ipack.ehsan.local.ipack.data.source.Repository
@@ -12,7 +13,9 @@ class MyTalkViewModel(
 
     fun getTalkCycleStream() = repository.getTalkCycleStream()
 
-    fun getTalkUsageStream() = repository.getTalkUsageStream()
+    fun getTalkUsageStreamLive() = Transformations.map(repository.getTalkUsageStreamLive()) {
+        it.firstOrNull()
+    }
 
     fun updateTalkCycle(cycle: CycleEntity) = repository.updateTalkCycle(cycle)
 

@@ -53,11 +53,10 @@ class MyTextFragment : Fragment() {
                 mTextAdapter.setCycle(it)
             }
 
-        mViewModel.getTextUsageStream()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
+        mViewModel.getTextUsageStreamLive().observe(::getLifecycle) { usageEntity ->
+            usageEntity?.let {
                 mTextAdapter.setTextUsage(it)
             }
+        }
     }
 }

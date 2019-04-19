@@ -13,9 +13,6 @@ interface UsageDao {
     fun getAll(): List<UsageEntity>
 
     @Query("select * from usage where type=:cycleType")
-    fun getByType(cycleType: CycleTypeEnum): List<UsageEntity>
-
-    @Query("select * from usage where type=:cycleType")
     fun getByTypeLive(cycleType: CycleTypeEnum): LiveData<List<UsageEntity>>
 
     @Insert

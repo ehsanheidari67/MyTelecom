@@ -99,7 +99,6 @@ abstract class AppDatabase : RoomDatabase(), DataPersistence {
         }
     }
 
-    override fun getUsageByType(cycleTypeEnum: CycleTypeEnum) = usageDao().getByType(cycleTypeEnum)
     override fun getUsageByTypeLive(cycleTypeEnum: CycleTypeEnum): LiveData<List<UsageEntity>> =
         usageDao().getByTypeLive(cycleTypeEnum)
 }
