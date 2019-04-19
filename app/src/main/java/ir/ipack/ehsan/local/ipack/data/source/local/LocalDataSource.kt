@@ -16,13 +16,6 @@ class LocalDataSource(private val dataPersistence: DataPersistence, private val 
     private val mBasePlan = BasePlanEntity()
 
     private val mBasePlanStream = PublishSubject.create<BasePlanEntity>()
-    private var mDataCycle: CycleEntity? = null
-
-    private val mDataCycleStream = PublishSubject.create<CycleEntity>()
-    private var mTalkCycle: CycleEntity? = null
-    private val mTalkCycleStream = PublishSubject.create<CycleEntity>()
-    private var mTextCycle: CycleEntity? = null
-    private val mTextCycleStream = PublishSubject.create<CycleEntity>()
 
     override fun getTalkUsageStreamLive(): LiveData<List<UsageEntity>> {
         return talkUsageLive
@@ -49,18 +42,15 @@ class LocalDataSource(private val dataPersistence: DataPersistence, private val 
         Observable.merge(Observable.just(mBasePlan), mBasePlanStream)
 
     override fun updateDataCycle(cycle: CycleEntity) {
-        mDataCycle = cycle
-        mDataCycleStream.onNext(cycle)
+        dataPersistence.setCycle(cycle)
     }
 
     override fun updateTalkCycle(cycle: CycleEntity) {
-        mTalkCycle = cycle
-        mTalkCycleStream.onNext(cycle)
+        dataPersistence.setCycle(cycle)
     }
 
     override fun updateTextCycle(cycle: CycleEntity) {
-        mTextCycle = cycle
-        mTextCycleStream.onNext(cycle)
+        dataPersistence.setCycle(cycle)
     }
 
     override fun updateBaseCost(changeAmount: Int) {
@@ -79,4 +69,5 @@ class LocalDataSource(private val dataPersistence: DataPersistence, private val 
 interface DataPersistence {
     fun getUsageByTypeLive(cycleTypeEnum: CycleTypeEnum): LiveData<List<UsageEntity>>
     fun getCycleByTypeLive(cycleTypeEnum: CycleTypeEnum): LiveData<List<CycleEntity>>
+    fun setCycle(cycle: CycleEntity)
 }
