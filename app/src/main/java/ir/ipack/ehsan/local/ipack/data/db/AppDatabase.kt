@@ -125,4 +125,8 @@ abstract class AppDatabase : RoomDatabase(), DataPersistence {
 
     override fun getCycleByTypeLive(cycleTypeEnum: CycleTypeEnum): LiveData<List<CycleEntity>> =
         cycleDao().getCycleByType(cycleTypeEnum)
+
+    override fun setCycle(cycle: CycleEntity) {
+        cycleDao().insert(cycle)
+    }
 }
