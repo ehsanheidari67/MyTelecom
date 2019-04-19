@@ -9,9 +9,9 @@ import rx.Observable
 interface DataSource {
     fun getBasePlanStreams(): Observable<BasePlanEntity>
 
-    fun getDataCycleStream(): Observable<CycleEntity>
-    fun getTalkCycleStream(): Observable<CycleEntity>
-    fun getTextCycleStream(): Observable<CycleEntity>
+    fun getDataCycleStreamLive(): LiveData<List<CycleEntity>>
+    fun getTalkCycleStreamLive(): LiveData<List<CycleEntity>>
+    fun getTextCycleStreamLive(): LiveData<List<CycleEntity>>
 
     fun updateDataCycle(cycle: CycleEntity)
     fun updateTalkCycle(cycle: CycleEntity)

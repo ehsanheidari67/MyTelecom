@@ -11,7 +11,9 @@ class MyTalkViewModel(
     private val repository: Repository
 ) : BaseViewModel(context) {
 
-    fun getTalkCycleStream() = repository.getTalkCycleStream()
+    fun getTalkCycleStreamLive() = Transformations.map(repository.getTalkCycleStreamLive()) {
+        it.firstOrNull()
+    }
 
     fun getTalkUsageStreamLive() = Transformations.map(repository.getTalkUsageStreamLive()) {
         it.firstOrNull()
