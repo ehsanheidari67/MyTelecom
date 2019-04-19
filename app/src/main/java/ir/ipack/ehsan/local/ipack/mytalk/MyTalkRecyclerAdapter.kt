@@ -9,7 +9,8 @@ import ir.ipack.ehsan.local.ipack.data.db.entity.CycleEntity
 import ir.ipack.ehsan.local.ipack.data.db.entity.UsageEntity
 import ir.ipack.ehsan.local.ipack.mytalk.binders.TalkIncomingOutgoingBinder
 
-class MyTalkRecyclerAdapter(context: Context, coordinatorLayout: CoordinatorLayout, baseViewModel: BaseViewModel) : ListBindAdapter() {
+class MyTalkRecyclerAdapter(context: Context, coordinatorLayout: CoordinatorLayout, baseViewModel: BaseViewModel) :
+    ListBindAdapter() {
     init {
         val cycleBinder = CycleBinder(context, this, coordinatorLayout, baseViewModel)
         val talkUsageBinder = TalkIncomingOutgoingBinder(this)

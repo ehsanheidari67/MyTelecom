@@ -45,23 +45,20 @@ class MyPlanFragment : Fragment() {
                 mPlanAdapter.setBasePlanInfo(it)
             }
 
-        mViewModel.getDataCycleStream()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
+        mViewModel.getDataCycleStreamLive().observe(::getLifecycle) { cycleEntity ->
+            cycleEntity?.let {
                 mPlanAdapter.setDataCycle(it)
             }
-        mViewModel.getTalkCycleStream()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
+        }
+        mViewModel.getTalkCycleStreamLive().observe(::getLifecycle) { cycleEntity ->
+            cycleEntity?.let {
                 mPlanAdapter.setTalkCycle(it)
             }
-        mViewModel.getTextCycleStream()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
+        }
+        mViewModel.getTextCycleStreamLive().observe(::getLifecycle) { cycleEntity ->
+            cycleEntity?.let {
                 mPlanAdapter.setTextCycle(it)
             }
+        }
     }
 }

@@ -39,6 +39,12 @@ class TextIncomingOutgoingBinder(context: Context, dataBindAdapter: DataBindAdap
 
                 it.incomingBar.setBottomRightText(usage.incoming.toString() + " " + PlanConstants.TEXT_UNIT)
                 it.outgoingBar.setBottomRightText(usage.outgoing.toString() + " " + PlanConstants.TEXT_UNIT)
+
+                if (usage.total != null && usage.incoming != null && usage.outgoing != null) {
+                    it.incomingBar.setPercentUsed(usage.incoming * 100 / usage.total)
+                    it.outgoingBar.setPercentUsed(usage.outgoing * 100 / usage.total)
+                }
+
             }
         }
     }

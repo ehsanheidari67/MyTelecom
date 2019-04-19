@@ -8,11 +8,14 @@ import ir.ipack.ehsan.local.ipack.data.source.local.LocalDataSource
 import rx.Observable
 
 class Repository(private val localDataSource: LocalDataSource) : DataSource {
+
     override fun getBasePlanStreams(): Observable<BasePlanEntity> = localDataSource.getBasePlanStreams()
 
-    override fun getDataCycleStream(): Observable<CycleEntity> = localDataSource.getDataCycleStream()
-    override fun getTalkCycleStream(): Observable<CycleEntity> = localDataSource.getTalkCycleStream()
-    override fun getTextCycleStream(): Observable<CycleEntity> = localDataSource.getTextCycleStream()
+    override fun getDataCycleStreamLive(): LiveData<List<CycleEntity>> = localDataSource.getDataCycleStreamLive()
+
+    override fun getTalkCycleStreamLive(): LiveData<List<CycleEntity>> = localDataSource.getTalkCycleStreamLive()
+
+    override fun getTextCycleStreamLive(): LiveData<List<CycleEntity>> = localDataSource.getTextCycleStreamLive()
 
     override fun updateDataCycle(cycle: CycleEntity) {
         localDataSource.updateDataCycle(cycle)

@@ -14,8 +14,6 @@ import ir.ipack.ehsan.local.ipack.activities.MainActivity
 import ir.ipack.ehsan.local.ipack.utils.RecyclerDivider
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_my_data.view.*
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
 
 class MyDataFragment : Fragment() {
     private lateinit var mDataAdapter: MyDataRecyclerAdapter
@@ -48,12 +46,12 @@ class MyDataFragment : Fragment() {
     }
 
     private fun subscribeToModels() {
-        mViewModel.getDataCycleStream()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
+
+        mViewModel.getDataCycleStreamLive().observe(::getLifecycle) { cycleEntity ->
+            cycleEntity?.let {
                 mDataAdapter.setCycle(it)
             }
+        }
 
         mViewModel.getUsagesStreamLive().observe(::getLifecycle) {
             mDataAdapter.setAppUsage(it)

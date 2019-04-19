@@ -11,7 +11,9 @@ class MyTextViewModel(
     private val repository: Repository
 ) : BaseViewModel(context) {
 
-    fun getTextCycleStream() = repository.getTextCycleStream()
+    fun getTextCycleStreamLive() = Transformations.map(repository.getTextCycleStreamLive()) {
+        it.firstOrNull()
+    }
 
     fun getTextUsageStreamLive() = Transformations.map(repository.getTextUsageStreamLive()) {
         it.firstOrNull()
