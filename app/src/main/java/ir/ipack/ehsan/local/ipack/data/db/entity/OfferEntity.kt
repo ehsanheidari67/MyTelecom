@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import java.util.UUID
 
 @Entity(tableName = "offer")
-class OfferEntity(
+data class OfferEntity(
     @PrimaryKey @ColumnInfo(name = "offer_id") val offerId: String = UUID.randomUUID().toString(),
     @ColumnInfo(name = "title") val title: String?,
     @ColumnInfo(name = "body") val body: String?,

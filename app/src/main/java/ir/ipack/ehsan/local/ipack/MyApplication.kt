@@ -4,6 +4,7 @@ import android.app.Application
 import ir.ipack.ehsan.local.ipack.data.db.AppDatabase
 import ir.ipack.ehsan.local.ipack.data.source.Repository
 import ir.ipack.ehsan.local.ipack.data.source.local.LocalDataSource
+import ir.ipack.ehsan.local.ipack.utils.AppExecutors
 import timber.log.Timber
 import timber.log.Timber.DebugTree
 

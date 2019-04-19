@@ -13,8 +13,6 @@ import ir.ipack.ehsan.local.ipack.ViewModelFactory
 import ir.ipack.ehsan.local.ipack.activities.MainActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_text.view.*
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
 
 class MyTextFragment : Fragment() {
     private lateinit var mTextAdapter: MyTextRecyclerAdapter
@@ -46,18 +44,16 @@ class MyTextFragment : Fragment() {
     }
 
     private fun subscribeToModels() {
-        mViewModel.getTextCycleStream()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
+        mViewModel.getTextCycleStreamLive().observe(::getLifecycle) { cycleEntity ->
+            cycleEntity?.let {
                 mTextAdapter.setCycle(it)
             }
+        }
 
-        mViewModel.getTextUsageStream()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
+        mViewModel.getTextUsageStreamLive().observe(::getLifecycle) { usageEntity ->
+            usageEntity?.let {
                 mTextAdapter.setTextUsage(it)
             }
+        }
     }
 }

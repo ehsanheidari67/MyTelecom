@@ -13,8 +13,6 @@ import ir.ipack.ehsan.local.ipack.ViewModelFactory
 import ir.ipack.ehsan.local.ipack.activities.MainActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_talk.view.*
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
 
 class MyTalkFragment : Fragment() {
     private lateinit var mTalkAdapter: MyTalkRecyclerAdapter
@@ -30,7 +28,8 @@ class MyTalkFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         mViewModel = ViewModelProviders.of(this, ViewModelFactory.getInstance(activity!!.application)).get(
-            MyTalkViewModel::class.java)
+            MyTalkViewModel::class.java
+        )
 
         setupListAdapter()
         subscribeToModels()
@@ -45,18 +44,16 @@ class MyTalkFragment : Fragment() {
     }
 
     private fun subscribeToModels() {
-        mViewModel.getTalkCycleStream()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
+        mViewModel.getTalkCycleStreamLive().observe(::getLifecycle) { cycleEntity ->
+            cycleEntity?.let {
                 mTalkAdapter.setCycle(it)
             }
+        }
 
-        mViewModel.getTalkUsageStream()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
+        mViewModel.getTalkUsageStreamLive().observe(::getLifecycle) { usageEntitiy ->
+            usageEntitiy?.let {
                 mTalkAdapter.setTalkUsage(it)
             }
+        }
     }
 }

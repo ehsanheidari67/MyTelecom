@@ -12,8 +12,6 @@ import ir.ipack.ehsan.local.ipack.ViewModelFactory
 import ir.ipack.ehsan.local.ipack.activities.MainActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_my_plan.view.*
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
 
 class MyPlanFragment : Fragment() {
 
@@ -32,36 +30,33 @@ class MyPlanFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        mViewModel = ViewModelProviders.of(this, ViewModelFactory.getInstance(activity!!.application)).get(MyPlanViewModel::class.java)
+        mViewModel = ViewModelProviders.of(this, ViewModelFactory.getInstance(activity!!.application))
+            .get(MyPlanViewModel::class.java)
 
         subscribeToModels()
     }
 
     private fun subscribeToModels() {
-        mViewModel.getPlanStream()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
+        mViewModel.getPlanStreamLive().observe(::getLifecycle) { basePlanEntity ->
+            basePlanEntity?.let {
                 mPlanAdapter.setBasePlanInfo(it)
             }
+        }
 
-        mViewModel.getDataCycleStream()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
+        mViewModel.getDataCycleStreamLive().observe(::getLifecycle) { cycleEntity ->
+            cycleEntity?.let {
                 mPlanAdapter.setDataCycle(it)
             }
-        mViewModel.getTalkCycleStream()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
+        }
+        mViewModel.getTalkCycleStreamLive().observe(::getLifecycle) { cycleEntity ->
+            cycleEntity?.let {
                 mPlanAdapter.setTalkCycle(it)
             }
-        mViewModel.getTextCycleStream()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
+        }
+        mViewModel.getTextCycleStreamLive().observe(::getLifecycle) { cycleEntity ->
+            cycleEntity?.let {
                 mPlanAdapter.setTextCycle(it)
             }
+        }
     }
 }

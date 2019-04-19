@@ -1,11 +1,13 @@
 package ir.ipack.ehsan.local.ipack.data.db
 
 import android.content.Context
+import androidx.lifecycle.LiveData
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
+import ir.ipack.ehsan.local.ipack.R
 import ir.ipack.ehsan.local.ipack.data.db.dao.BasePlanDao
 import ir.ipack.ehsan.local.ipack.data.db.dao.CycleDao
 import ir.ipack.ehsan.local.ipack.data.db.dao.OfferDao
@@ -17,6 +19,7 @@ import ir.ipack.ehsan.local.ipack.data.db.entity.UsageEntity
 import ir.ipack.ehsan.local.ipack.data.source.local.DataPersistence
 import ir.ipack.ehsan.local.ipack.utils.CycleTypeEnum
 import ir.ipack.ehsan.local.ipack.utils.PlanConstants
+import ir.ipack.ehsan.local.ipack.utils.UnitEnum
 import java.util.concurrent.Executors
 
 @Database(
@@ -51,7 +54,7 @@ abstract class AppDatabase : RoomDatabase(), DataPersistence {
                 override fun onCreate(db: SupportSQLiteDatabase) {
                     super.onCreate(db)
                     Executors.newSingleThreadExecutor().execute {
-                        AppDatabase.getInstance(context).apply {
+                        getInstance(context).apply {
                             initialDb(this)
                         }
                     }
@@ -95,8 +98,45 @@ abstract class AppDatabase : RoomDatabase(), DataPersistence {
                     limit = 2, isUnlimited = false
                 )
             )
+
+            db.cycleDao().insert(
+                CycleEntity(
+                    CycleTypeEnum.INTERNET, UnitEnum.GB, R.drawable.data_dark_gray,
+                    PlanConstants.INITIAL_USED_DATA.toDouble(), PlanConstants.INITIAL_DATA_AMOUNT
+                )
+            )
+            db.cycleDao().insert(
+                CycleEntity(
+                    CycleTypeEnum.TALK, UnitEnum.MIN, R.drawable.talk_dark_gray,
+                    PlanConstants.INITIAL_USED_TALK.toDouble(), PlanConstants.INITIAL_TALK_AMOUNT
+                )
+            )
+            db.cycleDao().insert(
+                CycleEntity(
+                    CycleTypeEnum.TEXT, UnitEnum.SMS, R.drawable.text_dark_gray,
+                    PlanConstants.INITIAL_USED_TEXT.toDouble(), PlanConstants.INITIAL_TEXT_AMOUNT
+                )
+            )
         }
     }
 
-    override fun getUsageByType(cycleTypeEnum: CycleTypeEnum) = usageDao().getByType(cycleTypeEnum)
+    override fun getUsageByTypeLive(cycleTypeEnum: CycleTypeEnum): LiveData<List<UsageEntity>> =
+        usageDao().getByTypeLive(cycleTypeEnum)
+
+    override fun getCycleByTypeLive(cycleTypeEnum: CycleTypeEnum): LiveData<List<CycleEntity>> =
+        cycleDao().getCycleByType(cycleTypeEnum)
+
+    override fun setCycle(cycle: CycleEntity) {
+        cycleDao().insert(cycle)
+    }
+
+    override fun getBasePlan(): LiveData<List<BasePlanEntity>> = basePlanDao().getBasePlanLive()
+
+    override fun setBasePlan(basePlanEntity: BasePlanEntity) {
+        basePlanDao().insertBasePlan(basePlanEntity)
+    }
+
+    override fun updateBasePlan(changeAmount: Int) {
+        basePlanDao().updateBasePlan(changeAmount)
+    }
 }
