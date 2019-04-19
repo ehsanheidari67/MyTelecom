@@ -3,16 +3,16 @@ package ir.ipack.ehsan.local.ipack.myplan
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.Transformations
-import ir.ipack.ehsan.local.ipack.data.db.entity.BasePlanEntity
 import ir.ipack.ehsan.local.ipack.data.source.Repository
-import rx.Observable
 
 class MyPlanViewModel(
     context: Application,
     private val repository: Repository
 ) : AndroidViewModel(context) {
 
-    fun getPlanStream(): Observable<BasePlanEntity> = repository.getBasePlanStreams()
+    fun getPlanStreamLive() = Transformations.map(repository.getBasePlanStreamLive()) {
+        it.firstOrNull()
+    }
 
     fun getDataCycleStreamLive() = Transformations.map(repository.getDataCycleStreamLive()) {
         it.firstOrNull()

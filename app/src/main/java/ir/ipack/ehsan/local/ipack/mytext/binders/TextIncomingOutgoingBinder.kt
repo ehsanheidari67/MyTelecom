@@ -44,7 +44,6 @@ class TextIncomingOutgoingBinder(context: Context, dataBindAdapter: DataBindAdap
                     it.incomingBar.setPercentUsed(usage.incoming * 100 / usage.total)
                     it.outgoingBar.setPercentUsed(usage.outgoing * 100 / usage.total)
                 }
-
             }
         }
     }

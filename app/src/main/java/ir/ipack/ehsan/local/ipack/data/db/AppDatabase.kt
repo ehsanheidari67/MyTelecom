@@ -129,4 +129,14 @@ abstract class AppDatabase : RoomDatabase(), DataPersistence {
     override fun setCycle(cycle: CycleEntity) {
         cycleDao().insert(cycle)
     }
+
+    override fun getBasePlan(): LiveData<List<BasePlanEntity>> = basePlanDao().getBasePlanLive()
+
+    override fun setBasePlan(basePlanEntity: BasePlanEntity) {
+        basePlanDao().insertBasePlan(basePlanEntity)
+    }
+
+    override fun updateBasePlan(changeAmount: Int) {
+        basePlanDao().updateBasePlan(changeAmount)
+    }
 }

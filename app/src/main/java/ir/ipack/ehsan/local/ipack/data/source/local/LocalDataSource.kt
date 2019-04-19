@@ -5,17 +5,10 @@ import ir.ipack.ehsan.local.ipack.data.db.entity.BasePlanEntity
 import ir.ipack.ehsan.local.ipack.data.db.entity.CycleEntity
 import ir.ipack.ehsan.local.ipack.data.db.entity.UsageEntity
 import ir.ipack.ehsan.local.ipack.data.source.DataSource
-import ir.ipack.ehsan.local.ipack.utils.AppExecutors
 import ir.ipack.ehsan.local.ipack.utils.CycleTypeEnum
-import rx.Observable
-import rx.subjects.PublishSubject
 
-class LocalDataSource(private val dataPersistence: DataPersistence, private val appExecutors: AppExecutors) :
+class LocalDataSource(private val dataPersistence: DataPersistence) :
     DataSource {
-
-    private val mBasePlan = BasePlanEntity()
-
-    private val mBasePlanStream = PublishSubject.create<BasePlanEntity>()
 
     override fun getTalkUsageStreamLive(): LiveData<List<UsageEntity>> {
         return talkUsageLive
@@ -38,8 +31,8 @@ class LocalDataSource(private val dataPersistence: DataPersistence, private val 
     override fun getTextCycleStreamLive(): LiveData<List<CycleEntity>> =
         dataPersistence.getCycleByTypeLive(CycleTypeEnum.TEXT)
 
-    override fun getBasePlanStreams(): Observable<BasePlanEntity> =
-        Observable.merge(Observable.just(mBasePlan), mBasePlanStream)
+    override fun getBasePlanStreamLive(): LiveData<List<BasePlanEntity>> =
+        dataPersistence.getBasePlan()
 
     override fun updateDataCycle(cycle: CycleEntity) {
         dataPersistence.setCycle(cycle)
@@ -54,8 +47,7 @@ class LocalDataSource(private val dataPersistence: DataPersistence, private val 
     }
 
     override fun updateBaseCost(changeAmount: Int) {
-        mBasePlan.baseCost += changeAmount
-        mBasePlanStream.onNext(mBasePlan)
+        dataPersistence.updateBasePlan(changeAmount)
     }
 
     private val talkUsageLive: LiveData<List<UsageEntity>>
@@ -70,4 +62,7 @@ interface DataPersistence {
     fun getUsageByTypeLive(cycleTypeEnum: CycleTypeEnum): LiveData<List<UsageEntity>>
     fun getCycleByTypeLive(cycleTypeEnum: CycleTypeEnum): LiveData<List<CycleEntity>>
     fun setCycle(cycle: CycleEntity)
+    fun getBasePlan(): LiveData<List<BasePlanEntity>>
+    fun setBasePlan(basePlanEntity: BasePlanEntity)
+    fun updateBasePlan(changeAmount: Int)
 }

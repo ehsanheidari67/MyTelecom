@@ -142,6 +142,7 @@ class CycleBinder(
                             } else if (view == confirmUpdate && limit != prevLimit) {
                                 updateLimit(limit)
                                 val addedCost = (limit - prevLimit) / STEP_AMOUNT * DOLLARS_PER_STEP
+
                                 updateBasePlan(addedCost)
                                 createSnackBar(addedCost)
                             }

@@ -5,11 +5,10 @@ import ir.ipack.ehsan.local.ipack.data.db.entity.BasePlanEntity
 import ir.ipack.ehsan.local.ipack.data.db.entity.CycleEntity
 import ir.ipack.ehsan.local.ipack.data.db.entity.UsageEntity
 import ir.ipack.ehsan.local.ipack.data.source.local.LocalDataSource
-import rx.Observable
 
 class Repository(private val localDataSource: LocalDataSource) : DataSource {
 
-    override fun getBasePlanStreams(): Observable<BasePlanEntity> = localDataSource.getBasePlanStreams()
+    override fun getBasePlanStreamLive(): LiveData<List<BasePlanEntity>> = localDataSource.getBasePlanStreamLive()
 
     override fun getDataCycleStreamLive(): LiveData<List<CycleEntity>> = localDataSource.getDataCycleStreamLive()
 
@@ -17,17 +16,11 @@ class Repository(private val localDataSource: LocalDataSource) : DataSource {
 
     override fun getTextCycleStreamLive(): LiveData<List<CycleEntity>> = localDataSource.getTextCycleStreamLive()
 
-    override fun updateDataCycle(cycle: CycleEntity) {
-        localDataSource.updateDataCycle(cycle)
-    }
+    override fun updateDataCycle(cycle: CycleEntity) = localDataSource.updateDataCycle(cycle)
 
-    override fun updateTalkCycle(cycle: CycleEntity) {
-        localDataSource.updateTalkCycle(cycle)
-    }
+    override fun updateTalkCycle(cycle: CycleEntity) = localDataSource.updateTalkCycle(cycle)
 
-    override fun updateTextCycle(cycle: CycleEntity) {
-        localDataSource.updateTextCycle(cycle)
-    }
+    override fun updateTextCycle(cycle: CycleEntity) = localDataSource.updateTextCycle(cycle)
 
     override fun getUsagesStreamLive(): LiveData<List<UsageEntity>> = localDataSource.getUsagesStreamLive()
 

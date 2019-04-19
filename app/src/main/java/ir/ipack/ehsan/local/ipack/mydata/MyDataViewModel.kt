@@ -12,7 +12,6 @@ class MyDataViewModel(
     override val context: Application,
     private val repository: Repository
 ) : BaseViewModel(context) {
-
     fun getDataCycleStreamLive() = Transformations.map(repository.getDataCycleStreamLive()) {
         it.firstOrNull()
     }
