@@ -41,9 +41,13 @@ class CycleBinder(
         holder?.let {
             mCurrentCycle?.let { cycle ->
                 val usedPercent = cycle.usedPercentage
-                cycle.cycleImage?.let { cycleImage ->
-                    it.usageImage.setImageResource(cycle.cycleImage)
+                val cycleImageResource = when (cycle.type) {
+                    CycleTypeEnum.TEXT -> R.drawable.text_dark_gray
+                    CycleTypeEnum.TALK -> R.drawable.talk_dark_gray
+                    else -> R.drawable.data_dark_gray
                 }
+                it.usageImage.setImageResource(cycleImageResource)
+
                 it.usageBottomLeftUsage.text = cycle.used.toString() + "/" + cycle.limit + " " + cycle.unit
                 it.usageBottomRightText.text = usedPercent.toString() +
                         resources.getString(R.string.percent_used)

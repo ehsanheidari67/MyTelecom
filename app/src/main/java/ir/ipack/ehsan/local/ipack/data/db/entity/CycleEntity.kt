@@ -10,7 +10,6 @@ import ir.ipack.ehsan.local.ipack.utils.UnitEnum
 data class CycleEntity(
     @PrimaryKey @ColumnInfo(name = "type") val type: CycleTypeEnum?,
     @ColumnInfo(name = "unit") val unit: UnitEnum?,
-    @ColumnInfo(name = "cycle_image") val cycleImage: Int?,
     @ColumnInfo(name = "used") val used: Double?,
     @ColumnInfo(name = "limit") var limit: Int?
 ) {
