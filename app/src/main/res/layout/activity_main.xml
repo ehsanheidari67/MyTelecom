@@ -128,7 +128,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
-            app:borderWidth="0dp"/>
+            app:borderWidth="0dp"
+            android:visibility="gone"/>
     <!-- fixes bug on older versions -->
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
