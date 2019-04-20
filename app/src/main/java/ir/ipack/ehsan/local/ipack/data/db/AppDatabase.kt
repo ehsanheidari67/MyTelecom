@@ -101,20 +101,20 @@ abstract class AppDatabase : RoomDatabase(), DataPersistence {
 
             db.cycleDao().insert(
                 CycleEntity(
-                    CycleTypeEnum.INTERNET, UnitEnum.GB, R.drawable.data_dark_gray,
-                    PlanConstants.INITIAL_USED_DATA.toDouble(), PlanConstants.INITIAL_DATA_AMOUNT
+                    CycleTypeEnum.INTERNET, UnitEnum.GB, PlanConstants.INITIAL_USED_DATA.toDouble(),
+                    PlanConstants.INITIAL_DATA_AMOUNT
                 )
             )
             db.cycleDao().insert(
                 CycleEntity(
-                    CycleTypeEnum.TALK, UnitEnum.MIN, R.drawable.talk_dark_gray,
-                    PlanConstants.INITIAL_USED_TALK.toDouble(), PlanConstants.INITIAL_TALK_AMOUNT
+                    CycleTypeEnum.TALK, UnitEnum.MIN, PlanConstants.INITIAL_USED_TALK.toDouble(),
+                    PlanConstants.INITIAL_TALK_AMOUNT
                 )
             )
             db.cycleDao().insert(
                 CycleEntity(
-                    CycleTypeEnum.TEXT, UnitEnum.SMS, R.drawable.text_dark_gray,
-                    PlanConstants.INITIAL_USED_TEXT.toDouble(), PlanConstants.INITIAL_TEXT_AMOUNT
+                    CycleTypeEnum.TEXT, UnitEnum.SMS, PlanConstants.INITIAL_USED_TEXT.toDouble(),
+                    PlanConstants.INITIAL_TEXT_AMOUNT
                 )
             )
         }

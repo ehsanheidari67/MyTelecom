@@ -30,13 +30,15 @@ class AppUsageBinder(context: Context, dataBindAdapter: DataBindAdapter) :
             it.usageBottomLeftText.text = dataUsage.used.toString() + " " + PlanConstants.DATA_UNIT
             it.usageTopText.text = dataUsage.appName
 
-            dataUsage.usageImage?.let { dataUsageUsageImage ->
-                it.usageImage.setImageResource(dataUsageUsageImage)
+            dataUsage.imageName?.let { dataUsageUsageImageName ->
+                val resId = mContext.resources.getIdentifier(dataUsageUsageImageName, "drawable",
+                    mContext.packageName)
+                it.usageImage.setImageResource(resId)
             }
 
             it.usageProgressBar.progress = dataUsage.seekBarProgress
 
-            it.usageBottomRightText.setText(dataUsage.seekBarProgress.toString() + mResources.getString(R.string.percent_used))
+            it.usageBottomRightText.text = dataUsage.seekBarProgress.toString() + mResources.getString(R.string.percent_used)
 
             if (dataUsage.isUnlimited) {
                 it.usageProgressBar.visibility = View.GONE
