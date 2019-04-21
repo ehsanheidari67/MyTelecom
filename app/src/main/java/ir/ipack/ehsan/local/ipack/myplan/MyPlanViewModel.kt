@@ -2,7 +2,6 @@ package ir.ipack.ehsan.local.ipack.myplan
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.Transformations
 import ir.ipack.ehsan.local.ipack.data.source.Repository
 
 class MyPlanViewModel(
@@ -10,19 +9,11 @@ class MyPlanViewModel(
     private val repository: Repository
 ) : AndroidViewModel(context) {
 
-    fun getPlanStreamLive() = Transformations.map(repository.getBasePlanStreamLive()) {
-        it.firstOrNull()
-    }
+    fun getPlanStreamLive() = repository.getBasePlanStreamLive()
 
-    fun getDataCycleStreamLive() = Transformations.map(repository.getDataCycleStreamLive()) {
-        it.firstOrNull()
-    }
+    fun getDataCycleStreamLive() = repository.getDataCycleStreamLive()
 
-    fun getTalkCycleStreamLive() = Transformations.map(repository.getTalkCycleStreamLive()) {
-        it.firstOrNull()
-    }
+    fun getTalkCycleStreamLive() = repository.getTalkCycleStreamLive()
 
-    fun getTextCycleStreamLive() = Transformations.map(repository.getTextCycleStreamLive()) {
-        it.firstOrNull()
-    }
+    fun getTextCycleStreamLive() = repository.getTextCycleStreamLive()
 }
