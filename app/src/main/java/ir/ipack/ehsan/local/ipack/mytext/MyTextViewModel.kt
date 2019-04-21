@@ -1,7 +1,6 @@
 package ir.ipack.ehsan.local.ipack.mytext
 
 import android.app.Application
-import androidx.lifecycle.Transformations
 import ir.ipack.ehsan.local.ipack.BaseViewModel
 import ir.ipack.ehsan.local.ipack.data.db.entity.CycleEntity
 import ir.ipack.ehsan.local.ipack.data.source.Repository
@@ -11,17 +10,11 @@ class MyTextViewModel(
     private val repository: Repository
 ) : BaseViewModel(context) {
 
-    fun getTextCycleStreamLive() = Transformations.map(repository.getTextCycleStreamLive()) {
-        it.firstOrNull()
-    }
+    fun getTextCycleStreamLive() = repository.getTextCycleStreamLive()
 
-    fun getTextUsageStreamLive() = Transformations.map(repository.getTextUsageStreamLive()) {
-        it.firstOrNull()
-    }
+    fun getTextUsageStreamLive() = repository.getTextUsageStreamLive()
 
     fun updateTextCycle(cycle: CycleEntity) = repository.updateTextCycle(cycle)
 
-    override fun updateBaseCost(changeAmount: Int) {
-        repository.updateBaseCost(changeAmount)
-    }
+    override fun updateBaseCost(changeAmount: Int) = repository.updateBaseCost(changeAmount)
 }

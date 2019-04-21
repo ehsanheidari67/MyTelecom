@@ -1,6 +1,7 @@
 package ir.ipack.ehsan.local.ipack.data.source.local
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.Transformations
 import ir.ipack.ehsan.local.ipack.data.db.entity.BasePlanEntity
 import ir.ipack.ehsan.local.ipack.data.db.entity.CycleEntity
 import ir.ipack.ehsan.local.ipack.data.db.entity.UsageEntity
@@ -10,11 +11,11 @@ import ir.ipack.ehsan.local.ipack.utils.CycleTypeEnum
 class LocalDataSource(private val dataPersistence: DataPersistence) :
     DataSource {
 
-    override fun getTalkUsageStreamLive(): LiveData<List<UsageEntity>> {
+    override fun getTalkUsageStreamLive(): LiveData<UsageEntity> {
         return talkUsageLive
     }
 
-    override fun getTextUsageStreamLive(): LiveData<List<UsageEntity>> {
+    override fun getTextUsageStreamLive(): LiveData<UsageEntity> {
         return textUsageLive
     }
 
@@ -22,17 +23,25 @@ class LocalDataSource(private val dataPersistence: DataPersistence) :
         return appUsageLive
     }
 
-    override fun getDataCycleStreamLive(): LiveData<List<CycleEntity>> =
-        dataPersistence.getCycleByTypeLive(CycleTypeEnum.INTERNET)
+    override fun getDataCycleStreamLive(): LiveData<CycleEntity> =
+        Transformations.map(dataPersistence.getCycleByTypeLive(CycleTypeEnum.INTERNET)) {
+            it.firstOrNull()
+        }
 
-    override fun getTalkCycleStreamLive(): LiveData<List<CycleEntity>> =
-        dataPersistence.getCycleByTypeLive(CycleTypeEnum.TALK)
+    override fun getTalkCycleStreamLive(): LiveData<CycleEntity> =
+        Transformations.map(dataPersistence.getCycleByTypeLive(CycleTypeEnum.TALK)) {
+            it.firstOrNull()
+        }
 
-    override fun getTextCycleStreamLive(): LiveData<List<CycleEntity>> =
-        dataPersistence.getCycleByTypeLive(CycleTypeEnum.TEXT)
+    override fun getTextCycleStreamLive(): LiveData<CycleEntity> =
+        Transformations.map(dataPersistence.getCycleByTypeLive(CycleTypeEnum.TEXT)) {
+            it.firstOrNull()
+        }
 
-    override fun getBasePlanStreamLive(): LiveData<List<BasePlanEntity>> =
-        dataPersistence.getBasePlan()
+    override fun getBasePlanStreamLive(): LiveData<BasePlanEntity> =
+        Transformations.map(dataPersistence.getBasePlan()) {
+            it.firstOrNull()
+        }
 
     override fun updateDataCycle(cycle: CycleEntity) {
         dataPersistence.setCycle(cycle)
@@ -50,10 +59,14 @@ class LocalDataSource(private val dataPersistence: DataPersistence) :
         dataPersistence.updateBasePlan(changeAmount)
     }
 
-    private val talkUsageLive: LiveData<List<UsageEntity>>
-        get() = dataPersistence.getUsageByTypeLive(CycleTypeEnum.TALK)
-    private val textUsageLive: LiveData<List<UsageEntity>>
-        get() = dataPersistence.getUsageByTypeLive(CycleTypeEnum.TEXT)
+    private val talkUsageLive: LiveData<UsageEntity>
+        get() = Transformations.map(dataPersistence.getUsageByTypeLive(CycleTypeEnum.TALK)) {
+            it.firstOrNull()
+        }
+    private val textUsageLive: LiveData<UsageEntity>
+        get() = Transformations.map(dataPersistence.getUsageByTypeLive(CycleTypeEnum.TEXT)) {
+            it.firstOrNull()
+        }
     private val appUsageLive: LiveData<List<UsageEntity>>
         get() = dataPersistence.getUsageByTypeLive(CycleTypeEnum.INTERNET)
 }
