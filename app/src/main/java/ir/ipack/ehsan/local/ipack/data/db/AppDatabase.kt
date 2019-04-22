@@ -7,7 +7,6 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
-import ir.ipack.ehsan.local.ipack.R
 import ir.ipack.ehsan.local.ipack.data.db.dao.BasePlanDao
 import ir.ipack.ehsan.local.ipack.data.db.dao.CycleDao
 import ir.ipack.ehsan.local.ipack.data.db.dao.OfferDao
@@ -59,9 +58,7 @@ abstract class AppDatabase : RoomDatabase(), DataPersistence {
                         }
                     }
                 }
-            })
-                .allowMainThreadQueries() // TODO: Run the queries in a background thread in a future PR
-                .build()
+            }).build()
 
         private fun initialDb(db: AppDatabase) {
             db.basePlanDao().insertBasePlan(

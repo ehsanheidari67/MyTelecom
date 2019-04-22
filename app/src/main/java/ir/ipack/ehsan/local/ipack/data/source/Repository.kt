@@ -8,13 +8,13 @@ import ir.ipack.ehsan.local.ipack.data.source.local.LocalDataSource
 
 class Repository(private val localDataSource: LocalDataSource) : DataSource {
 
-    override fun getBasePlanStreamLive(): LiveData<BasePlanEntity> = localDataSource.getBasePlanStreamLive()
+    override fun getBasePlanStreamLive(): LiveData<BasePlanEntity?> = localDataSource.getBasePlanStreamLive()
 
-    override fun getDataCycleStreamLive(): LiveData<CycleEntity> = localDataSource.getDataCycleStreamLive()
+    override fun getDataCycleStreamLive(): LiveData<CycleEntity?> = localDataSource.getDataCycleStreamLive()
 
-    override fun getTalkCycleStreamLive(): LiveData<CycleEntity> = localDataSource.getTalkCycleStreamLive()
+    override fun getTalkCycleStreamLive(): LiveData<CycleEntity?> = localDataSource.getTalkCycleStreamLive()
 
-    override fun getTextCycleStreamLive(): LiveData<CycleEntity> = localDataSource.getTextCycleStreamLive()
+    override fun getTextCycleStreamLive(): LiveData<CycleEntity?> = localDataSource.getTextCycleStreamLive()
 
     override fun updateDataCycle(cycle: CycleEntity) = localDataSource.updateDataCycle(cycle)
 
@@ -24,9 +24,9 @@ class Repository(private val localDataSource: LocalDataSource) : DataSource {
 
     override fun getUsagesStreamLive(): LiveData<List<UsageEntity>> = localDataSource.getUsagesStreamLive()
 
-    override fun getTextUsageStreamLive(): LiveData<UsageEntity> = localDataSource.getTextUsageStreamLive()
+    override fun getTextUsageStreamLive(): LiveData<UsageEntity?> = localDataSource.getTextUsageStreamLive()
 
-    override fun getTalkUsageStreamLive(): LiveData<UsageEntity> = localDataSource.getTalkUsageStreamLive()
+    override fun getTalkUsageStreamLive(): LiveData<UsageEntity?> = localDataSource.getTalkUsageStreamLive()
 
     override fun updateBaseCost(changeAmount: Int) = localDataSource.updateBaseCost(changeAmount)
 }
