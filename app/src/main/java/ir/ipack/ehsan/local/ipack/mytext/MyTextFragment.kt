@@ -55,5 +55,6 @@ class MyTextFragment : Fragment() {
                 mTextAdapter.setTextUsage(it)
             }
         }
+
     }
 }
