@@ -15,19 +15,19 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_text.view.*
 
 class MyTextFragment : Fragment() {
-    private lateinit var mTextAdapter: MyTextRecyclerAdapter
-    private lateinit var mViewModel: MyTextViewModel
-    private lateinit var mResources: Resources
-    private lateinit var mRootView: View
+    private lateinit var textAdapter: MyTextRecyclerAdapter
+    private lateinit var viewModel: MyTextViewModel
+    private lateinit var appResources: Resources
+    private lateinit var rootView: View
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
         inflater.inflate(R.layout.fragment_text, container, false).also {
-            mRootView = it
+            rootView = it
         }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        mViewModel = ViewModelProviders.of(this, ViewModelFactory.getInstance(activity!!.application)).get(
+        viewModel = ViewModelProviders.of(this, ViewModelFactory.getInstance(activity!!.application)).get(
             MyTextViewModel::class.java
         )
 
@@ -37,18 +37,18 @@ class MyTextFragment : Fragment() {
 
     private fun setupListAdapter() {
         val coorLayout = (activity as MainActivity).coordinator_layout
-        mResources = activity!!.resources
-        mTextAdapter = MyTextRecyclerAdapter(context!!, coorLayout, mViewModel)
-        mRootView.my_text_recyclerview.adapter = mTextAdapter
-        mRootView.my_text_recyclerview.layoutManager = LinearLayoutManager(activity)
+        appResources = activity!!.resources
+        textAdapter = MyTextRecyclerAdapter(context!!, coorLayout, viewModel)
+        rootView.my_text_recyclerview.adapter = textAdapter
+        rootView.my_text_recyclerview.layoutManager = LinearLayoutManager(activity)
     }
 
     private fun subscribeToModels() {
-        mViewModel.cycle.observe(::getLifecycle) {
-            mTextAdapter.setCycle(it)
+        viewModel.cycle.observe(::getLifecycle) {
+            textAdapter.setCycle(it)
         }
-        mViewModel.usage.observe(::getLifecycle) {
-            mTextAdapter.setTextUsage(it)
+        viewModel.usage.observe(::getLifecycle) {
+            textAdapter.setTextUsage(it)
         }
     }
 }

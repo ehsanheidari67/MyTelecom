@@ -24,15 +24,15 @@ class MyTextViewModel(
     val cycle: LiveData<CycleEntity>
         get() = _cycle
 
-    private val textUsage = repository.getTextUsageStreamLive()
-    private val textCycle = repository.getTextCycleStreamLive()
+    private val textUsageResult = repository.getTextUsageStreamLive()
+    private val textCycleResult = repository.getTextCycleStreamLive()
 
     init {
-        _usage.addSource(textUsage) {
+        _usage.addSource(textUsageResult) {
             it.either(::handleFailure, ::handleUsage)
         }
 
-        _cycle.addSource(textCycle) {
+        _cycle.addSource(textCycleResult) {
             it.either(::handleFailure, ::handleCycle)
         }
     }

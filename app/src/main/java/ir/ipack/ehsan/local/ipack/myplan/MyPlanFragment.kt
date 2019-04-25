@@ -15,14 +15,14 @@ import kotlinx.android.synthetic.main.fragment_my_plan.view.*
 
 class MyPlanFragment : Fragment() {
 
-    private lateinit var mPlanAdapter: MyPlanRecyclerAdapter
-    private lateinit var mViewModel: MyPlanViewModel
+    private lateinit var planAdapter: MyPlanRecyclerAdapter
+    private lateinit var viewModel: MyPlanViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.fragment_my_plan, container, false)
         val coorLayout = (activity as MainActivity).coordinator_layout
-        mPlanAdapter = MyPlanRecyclerAdapter(context!!, coorLayout)
-        rootView.recyclerView.adapter = mPlanAdapter
+        planAdapter = MyPlanRecyclerAdapter(context!!, coorLayout)
+        rootView.recyclerView.adapter = planAdapter
         rootView.recyclerView.layoutManager = LinearLayoutManager(activity)
 
         return rootView
@@ -30,25 +30,25 @@ class MyPlanFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        mViewModel = ViewModelProviders.of(this, ViewModelFactory.getInstance(activity!!.application))
+        viewModel = ViewModelProviders.of(this, ViewModelFactory.getInstance(activity!!.application))
             .get(MyPlanViewModel::class.java)
 
         subscribeToModels()
     }
 
     private fun subscribeToModels() {
-        mViewModel.basePlan.observe(::getLifecycle) {
-            mPlanAdapter.setBasePlanInfo(it)
+        viewModel.basePlan.observe(::getLifecycle) {
+            planAdapter.setBasePlanInfo(it)
         }
 
-        mViewModel.dataCycle.observe(::getLifecycle) {
-            mPlanAdapter.setDataCycle(it)
+        viewModel.dataCycle.observe(::getLifecycle) {
+            planAdapter.setDataCycle(it)
         }
-        mViewModel.textCycle.observe(::getLifecycle) {
-            mPlanAdapter.setTextCycle(it)
+        viewModel.textCycle.observe(::getLifecycle) {
+            planAdapter.setTextCycle(it)
         }
-        mViewModel.talkCycle.observe(::getLifecycle) {
-            mPlanAdapter.setTalkCycle(it)
+        viewModel.talkCycle.observe(::getLifecycle) {
+            planAdapter.setTalkCycle(it)
         }
     }
 }

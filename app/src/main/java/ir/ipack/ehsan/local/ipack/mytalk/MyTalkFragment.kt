@@ -15,19 +15,19 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_talk.view.*
 
 class MyTalkFragment : Fragment() {
-    private lateinit var mTalkAdapter: MyTalkRecyclerAdapter
-    private lateinit var mViewModel: MyTalkViewModel
-    private lateinit var mResources: Resources
-    private lateinit var mRootView: View
+    private lateinit var talkAdapter: MyTalkRecyclerAdapter
+    private lateinit var viewModel: MyTalkViewModel
+    private lateinit var appResources: Resources
+    private lateinit var rootView: View
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
         inflater.inflate(R.layout.fragment_talk, container, false).also {
-            mRootView = it
+            rootView = it
         }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        mViewModel = ViewModelProviders.of(this, ViewModelFactory.getInstance(activity!!.application)).get(
+        viewModel = ViewModelProviders.of(this, ViewModelFactory.getInstance(activity!!.application)).get(
             MyTalkViewModel::class.java
         )
 
@@ -37,18 +37,18 @@ class MyTalkFragment : Fragment() {
 
     private fun setupListAdapter() {
         val coorLayout = (activity as MainActivity).coordinator_layout
-        mResources = activity!!.resources
-        mRootView.my_talk_recyclerview.layoutManager = LinearLayoutManager(activity)
-        mTalkAdapter = MyTalkRecyclerAdapter(context!!, coorLayout, mViewModel)
-        mRootView.my_talk_recyclerview.adapter = mTalkAdapter
+        appResources = activity!!.resources
+        rootView.my_talk_recyclerview.layoutManager = LinearLayoutManager(activity)
+        talkAdapter = MyTalkRecyclerAdapter(context!!, coorLayout, viewModel)
+        rootView.my_talk_recyclerview.adapter = talkAdapter
     }
 
     private fun subscribeToModels() {
-        mViewModel.cycle.observe(::getLifecycle) {
-            mTalkAdapter.setCycle(it)
+        viewModel.cycle.observe(::getLifecycle) {
+            talkAdapter.setCycle(it)
         }
-        mViewModel.usage.observe(::getLifecycle) {
-            mTalkAdapter.setTalkUsage(it)
+        viewModel.usage.observe(::getLifecycle) {
+            talkAdapter.setTalkUsage(it)
         }
     }
 }

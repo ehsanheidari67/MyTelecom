@@ -24,15 +24,15 @@ class MyTalkViewModel(
     val cycle: LiveData<CycleEntity>
         get() = _cycle
 
-    private val talkUsage = repository.getTalkUsageStreamLive()
-    private val talkCycle = repository.getTalkCycleStreamLive()
+    private val talkUsageResult = repository.getTalkUsageStreamLive()
+    private val talkCycleResult = repository.getTalkCycleStreamLive()
 
     init {
-        _usage.addSource(talkUsage) {
+        _usage.addSource(talkUsageResult) {
             it.either(::handleFailure, ::handleUsage)
         }
 
-        _cycle.addSource(talkCycle) {
+        _cycle.addSource(talkCycleResult) {
             it.either(::handleFailure, ::handleCycle)
         }
     }

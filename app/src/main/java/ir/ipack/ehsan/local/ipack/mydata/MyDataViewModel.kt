@@ -24,15 +24,15 @@ class MyDataViewModel(
     val cycle: LiveData<CycleEntity>
         get() = _cycle
 
-    private val dataUsages = repository.getUsagesStreamLive()
-    private val dataCycle = repository.getDataCycleStreamLive()
+    private val dataUsagesResult = repository.getUsagesStreamLive()
+    private val dataCycleResult = repository.getDataCycleStreamLive()
 
     init {
-        _usages.addSource(dataUsages) {
+        _usages.addSource(dataUsagesResult) {
             it.either(::handleFailure, ::handleUsages)
         }
 
-        _cycle.addSource(dataCycle) {
+        _cycle.addSource(dataCycleResult) {
             it.either(::handleFailure, ::handleCycle)
         }
     }
