@@ -44,16 +44,11 @@ class MyTalkFragment : Fragment() {
     }
 
     private fun subscribeToModels() {
-        mViewModel.getTalkCycleStreamLive().observe(::getLifecycle) { cycleEntity ->
-            cycleEntity?.let {
-                mTalkAdapter.setCycle(it)
-            }
+        mViewModel.cycle.observe(::getLifecycle) {
+            mTalkAdapter.setCycle(it)
         }
-
-        mViewModel.getTalkUsageStreamLive().observe(::getLifecycle) { usageEntitiy ->
-            usageEntitiy?.let {
-                mTalkAdapter.setTalkUsage(it)
-            }
+        mViewModel.usage.observe(::getLifecycle) {
+            mTalkAdapter.setTalkUsage(it)
         }
     }
 }
