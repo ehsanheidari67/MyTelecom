@@ -37,26 +37,18 @@ class MyPlanFragment : Fragment() {
     }
 
     private fun subscribeToModels() {
-        mViewModel.getPlanStreamLive().observe(::getLifecycle) { basePlanEntity ->
-            basePlanEntity?.let {
-                mPlanAdapter.setBasePlanInfo(it)
-            }
+        mViewModel.basePlan.observe(::getLifecycle) {
+            mPlanAdapter.setBasePlanInfo(it)
         }
 
-        mViewModel.getDataCycleStreamLive().observe(::getLifecycle) { cycleEntity ->
-            cycleEntity?.let {
-                mPlanAdapter.setDataCycle(it)
-            }
+        mViewModel.dataCycle.observe(::getLifecycle) {
+            mPlanAdapter.setDataCycle(it)
         }
-        mViewModel.getTalkCycleStreamLive().observe(::getLifecycle) { cycleEntity ->
-            cycleEntity?.let {
-                mPlanAdapter.setTalkCycle(it)
-            }
+        mViewModel.textCycle.observe(::getLifecycle) {
+            mPlanAdapter.setTextCycle(it)
         }
-        mViewModel.getTextCycleStreamLive().observe(::getLifecycle) { cycleEntity ->
-            cycleEntity?.let {
-                mPlanAdapter.setTextCycle(it)
-            }
+        mViewModel.talkCycle.observe(::getLifecycle) {
+            mPlanAdapter.setTalkCycle(it)
         }
     }
 }

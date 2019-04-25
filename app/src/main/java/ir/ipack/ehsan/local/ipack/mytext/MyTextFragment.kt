@@ -44,17 +44,11 @@ class MyTextFragment : Fragment() {
     }
 
     private fun subscribeToModels() {
-        mViewModel.getTextCycleStreamLive().observe(::getLifecycle) { cycleEntity ->
-            cycleEntity?.let {
-                mTextAdapter.setCycle(it)
-            }
+        mViewModel.cycle.observe(::getLifecycle) {
+            mTextAdapter.setCycle(it)
         }
-
-        mViewModel.getTextUsageStreamLive().observe(::getLifecycle) { usageEntity ->
-            usageEntity?.let {
-                mTextAdapter.setTextUsage(it)
-            }
+        mViewModel.usage.observe(::getLifecycle) {
+            mTextAdapter.setTextUsage(it)
         }
-
     }
 }

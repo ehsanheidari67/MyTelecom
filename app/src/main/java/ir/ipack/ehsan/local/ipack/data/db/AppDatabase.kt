@@ -58,7 +58,8 @@ abstract class AppDatabase : RoomDatabase(), DataPersistence {
                         }
                     }
                 }
-            }).build()
+            }).allowMainThreadQueries()
+                .build()
 
         private fun initialDb(db: AppDatabase) {
             db.basePlanDao().insertBasePlan(
