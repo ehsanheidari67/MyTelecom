@@ -4,21 +4,28 @@
   -->
 
 <androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/data_frag"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/material_gray"
-    tools:context="ir.ipack.ehsan.local.ipack.mydata.MyDataFragment">
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/my_data_recyclerview"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/data_frag"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:paddingBottom="@dimen/recyclerView_bottom_padding" />
+        android:orientation="vertical"
+        android:background="@color/material_gray"
+        tools:context="ir.ipack.ehsan.local.ipack.mydata.MyDataFragment">
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/my_data_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/recyclerView_bottom_padding"
+            android:visibility="gone"/>
+
+    <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

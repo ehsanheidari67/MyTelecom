@@ -13,6 +13,7 @@ import ir.ipack.ehsan.local.ipack.ViewModelFactory
 import ir.ipack.ehsan.local.ipack.activities.MainActivity
 import ir.ipack.ehsan.local.ipack.utils.RecyclerDivider
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_my_data.*
 import kotlinx.android.synthetic.main.fragment_my_data.view.*
 import timber.log.Timber
 
@@ -50,10 +51,12 @@ class MyDataFragment : Fragment() {
 
         viewModel.usages.observe(::getLifecycle) {
             dataAdapter.setAppUsage(it)
+            showContentAndHideProgressBar()
         }
 
         viewModel.cycle.observe(::getLifecycle) {
             dataAdapter.setCycle(it)
+            showContentAndHideProgressBar()
         }
 
         viewModel.failure.observe(::getLifecycle) {
@@ -64,4 +67,18 @@ class MyDataFragment : Fragment() {
     private fun initialDataRecyclerList() {
         dataAdapter.setDividerHeader(RecyclerDivider(appResources.getString(R.string.app_usage_header), -1))
     }
+
+    private fun showContentAndHideProgressBar() {
+        showContent()
+        hideProgressBar()
+    }
+
+    private fun hideProgressBar() {
+        progressBar.visibility = View.GONE
+    }
+
+    private fun showContent() {
+        my_data_recyclerview.visibility = View.VISIBLE
+    }
+
 }
