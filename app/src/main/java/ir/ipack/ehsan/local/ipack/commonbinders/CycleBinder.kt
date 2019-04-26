@@ -49,7 +49,7 @@ class CycleBinder(
                 it.usageImage.setImageResource(cycleImageResource)
 
                 it.usageBottomLeftUsage.text = cycle.used.toString() + "/" + cycle.limit + " " + cycle.unit
-                it.usageBottomRightText.text = usedPercent.toString() +
+                it.usageBottomRightText.text = String.format("%.2f", usedPercent) +
                         resources.getString(R.string.percent_used)
                 it.usageProgressBar.progress = usedPercent.toInt()
                 it.monthlyUsage.text = cycle.limit.toString()

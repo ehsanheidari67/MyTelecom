@@ -25,17 +25,32 @@ class PlanOverviewBinder(context: Context, dataBinderAdapter: DataBindAdapter) :
             mDataCycle?.let { cycle ->
                 it.dataUsageView.setPercentUsed(cycle.usedPercentage.toInt())
                 it.dataUsageView.setBottomLeftText(setUsedVsLimit(cycle))
-                it.dataUsageView.setBottomRightText(cycle.usedPercentage.toString() + resources.getString(R.string.percent_used))
+                it.dataUsageView.setBottomRightText(
+                    String.format(
+                        "%.2f",
+                        cycle.usedPercentage
+                    ) + resources.getString(R.string.percent_used)
+                )
             }
             mTalkCycle?.let { cycle ->
                 it.talkUsageView.setPercentUsed(cycle.usedPercentage.toInt())
                 it.talkUsageView.setBottomLeftText(setUsedVsLimit(cycle))
-                it.talkUsageView.setBottomRightText(cycle.usedPercentage.toString() + resources.getString(R.string.percent_used))
+                it.talkUsageView.setBottomRightText(
+                    String.format(
+                        "%.2f",
+                        cycle.usedPercentage
+                    ) + resources.getString(R.string.percent_used)
+                )
             }
             mTextCycle?.let { cycle ->
                 it.textUsageView.setPercentUsed(cycle.usedPercentage.toInt())
                 it.textUsageView.setBottomLeftText(setUsedVsLimit(cycle))
-                it.textUsageView.setBottomRightText(cycle.usedPercentage.toString() + resources.getString(R.string.percent_used))
+                it.textUsageView.setBottomRightText(
+                    String.format(
+                        "%.2f",
+                        cycle.usedPercentage
+                    ) + resources.getString(R.string.percent_used)
+                )
             }
         }
     }
