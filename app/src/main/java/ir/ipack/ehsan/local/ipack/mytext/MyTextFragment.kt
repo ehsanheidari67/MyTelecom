@@ -12,6 +12,8 @@ import ir.ipack.ehsan.local.ipack.R
 import ir.ipack.ehsan.local.ipack.ViewModelFactory
 import ir.ipack.ehsan.local.ipack.activities.MainActivity
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_my_data.progressBar
+import kotlinx.android.synthetic.main.fragment_text.*
 import kotlinx.android.synthetic.main.fragment_text.view.*
 
 class MyTextFragment : Fragment() {
@@ -46,9 +48,25 @@ class MyTextFragment : Fragment() {
     private fun subscribeToModels() {
         viewModel.cycle.observe(::getLifecycle) {
             textAdapter.setCycle(it)
+            showContentAndHideProgressBar()
         }
         viewModel.usage.observe(::getLifecycle) {
             textAdapter.setTextUsage(it)
+            showContentAndHideProgressBar()
         }
     }
+
+    private fun showContentAndHideProgressBar() {
+        showContent()
+        hideProgressBar()
+    }
+
+    private fun hideProgressBar() {
+        progressBar.visibility = View.GONE
+    }
+
+    private fun showContent() {
+        my_text_recyclerview.visibility = View.VISIBLE
+    }
+
 }

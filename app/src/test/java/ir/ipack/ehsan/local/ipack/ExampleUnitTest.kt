@@ -12,8 +12,6 @@ class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
         assertEquals(4, 2 + 2)
-
-        assertEquals("", String.format("%.3f", 20.2313546546886))
     }
 
 
