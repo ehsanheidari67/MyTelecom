@@ -14,21 +14,22 @@ import ir.ipack.ehsan.local.ipack.activities.MainActivity
 import ir.ipack.ehsan.local.ipack.utils.RecyclerDivider
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_my_data.view.*
+import timber.log.Timber
 
 class MyDataFragment : Fragment() {
-    private lateinit var mDataAdapter: MyDataRecyclerAdapter
-    private lateinit var mViewModel: MyDataViewModel
-    private lateinit var mResources: Resources
-    private lateinit var mRootView: View
+    private lateinit var dataAdapter: MyDataRecyclerAdapter
+    private lateinit var viewModel: MyDataViewModel
+    private lateinit var appResources: Resources
+    private lateinit var rootView: View
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
         inflater.inflate(R.layout.fragment_my_data, container, false).also {
-            mRootView = it
+            rootView = it
         }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        mViewModel = ViewModelProviders.of(this, ViewModelFactory.getInstance(activity!!.application)).get(
+        viewModel = ViewModelProviders.of(this, ViewModelFactory.getInstance(activity!!.application)).get(
             MyDataViewModel::class.java
         )
 
@@ -39,26 +40,28 @@ class MyDataFragment : Fragment() {
 
     private fun setupListAdapter() {
         val coorLayout = (activity as MainActivity).coordinator_layout
-        mResources = activity!!.resources
-        mDataAdapter = MyDataRecyclerAdapter(context!!, coorLayout, mViewModel)
-        mRootView.my_data_recyclerview.adapter = mDataAdapter
-        mRootView.my_data_recyclerview.layoutManager = LinearLayoutManager(activity)
+        appResources = activity!!.resources
+        dataAdapter = MyDataRecyclerAdapter(context!!, coorLayout, viewModel)
+        rootView.my_data_recyclerview.adapter = dataAdapter
+        rootView.my_data_recyclerview.layoutManager = LinearLayoutManager(activity)
     }
 
     private fun subscribeToModels() {
 
-        mViewModel.getDataCycleStreamLive().observe(::getLifecycle) { cycleEntity ->
-            cycleEntity?.let {
-                mDataAdapter.setCycle(it)
-            }
+        viewModel.usages.observe(::getLifecycle) {
+            dataAdapter.setAppUsage(it)
         }
 
-        mViewModel.getUsagesStreamLive().observe(::getLifecycle) {
-            mDataAdapter.setAppUsage(it)
+        viewModel.cycle.observe(::getLifecycle) {
+            dataAdapter.setCycle(it)
+        }
+
+        viewModel.failure.observe(::getLifecycle) {
+            Timber.e("Failure")
         }
     }
 
     private fun initialDataRecyclerList() {
-        mDataAdapter.setDividerHeader(RecyclerDivider(mResources.getString(R.string.app_usage_header), -1))
+        dataAdapter.setDividerHeader(RecyclerDivider(appResources.getString(R.string.app_usage_header), -1))
     }
 }

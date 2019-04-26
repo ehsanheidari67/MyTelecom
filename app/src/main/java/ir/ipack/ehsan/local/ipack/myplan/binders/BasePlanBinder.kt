@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.yqritc.recyclerviewmultipleviewtypesadapter.DataBindAdapter
 import com.yqritc.recyclerviewmultipleviewtypesadapter.DataBinder
 import ir.ipack.ehsan.local.ipack.R
+import ir.ipack.ehsan.local.ipack.core.extension.localizedCurrency
 import ir.ipack.ehsan.local.ipack.data.db.entity.BasePlanEntity
-import ir.ipack.ehsan.local.ipack.utils.localizedCurrency
 import kotlinx.android.synthetic.main.base_plan_info.view.*
 
 class BasePlanBinder(dataBindAdapter: DataBindAdapter) : DataBinder<BasePlanBinder.BasePlanHolder>(dataBindAdapter) {
