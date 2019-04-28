@@ -6,7 +6,9 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.databinding.BindingAdapter
 import ir.ipack.ehsan.local.ipack.R
+import ir.ipack.ehsan.local.ipack.data.db.entity.CycleEntity
 import kotlinx.android.synthetic.main.telco_usage_view.view.*
 
 class TelecoUsageView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
@@ -45,24 +47,24 @@ class TelecoUsageView(context: Context, attrs: AttributeSet) : LinearLayout(cont
 
     private fun setProgressBarUI() {
         if (progressBarHidden) {
-            progress_bar.setVisibility(View.GONE)
+            progress_bar.visibility = View.GONE
         } else {
-            progress_bar.setProgress(percentUsed)
-            progress_bar.setVisibility(View.VISIBLE)
+            progress_bar.progress = percentUsed
+            progress_bar.visibility = View.VISIBLE
         }
     }
 
     private fun setUsageImageUI() {
         if (imageSource != null) {
             usage_image.setImageDrawable(imageSource)
-            usage_image.setVisibility(View.VISIBLE)
+            usage_image.visibility = View.VISIBLE
         } else {
-            usage_image.setVisibility(View.GONE)
+            usage_image.visibility = View.GONE
         }
     }
 
     private fun setTextView(textView: TextView, text: String?) {
-        if (text != null && !text.isEmpty()) {
+        if (text != null && text.isNotEmpty()) {
             textView.text = text
             textView.visibility = View.VISIBLE
         } else {
@@ -74,6 +76,7 @@ class TelecoUsageView(context: Context, attrs: AttributeSet) : LinearLayout(cont
         this.percentUsed = percentUsed
         setProgressBarUI()
     }
+
 
     fun setImageSource(imageSource: Drawable) {
         this.imageSource = imageSource
@@ -89,4 +92,28 @@ class TelecoUsageView(context: Context, attrs: AttributeSet) : LinearLayout(cont
         this.bottomRightText = text
         setTextView(bottom_right_text, text)
     }
+}
+
+@BindingAdapter("percentUsed")
+fun TelecoUsageView.setPercentUsed1(percentUsed: Double) {
+    setPercentUsed(percentUsed.toInt())
+}
+
+@BindingAdapter("cycle")
+fun TelecoUsageView.setCycle(cycle:CycleEntity?){
+    cycle?.let {
+        setPercentUsed(it.usedPercentage.toInt())
+        setBottomLeftText(setUsedVsLimit(it))
+        setBottomRightText(
+            String.format(
+                "%.2f",
+                cycle.usedPercentage
+            ) + resources.getString(R.string.percent_used)
+        )
+    }
+
+}
+
+private fun setUsedVsLimit(cycle: CycleEntity): String {
+    return cycle.used.toString() + "/" + cycle.limit + " " + cycle.unit
 }

@@ -12,7 +12,7 @@ class MyPlanRecyclerAdapter(context: Context, coordinatorLayout: CoordinatorLayo
 
     init {
         val basePlanBinder = BasePlanBinder(this)
-        val planOverviewBinder = PlanOverviewBinder(context, this)
+        val planOverviewBinder = PlanOverviewBinder(this)
         addAllBinder(basePlanBinder, planOverviewBinder)
     }
 
