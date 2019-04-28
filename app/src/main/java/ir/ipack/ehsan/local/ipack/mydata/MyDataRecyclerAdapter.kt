@@ -15,7 +15,7 @@ class MyDataRecyclerAdapter(context: Context, coordinatorLayout: CoordinatorLayo
     init {
         val cycleBinder = CycleBinder(context, this, coordinatorLayout, baseViewModel)
         val dataHeaderBinder = UsageHeaderBinder(this)
-        val appUsageBinder = AppUsageBinder(context, this)
+        val appUsageBinder = AppUsageBinder(this)
         addAllBinder(cycleBinder, dataHeaderBinder, appUsageBinder)
     }
 

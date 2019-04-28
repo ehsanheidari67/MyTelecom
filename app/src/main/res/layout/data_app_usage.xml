@@ -1,39 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:background="@color/white"
-              android:orientation="vertical"
-              android:paddingTop="@dimen/top_margin">
+<layout>
+    <data>
+        <variable name="appUsage" type="ir.ipack.ehsan.local.ipack.data.db.entity.UsageEntity"/>
+    </data>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/layout_left_margin"
-        android:layout_marginStart="@dimen/layout_left_margin"
-        android:layout_marginRight="@dimen/layout_right_margin"
-        android:layout_marginEnd="@dimen/layout_right_margin"
-        android:orientation="horizontal">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:app="http://schemas.android.com/apk/res-auto"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:background="@color/white"
+                  android:orientation="vertical"
+                  android:paddingTop="@dimen/top_margin">
 
-        <ir.ipack.ehsan.local.ipack.views.TelecoUsageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:bottomLeftText=" "
-            app:bottomRightText=" "
-            app:image="@android:drawable/ic_lock_lock"
-            app:percentUsed="5"
-            app:topText=" " />
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/layout_left_margin"
+                android:layout_marginStart="@dimen/layout_left_margin"
+                android:layout_marginRight="@dimen/layout_right_margin"
+                android:layout_marginEnd="@dimen/layout_right_margin"
+                android:orientation="horizontal">
+
+            <ir.ipack.ehsan.local.ipack.views.TelecoUsageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:appUsage="@{appUsage}"
+                    app:image="@android:drawable/ic_lock_lock"/>
+
+        </LinearLayout>
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/separator_line_height"
+                android:layout_marginLeft="@dimen/layout_left_margin"
+                android:layout_marginStart="@dimen/layout_left_margin"
+                android:layout_marginRight="@dimen/layout_right_margin"
+                android:layout_marginEnd="@dimen/layout_right_margin"
+                android:layout_marginTop="@dimen/top_margin"
+                android:background="@color/light_gray"/>
 
     </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/separator_line_height"
-        android:layout_marginLeft="@dimen/layout_left_margin"
-        android:layout_marginStart="@dimen/layout_left_margin"
-        android:layout_marginRight="@dimen/layout_right_margin"
-        android:layout_marginEnd="@dimen/layout_right_margin"
-        android:layout_marginTop="@dimen/top_margin"
-        android:background="@color/light_gray" />
-
-</LinearLayout>
+</layout>

@@ -2,30 +2,35 @@
   ~ Licensed Materials - Property of IBM
   ~ © Copyright IBM Corporation 2015. All Rights Reserved.
   -->
-
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/data_frag"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@color/material_gray"
-        tools:context="ir.ipack.ehsan.local.ipack.mydata.MyDataFragment">
-
-    <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/my_data_recyclerview"
+<layout>
+    <data>
+        <variable name="adapter" type="ir.ipack.ehsan.local.ipack.mydata.MyDataRecyclerAdapter"/>
+    </data>
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/data_frag"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:paddingBottom="@dimen/recyclerView_bottom_padding"
-            android:visibility="gone"/>
+            android:orientation="vertical"
+            android:background="@color/material_gray"
+            tools:context="ir.ipack.ehsan.local.ipack.mydata.MyDataFragment">
 
-    <ProgressBar
-            android:id="@+id/progressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"/>
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/my_data_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingBottom="@dimen/recyclerView_bottom_padding"
+                android:visibility="gone"
+                android:adapter="@{adapter}"/>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+        <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"/>
 
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</layout>

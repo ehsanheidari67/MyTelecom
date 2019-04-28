@@ -27,8 +27,7 @@ class CycleBinder(
     dataBindAdapter: DataBindAdapter,
     val mSnackbarLayout: CoordinatorLayout,
     val viewModel: BaseViewModel
-) :
-    DataBinder<CycleBinder.CurrentCycleViewHolder>(dataBindAdapter) {
+) : DataBinder<CycleBinder.CurrentCycleViewHolder>(dataBindAdapter) {
 
     var mCurrentCycle: CycleEntity? = null
 
