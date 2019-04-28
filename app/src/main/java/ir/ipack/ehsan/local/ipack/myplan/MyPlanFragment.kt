@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import ir.ipack.ehsan.local.ipack.R
 import ir.ipack.ehsan.local.ipack.ViewModelFactory
 import ir.ipack.ehsan.local.ipack.activities.MainActivity
+import ir.ipack.ehsan.local.ipack.databinding.FragmentMyPlanBinding
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_my_data.progressBar
 import kotlinx.android.synthetic.main.fragment_my_plan.*
@@ -21,13 +23,20 @@ class MyPlanFragment : Fragment() {
     private lateinit var viewModel: MyPlanViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val rootView = inflater.inflate(R.layout.fragment_my_plan, container, false)
+//        val rootView = inflater.inflate(R.layout.fragment_my_plan, container, false)
+        val binding: FragmentMyPlanBinding = DataBindingUtil.inflate(
+            layoutInflater, R.layout.fragment_my_plan,
+            container, false
+        )
+
         val coorLayout = (activity as MainActivity).coordinator_layout
         planAdapter = MyPlanRecyclerAdapter(context!!, coorLayout)
-        rootView.recyclerView.adapter = planAdapter
-        rootView.recyclerView.layoutManager = LinearLayoutManager(activity)
+        binding.root.recyclerView.layoutManager = LinearLayoutManager(activity)
 
-        return rootView
+        binding.adapter = planAdapter
+
+
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
