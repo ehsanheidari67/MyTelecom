@@ -33,8 +33,7 @@
                 android:layout_height="wrap_content"
                 app:bottomRightText=" "
                 app:image="@drawable/incall"
-                app:percentUsed="5"
-                app:talkUsageIncoming="@{talkUsage}"
+                app:usageIncoming="@{talkUsage}"
         />
 
         <ir.ipack.ehsan.local.ipack.views.RobotoTextView
@@ -55,8 +54,7 @@
                 android:paddingBottom="@dimen/usage_bottom_padding"
                 app:bottomRightText=" "
                 app:image="@drawable/outcall"
-                app:talkUsageOutgoing="@{talkUsage}"
-                app:percentUsed="5"
+                app:usageOutgoing="@{talkUsage}"
         />
 
     </LinearLayout>
