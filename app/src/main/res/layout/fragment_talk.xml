@@ -1,22 +1,29 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             android:background="@color/material_gray"
-             tools:context="ir.ipack.ehsan.local.ipack.mytalk.MyTalkFragment">
-
-    <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/my_talk_recyclerview"
+<layout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable name="adapter" type="ir.ipack.ehsan.local.ipack.mytalk.MyTalkRecyclerAdapter"/>
+    </data>
+    <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:paddingBottom="@dimen/recyclerView_bottom_padding"
-            android:visibility="gone"/>
+            android:background="@color/material_gray"
+            tools:context="ir.ipack.ehsan.local.ipack.mytalk.MyTalkFragment">
 
-    <ProgressBar
-            android:id="@+id/progressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"/>
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/my_talk_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingBottom="@dimen/recyclerView_bottom_padding"
+                android:adapter="@{adapter}"
+                android:visibility="gone"/>
 
-</FrameLayout>
+        <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"/>
+
+    </FrameLayout>
+</layout>

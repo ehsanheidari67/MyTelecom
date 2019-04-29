@@ -167,6 +167,27 @@ fun TelecoUsageView.setAppUsage(usageEntity: UsageEntity?) {
     }
 }
 
+@BindingAdapter("talkUsageIncoming")
+fun TelecoUsageView.setIncomingTalkUsage(usageEntity: UsageEntity?) {
+    usageEntity?.let {
+        setBottomRightText(it.incoming.toString() + " " + PlanConstants.TALK_UNIT)
+        if (it.total != null && it.incoming != null && it.outgoing != null) {
+            setPercentUsed(it.incoming * 100 / it.total)
+        }
+    }
+
+}
+
+@BindingAdapter("talkUsageOutgoing")
+fun TelecoUsageView.setOutgoingTalkUsage(usageEntity: UsageEntity?) {
+    usageEntity?.let {
+        setBottomRightText(it.outgoing.toString() + " " + PlanConstants.TALK_UNIT)
+        if (it.total != null && it.incoming != null && it.outgoing != null) {
+            setPercentUsed(it.outgoing * 100 / it.total)
+        }
+    }
+}
+
 private fun setUsedVsLimit(cycle: CycleEntity): String {
     return cycle.used.toString() + "/" + cycle.limit + " " + cycle.unit
 }

@@ -23,16 +23,15 @@ import ir.ipack.ehsan.local.ipack.mytext.MyTextViewModel
 import ir.ipack.ehsan.local.ipack.utils.CycleTypeEnum
 import ir.ipack.ehsan.local.ipack.utils.PlanConstants
 import kotlinx.android.synthetic.main.data_add_gb.view.*
-import kotlinx.android.synthetic.main.telco_usage_view.view.*
 
 class CycleBinder(
     context: Context,
     dataBindAdapter: DataBindAdapter,
-    val mSnackbarLayout: CoordinatorLayout,
+    val snackBarLayout: CoordinatorLayout,
     val viewModel: BaseViewModel
 ) : DataBinder<CycleBinder.CurrentCycleViewHolder>(dataBindAdapter) {
 
-    var mCurrentCycle: CycleEntity? = null
+    var currentCycle: CycleEntity? = null
 
     private var DOLLARS_PER_STEP: Int = 0
     private var STEP_AMOUNT: Int = 0
@@ -41,25 +40,8 @@ class CycleBinder(
 
     override fun bindViewHolder(holder: CurrentCycleViewHolder?, position: Int) {
         holder?.let {
-            mCurrentCycle?.let { cycle ->
+            currentCycle?.let { cycle ->
                 it.bind(cycle)
-//                val usedPercent = cycle.usedPercentage
-//                val cycleImageResource = when (cycle.type) {
-//                    CycleTypeEnum.TEXT -> R.drawable.text_dark_gray
-//                    CycleTypeEnum.TALK -> R.drawable.talk_dark_gray
-//                    else -> R.drawable.data_dark_gray
-//                }
-//                it.usageImage.setImageResource(cycleImageResource)
-//
-//                it.usageBottomLeftUsage.text = cycle.used.toString() + "/" + cycle.limit + " " + cycle.unit
-//                it.usageBottomRightText.text = String.format("%.2f", usedPercent) +
-//                        resources.getString(R.string.percent_used)
-//                it.usageProgressBar.progress = usedPercent.toInt()
-
-
-//                it.monthlyUsage.text = cycle.limit.toString()
-//
-//                it.unit.text = cycle.unit?.unit
             }
         }
     }
@@ -76,7 +58,7 @@ class CycleBinder(
     }
 
     fun add(cycle: CycleEntity) {
-        mCurrentCycle = cycle
+        currentCycle = cycle
         DOLLARS_PER_STEP = getDollarsPerStep()
         STEP_AMOUNT = getStepAmount()
         MAX_AMOUNT = getMaxAmount()
@@ -85,7 +67,7 @@ class CycleBinder(
 
     private fun getStepAmount(): Int {
 
-        when (mCurrentCycle?.type) {
+        when (currentCycle?.type) {
             CycleTypeEnum.INTERNET -> return PlanConstants.DATA_STEP_AMOUNT
             CycleTypeEnum.TALK -> return PlanConstants.TALK_STEP_AMOUNT
             CycleTypeEnum.TEXT -> return PlanConstants.TEXT_STEP_AMOUNT
@@ -94,7 +76,7 @@ class CycleBinder(
     }
 
     private fun getDollarsPerStep(): Int {
-        when (mCurrentCycle?.type) {
+        when (currentCycle?.type) {
             CycleTypeEnum.INTERNET -> return PlanConstants.DATA_DOLLARS_PER_STEP
             CycleTypeEnum.TALK -> return PlanConstants.TALK_DOLLARS_PER_STEP
             CycleTypeEnum.TEXT -> return PlanConstants.TEXT_DOLLARS_PER_STEP
@@ -103,7 +85,7 @@ class CycleBinder(
     }
 
     private fun getMaxAmount(): Int {
-        when (mCurrentCycle?.type) {
+        when (currentCycle?.type) {
             CycleTypeEnum.INTERNET -> return PlanConstants.DATA_MAX_AMOUNT
             CycleTypeEnum.TALK -> return PlanConstants.TALK_MAX_AMOUNT
             CycleTypeEnum.TEXT -> return PlanConstants.TEXT_MAX_AMOUNT
@@ -114,10 +96,6 @@ class CycleBinder(
     inner class CurrentCycleViewHolder(private val binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root),
         View.OnClickListener {
 
-        val usageImage = itemView.usage_image
-        val usageBottomLeftUsage = itemView.bottom_left_text
-        val usageBottomRightText = itemView.bottom_right_text
-        val usageProgressBar = itemView.progress_bar
         val monthlyUsage = itemView.usage_gb
         val upArrow: ImageView = itemView.up_arrow
         val downArrow: ImageView = itemView.down_arrow
@@ -138,7 +116,7 @@ class CycleBinder(
 
         override fun onClick(view: View?) {
             view?.let {
-                mCurrentCycle?.let { currentCycle ->
+                currentCycle?.let { currentCycle ->
                     currentCycle.limit?.let { currentCycleLimit ->
                         currentCycle.used?.let { currentCycleUsed ->
                             var limit = monthlyUsage.text.toString().toInt()
@@ -177,7 +155,7 @@ class CycleBinder(
                 viewModel.updateBaseCost(-addedCost)
             }
 
-            Snackbar.make(mSnackbarLayout, resources.getString(R.string.baseplan_snackbar), Snackbar.LENGTH_LONG)
+            Snackbar.make(snackBarLayout, resources.getString(R.string.baseplan_snackbar), Snackbar.LENGTH_LONG)
                 .setAction(resources.getString(R.string.undo), undoAction)
                 .setActionTextColor(resources.getColor(R.color.light_indigo))
                 .show()
@@ -188,13 +166,13 @@ class CycleBinder(
         }
 
         private fun updateLimit(limit: Int) {
-            mCurrentCycle?.limit = limit
+            currentCycle?.limit = limit
             updatePlanCycles()
             confirmUpdate.setTextColor(resources.getColor(R.color.light_gray))
         }
 
         private fun updatePlanCycles() {
-            mCurrentCycle?.let {
+            currentCycle?.let {
                 when (viewModel) {
                     is MyDataViewModel -> viewModel.updateDataCycle(it)
                     is MyTalkViewModel -> viewModel.updateTalkCycle(it)
