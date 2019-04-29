@@ -7,10 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.yqritc.recyclerviewmultipleviewtypesadapter.DataBindAdapter
 import com.yqritc.recyclerviewmultipleviewtypesadapter.DataBinder
+import ir.ipack.ehsan.local.ipack.BR
 import ir.ipack.ehsan.local.ipack.BaseViewModel
 import ir.ipack.ehsan.local.ipack.R
 import ir.ipack.ehsan.local.ipack.data.db.entity.CycleEntity
@@ -39,21 +42,24 @@ class CycleBinder(
     override fun bindViewHolder(holder: CurrentCycleViewHolder?, position: Int) {
         holder?.let {
             mCurrentCycle?.let { cycle ->
-                val usedPercent = cycle.usedPercentage
-                val cycleImageResource = when (cycle.type) {
-                    CycleTypeEnum.TEXT -> R.drawable.text_dark_gray
-                    CycleTypeEnum.TALK -> R.drawable.talk_dark_gray
-                    else -> R.drawable.data_dark_gray
-                }
-                it.usageImage.setImageResource(cycleImageResource)
+                it.bind(cycle)
+//                val usedPercent = cycle.usedPercentage
+//                val cycleImageResource = when (cycle.type) {
+//                    CycleTypeEnum.TEXT -> R.drawable.text_dark_gray
+//                    CycleTypeEnum.TALK -> R.drawable.talk_dark_gray
+//                    else -> R.drawable.data_dark_gray
+//                }
+//                it.usageImage.setImageResource(cycleImageResource)
+//
+//                it.usageBottomLeftUsage.text = cycle.used.toString() + "/" + cycle.limit + " " + cycle.unit
+//                it.usageBottomRightText.text = String.format("%.2f", usedPercent) +
+//                        resources.getString(R.string.percent_used)
+//                it.usageProgressBar.progress = usedPercent.toInt()
 
-                it.usageBottomLeftUsage.text = cycle.used.toString() + "/" + cycle.limit + " " + cycle.unit
-                it.usageBottomRightText.text = String.format("%.2f", usedPercent) +
-                        resources.getString(R.string.percent_used)
-                it.usageProgressBar.progress = usedPercent.toInt()
-                it.monthlyUsage.text = cycle.limit.toString()
 
-                it.unit.text = cycle.unit?.unit
+//                it.monthlyUsage.text = cycle.limit.toString()
+//
+//                it.unit.text = cycle.unit?.unit
             }
         }
     }
@@ -61,8 +67,12 @@ class CycleBinder(
     override fun getItemCount(): Int = 1
 
     override fun newViewHolder(parent: ViewGroup?): CurrentCycleViewHolder {
-        val view = LayoutInflater.from(parent?.context).inflate(R.layout.usage_current_cycle, parent, false)
-        return CurrentCycleViewHolder(view)
+        val inflater = LayoutInflater.from(parent?.context)
+        val viewDataBinding: ViewDataBinding = DataBindingUtil.inflate(
+            inflater, R.layout.usage_current_cycle, parent,
+            false
+        )
+        return CurrentCycleViewHolder(viewDataBinding)
     }
 
     fun add(cycle: CycleEntity) {
@@ -101,7 +111,8 @@ class CycleBinder(
         return 0
     }
 
-    inner class CurrentCycleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+    inner class CurrentCycleViewHolder(private val binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root),
+        View.OnClickListener {
 
         val usageImage = itemView.usage_image
         val usageBottomLeftUsage = itemView.bottom_left_text
@@ -119,6 +130,10 @@ class CycleBinder(
             upArrow.setOnClickListener(this)
             downArrow.setOnClickListener(this)
             confirmUpdate.setOnClickListener(this)
+        }
+
+        fun bind(cycle: CycleEntity?) {
+            binding.setVariable(BR.dataCycle, cycle)
         }
 
         override fun onClick(view: View?) {
