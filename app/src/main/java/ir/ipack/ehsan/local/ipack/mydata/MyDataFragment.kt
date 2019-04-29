@@ -5,12 +5,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import ir.ipack.ehsan.local.ipack.R
 import ir.ipack.ehsan.local.ipack.ViewModelFactory
 import ir.ipack.ehsan.local.ipack.activities.MainActivity
+import ir.ipack.ehsan.local.ipack.databinding.FragmentMyDataBinding
 import ir.ipack.ehsan.local.ipack.utils.RecyclerDivider
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_my_data.*
@@ -22,11 +24,15 @@ class MyDataFragment : Fragment() {
     private lateinit var viewModel: MyDataViewModel
     private lateinit var appResources: Resources
     private lateinit var rootView: View
+    private lateinit var binding : FragmentMyDataBinding
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_my_data, container, false).also {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        binding =  DataBindingUtil.inflate(inflater, R.layout.fragment_my_data, container,
+            false)
+        return binding.root.also {
             rootView = it
         }
+    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -43,7 +49,8 @@ class MyDataFragment : Fragment() {
         val coorLayout = (activity as MainActivity).coordinator_layout
         appResources = activity!!.resources
         dataAdapter = MyDataRecyclerAdapter(context!!, coorLayout, viewModel)
-        rootView.my_data_recyclerview.adapter = dataAdapter
+
+        binding.adapter = dataAdapter
         rootView.my_data_recyclerview.layoutManager = LinearLayoutManager(activity)
     }
 

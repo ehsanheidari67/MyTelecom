@@ -29,7 +29,6 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/light_gray"
                 android:textSize="12sp"
-                tools:text=""
                 />
 
             <ProgressBar
@@ -52,7 +51,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/light_gray"
                     android:textSize="12sp"
-                    tools:text="58" />
+                />
 
                 <ir.ipack.ehsan.local.ipack.views.RobotoTextView
                     android:id="@+id/bottom_right_text"
@@ -61,7 +60,6 @@
                     android:gravity="end"
                     android:textColor="@color/light_gray"
                     android:textSize="12sp"
-                    tools:text=""
                     />
 
             </LinearLayout>

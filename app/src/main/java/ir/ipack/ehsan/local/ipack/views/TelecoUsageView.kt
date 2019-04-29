@@ -6,9 +6,13 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import ir.ipack.ehsan.local.ipack.R
 import ir.ipack.ehsan.local.ipack.data.db.entity.CycleEntity
+import ir.ipack.ehsan.local.ipack.data.db.entity.UsageEntity
+import ir.ipack.ehsan.local.ipack.utils.CycleTypeEnum
+import ir.ipack.ehsan.local.ipack.utils.PlanConstants
 import kotlinx.android.synthetic.main.telco_usage_view.view.*
 
 class TelecoUsageView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
@@ -78,9 +82,15 @@ class TelecoUsageView(context: Context, attrs: AttributeSet) : LinearLayout(cont
     }
 
 
-    fun setImageSource(imageSource: Drawable) {
+    fun setImageSource(imageSource: Drawable?) {
         this.imageSource = imageSource
         setUsageImageUI()
+    }
+
+    fun setImageSource(cycleImageResource: Int) {
+
+        usage_image.setImageResource(cycleImageResource)
+
     }
 
     fun setBottomLeftText(text: String) {
@@ -92,15 +102,15 @@ class TelecoUsageView(context: Context, attrs: AttributeSet) : LinearLayout(cont
         this.bottomRightText = text
         setTextView(bottom_right_text, text)
     }
-}
 
-@BindingAdapter("percentUsed")
-fun TelecoUsageView.setPercentUsed1(percentUsed: Double) {
-    setPercentUsed(percentUsed.toInt())
+    fun setTopText(text: String?) {
+        this.topText = text
+        setTextView(usage_top_text, text)
+    }
 }
 
 @BindingAdapter("cycle")
-fun TelecoUsageView.setCycle(cycle:CycleEntity?){
+fun TelecoUsageView.setCycle(cycle: CycleEntity?) {
     cycle?.let {
         setPercentUsed(it.usedPercentage.toInt())
         setBottomLeftText(setUsedVsLimit(it))
@@ -110,8 +120,51 @@ fun TelecoUsageView.setCycle(cycle:CycleEntity?){
                 cycle.usedPercentage
             ) + resources.getString(R.string.percent_used)
         )
-    }
 
+        setImageSource(
+            ContextCompat.getDrawable(
+                context,
+                when (cycle.type) {
+                    CycleTypeEnum.TEXT -> R.drawable.text_dark_gray
+                    CycleTypeEnum.TALK -> R.drawable.talk_dark_gray
+                    else -> R.drawable.data_dark_gray
+                }
+            )
+        )
+
+    }
+}
+
+@BindingAdapter("appUsage")
+fun TelecoUsageView.setAppUsage(usageEntity: UsageEntity?) {
+    usageEntity?.let {
+        progress_bar.visibility = View.VISIBLE
+        bottom_left_text.textSize = 12f
+        bottom_left_text.setTextColor(resources.getColor(R.color.light_gray))
+        bottom_left_text.setFont(context, resources.getString(R.string.roboto_regular))
+        setBottomLeftText(it.used.toString() + " " + PlanConstants.DATA_UNIT)
+        setTopText(it.appName)
+
+        it.imageName?.let { dataUsageUsageImageName ->
+            val resId = context.resources.getIdentifier(
+                dataUsageUsageImageName, "drawable",
+                context.packageName
+            )
+            usage_image.setImageResource(resId)
+        }
+
+        progress_bar.progress = it.seekBarProgress
+
+        setBottomRightText(it.seekBarProgress.toString() + resources.getString(R.string.percent_used))
+
+        if (it.isUnlimited) {
+            progress_bar.visibility = View.GONE
+            bottom_left_text.textSize = 14f
+            bottom_left_text.setTextColor(resources.getColor(R.color.dark_gray))
+            bottom_left_text.setFont(context, resources.getString(R.string.roboto_medium))
+            bottom_right_text.text = resources.getString(R.string.unlimited_offer)
+        }
+    }
 }
 
 private fun setUsedVsLimit(cycle: CycleEntity): String {

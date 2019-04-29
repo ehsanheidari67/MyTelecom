@@ -23,9 +23,8 @@ class MyPlanFragment : Fragment() {
     private lateinit var viewModel: MyPlanViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-//        val rootView = inflater.inflate(R.layout.fragment_my_plan, container, false)
         val binding: FragmentMyPlanBinding = DataBindingUtil.inflate(
-            layoutInflater, R.layout.fragment_my_plan,
+            inflater, R.layout.fragment_my_plan,
             container, false
         )
 
