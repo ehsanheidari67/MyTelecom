@@ -5,12 +5,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import ir.ipack.ehsan.local.ipack.R
 import ir.ipack.ehsan.local.ipack.ViewModelFactory
 import ir.ipack.ehsan.local.ipack.activities.MainActivity
+import ir.ipack.ehsan.local.ipack.databinding.FragmentTalkBinding
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_my_data.progressBar
 import kotlinx.android.synthetic.main.fragment_talk.*
@@ -21,11 +23,16 @@ class MyTalkFragment : Fragment() {
     private lateinit var viewModel: MyTalkViewModel
     private lateinit var appResources: Resources
     private lateinit var rootView: View
+    private lateinit var binding: FragmentTalkBinding
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_talk, container, false).also {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        binding = DataBindingUtil.inflate(
+            inflater, R.layout.fragment_talk, container, false
+        )
+        return binding.root.also {
             rootView = it
         }
+    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -42,7 +49,7 @@ class MyTalkFragment : Fragment() {
         appResources = activity!!.resources
         rootView.my_talk_recyclerview.layoutManager = LinearLayoutManager(activity)
         talkAdapter = MyTalkRecyclerAdapter(context!!, coorLayout, viewModel)
-        rootView.my_talk_recyclerview.adapter = talkAdapter
+        binding.adapter = talkAdapter
     }
 
     private fun subscribeToModels() {

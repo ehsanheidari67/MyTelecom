@@ -5,12 +5,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import ir.ipack.ehsan.local.ipack.R
 import ir.ipack.ehsan.local.ipack.ViewModelFactory
 import ir.ipack.ehsan.local.ipack.activities.MainActivity
+import ir.ipack.ehsan.local.ipack.databinding.FragmentTextBinding
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_my_data.progressBar
 import kotlinx.android.synthetic.main.fragment_text.*
@@ -21,11 +23,16 @@ class MyTextFragment : Fragment() {
     private lateinit var viewModel: MyTextViewModel
     private lateinit var appResources: Resources
     private lateinit var rootView: View
+    private lateinit var binding: FragmentTextBinding
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_text, container, false).also {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        binding = DataBindingUtil.inflate(
+            inflater, R.layout.fragment_text, container, false
+        )
+        return binding.root.also {
             rootView = it
         }
+    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -41,7 +48,7 @@ class MyTextFragment : Fragment() {
         val coorLayout = (activity as MainActivity).coordinator_layout
         appResources = activity!!.resources
         textAdapter = MyTextRecyclerAdapter(context!!, coorLayout, viewModel)
-        rootView.my_text_recyclerview.adapter = textAdapter
+        binding.adapter = textAdapter
         rootView.my_text_recyclerview.layoutManager = LinearLayoutManager(activity)
     }
 
