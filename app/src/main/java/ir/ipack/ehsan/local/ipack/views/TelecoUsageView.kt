@@ -170,7 +170,17 @@ fun TelecoUsageView.setAppUsage(usageEntity: UsageEntity?) {
 @BindingAdapter("talkUsageIncoming")
 fun TelecoUsageView.setIncomingTalkUsage(usageEntity: UsageEntity?) {
     usageEntity?.let {
-        setBottomRightText(it.incoming.toString() + " " + PlanConstants.TALK_UNIT)
+        val unit = when (it.type?.type) {
+            CycleTypeEnum.TALK.type -> {
+                setImageSource(ContextCompat.getDrawable(context, R.drawable.incall))
+                PlanConstants.TALK_UNIT
+            }
+            else -> {
+                setImageSource(ContextCompat.getDrawable(context, R.drawable.intext))
+                PlanConstants.TEXT_UNIT
+            }
+        }
+        setBottomRightText(it.incoming.toString() + " " + unit)
         if (it.total != null && it.incoming != null && it.outgoing != null) {
             setPercentUsed(it.incoming * 100 / it.total)
         }
@@ -181,7 +191,17 @@ fun TelecoUsageView.setIncomingTalkUsage(usageEntity: UsageEntity?) {
 @BindingAdapter("talkUsageOutgoing")
 fun TelecoUsageView.setOutgoingTalkUsage(usageEntity: UsageEntity?) {
     usageEntity?.let {
-        setBottomRightText(it.outgoing.toString() + " " + PlanConstants.TALK_UNIT)
+        val unit = when (it.type?.type) {
+            CycleTypeEnum.TALK.type -> {
+                setImageSource(ContextCompat.getDrawable(context, R.drawable.outcall))
+                PlanConstants.TALK_UNIT
+            }
+            else -> {
+                setImageSource(ContextCompat.getDrawable(context, R.drawable.outtext))
+                PlanConstants.TEXT_UNIT
+            }
+        }
+        setBottomRightText(it.outgoing.toString() + " " + unit)
         if (it.total != null && it.incoming != null && it.outgoing != null) {
             setPercentUsed(it.outgoing * 100 / it.total)
         }

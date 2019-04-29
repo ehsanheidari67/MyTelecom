@@ -33,7 +33,6 @@
                 android:layout_height="wrap_content"
                 app:bottomRightText=" "
                 app:image="@drawable/incall"
-                app:percentUsed="5"
                 app:talkUsageIncoming="@{talkUsage}"
         />
 
@@ -56,7 +55,6 @@
                 app:bottomRightText=" "
                 app:image="@drawable/outcall"
                 app:talkUsageOutgoing="@{talkUsage}"
-                app:percentUsed="5"
         />
 
     </LinearLayout>

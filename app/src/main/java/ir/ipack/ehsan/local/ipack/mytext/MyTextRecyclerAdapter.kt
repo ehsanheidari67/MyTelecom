@@ -12,7 +12,7 @@ import ir.ipack.ehsan.local.ipack.mytext.binders.TextIncomingOutgoingBinder
 class MyTextRecyclerAdapter(context: Context, coordinatorLayout: CoordinatorLayout, baseViewModel: BaseViewModel) : ListBindAdapter() {
     init {
         val cycleBinder = CycleBinder(context, this, coordinatorLayout, baseViewModel)
-        val textUsageBinder = TextIncomingOutgoingBinder(context, this)
+        val textUsageBinder = TextIncomingOutgoingBinder(this)
         addAllBinder(cycleBinder, textUsageBinder)
     }
 

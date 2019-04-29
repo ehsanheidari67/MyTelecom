@@ -1,49 +1,40 @@
 package ir.ipack.ehsan.local.ipack.mytext.binders
 
-import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.res.ResourcesCompat
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import com.yqritc.recyclerviewmultipleviewtypesadapter.DataBindAdapter
 import com.yqritc.recyclerviewmultipleviewtypesadapter.DataBinder
+import ir.ipack.ehsan.local.ipack.BR
 import ir.ipack.ehsan.local.ipack.R
 import ir.ipack.ehsan.local.ipack.data.db.entity.UsageEntity
-import ir.ipack.ehsan.local.ipack.utils.PlanConstants
-import kotlinx.android.synthetic.main.incoming_outgoing.view.*
 
-class TextIncomingOutgoingBinder(context: Context, dataBindAdapter: DataBindAdapter) :
+class TextIncomingOutgoingBinder(dataBindAdapter: DataBindAdapter) :
     DataBinder<TextIncomingOutgoingBinder.TextUsageViewHolder>(dataBindAdapter) {
-    private var mTextUsage: UsageEntity? = null
-    private val mResources = context.resources
+    private var textUsage: UsageEntity? = null
 
     override fun bindViewHolder(holder: TextUsageViewHolder?, position: Int) {
         holder?.let {
-            mTextUsage?.let { usage ->
-                ResourcesCompat.getDrawable(
-                    mResources,
-                    R.drawable.intext,
-                    null
-                )?.apply {
-                    it.incomingBar.setImageSource(this)
-                }
+            textUsage?.let { usage ->
+                it.bind(usage)
 
-                ResourcesCompat.getDrawable(
-                    mResources,
-                    R.drawable.outtext,
-                    null
-                )?.apply {
-                    it.outgoingBar.setImageSource(this)
-                }
-
-                it.incomingBar.setBottomRightText(usage.incoming.toString() + " " + PlanConstants.TEXT_UNIT)
-                it.outgoingBar.setBottomRightText(usage.outgoing.toString() + " " + PlanConstants.TEXT_UNIT)
-
-                if (usage.total != null && usage.incoming != null && usage.outgoing != null) {
-                    it.incomingBar.setPercentUsed(usage.incoming * 100 / usage.total)
-                    it.outgoingBar.setPercentUsed(usage.outgoing * 100 / usage.total)
-                }
+//                ResourcesCompat.getDrawable(
+//                    mResources,
+//                    R.drawable.intext,
+//                    null
+//                )?.apply {
+//                    it.incomingBar.setImageSource(this)
+//                }
+//
+//                ResourcesCompat.getDrawable(
+//                    mResources,
+//                    R.drawable.outtext,
+//                    null
+//                )?.apply {
+//                    it.outgoingBar.setImageSource(this)
+//                }
             }
         }
     }
@@ -51,17 +42,20 @@ class TextIncomingOutgoingBinder(context: Context, dataBindAdapter: DataBindAdap
     override fun getItemCount(): Int = 1
 
     override fun newViewHolder(parent: ViewGroup?): TextUsageViewHolder {
-        val view = LayoutInflater.from(parent?.context).inflate(R.layout.incoming_outgoing, parent, false)
-        return TextUsageViewHolder(view)
+        val inflater = LayoutInflater.from(parent?.context)
+        val viewDataBinding: ViewDataBinding =
+            DataBindingUtil.inflate(inflater, R.layout.incoming_outgoing, parent, false)
+        return TextUsageViewHolder(viewDataBinding)
     }
 
     fun add(textUsage: UsageEntity) {
-        mTextUsage = textUsage
+        this.textUsage = textUsage
         notifyBinderDataSetChanged()
     }
 
-    class TextUsageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val incomingBar = itemView.incomingBar
-        val outgoingBar = itemView.outgoingBar
+    class TextUsageViewHolder(private val binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(textUsage: UsageEntity?) {
+            binding.setVariable(BR.talkUsage, textUsage)
+        }
     }
 }

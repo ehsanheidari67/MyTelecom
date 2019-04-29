@@ -13,11 +13,11 @@ import ir.ipack.ehsan.local.ipack.data.db.entity.UsageEntity
 
 class TalkIncomingOutgoingBinder(dataBindAdapter: DataBindAdapter) :
     DataBinder<TalkIncomingOutgoingBinder.TalkUsageViewHolder>(dataBindAdapter) {
-    private var mTalkUsage: UsageEntity? = null
+    private var talkUsage: UsageEntity? = null
 
     override fun bindViewHolder(holder: TalkUsageViewHolder?, position: Int) {
         holder?.let {
-            mTalkUsage?.let { usage ->
+            talkUsage?.let { usage ->
                 it.bind(usage)
             }
         }
@@ -33,7 +33,7 @@ class TalkIncomingOutgoingBinder(dataBindAdapter: DataBindAdapter) :
     }
 
     fun add(talkUsage: UsageEntity) {
-        mTalkUsage = talkUsage
+        this.talkUsage = talkUsage
         notifyBinderDataSetChanged()
     }
 
