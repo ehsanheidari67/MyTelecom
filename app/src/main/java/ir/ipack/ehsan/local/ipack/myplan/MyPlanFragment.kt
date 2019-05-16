@@ -34,7 +34,6 @@ class MyPlanFragment : Fragment() {
 
         binding.adapter = planAdapter
 
-
         return binding.root
     }
 

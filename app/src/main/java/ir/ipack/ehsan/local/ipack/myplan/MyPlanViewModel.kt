@@ -4,14 +4,20 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
+import ir.ipack.ehsan.local.ipack.core.domain.baseplan.GetBasePlan
+import ir.ipack.ehsan.local.ipack.core.domain.cycle.GetCycleByTypeUseCase
 import ir.ipack.ehsan.local.ipack.core.exception.Failure
+import ir.ipack.ehsan.local.ipack.core.result.Result
 import ir.ipack.ehsan.local.ipack.data.db.entity.BasePlanEntity
 import ir.ipack.ehsan.local.ipack.data.db.entity.CycleEntity
-import ir.ipack.ehsan.local.ipack.data.source.Repository
+import ir.ipack.ehsan.local.ipack.utils.CycleTypeEnum
 
 class MyPlanViewModel(
     context: Application,
-    repository: Repository
+    getBasePlan: GetBasePlan,
+    getDataCycleByTypeUseCase: GetCycleByTypeUseCase,
+    getTalkCycleByTypeUseCase: GetCycleByTypeUseCase,
+    getTextCycleByTypeUseCase: GetCycleByTypeUseCase
 ) : AndroidViewModel(context) {
 
     private val _failure = MediatorLiveData<Failure>()
@@ -33,44 +39,31 @@ class MyPlanViewModel(
     val textCycle: LiveData<CycleEntity>
         get() = _textCycle
 
-    private val basePlanResult = repository.getBasePlanStreamLive()
-    private val textCycleResult = repository.getTextCycleStreamLive()
-    private val talkCycleResult = repository.getTalkCycleStreamLive()
-    private val dataCycleResult = repository.getDataCycleStreamLive()
-
     init {
-        _basePlan.addSource(basePlanResult) {
-            it.either(::handleFailure, ::handleBasePlan)
+        getBasePlan.execute(Unit)
+        _basePlan.addSource(getBasePlan.observe()) {
+            (it as? Result.Success)?.let { result ->
+                _basePlan.value = result.data
+            }
         }
 
-        _textCycle.addSource(textCycleResult) {
-            it.either(::handleFailure, ::handleTextCycle)
+        getTextCycleByTypeUseCase.execute(CycleTypeEnum.TEXT)
+        _textCycle.addSource(getTextCycleByTypeUseCase.observe()) {
+            (it as? Result.Success)?.let { result ->
+                _textCycle.value = result.data
+            }
         }
-        _talkCycle.addSource(talkCycleResult) {
-            it.either(::handleFailure, ::handleTalkCycle)
+        getTalkCycleByTypeUseCase.execute(CycleTypeEnum.TALK)
+        _talkCycle.addSource(getTalkCycleByTypeUseCase.observe()) {
+            (it as? Result.Success)?.let { result ->
+                _talkCycle.value = result.data
+            }
         }
-        _dataCycle.addSource(dataCycleResult) {
-            it.either(::handleFailure, ::handleDataCycle)
+        getDataCycleByTypeUseCase.execute(CycleTypeEnum.INTERNET)
+        _dataCycle.addSource(getDataCycleByTypeUseCase.observe()) {
+            (it as? Result.Success)?.let { result ->
+                _dataCycle.value = result.data
+            }
         }
-    }
-
-    private fun handleTextCycle(cycleEntity: CycleEntity) {
-        _textCycle.value = cycleEntity
-    }
-
-    private fun handleTalkCycle(cycleEntity: CycleEntity) {
-        _talkCycle.value = cycleEntity
-    }
-
-    private fun handleDataCycle(cycleEntity: CycleEntity) {
-        _dataCycle.value = cycleEntity
-    }
-
-    private fun handleBasePlan(basePlanEntity: BasePlanEntity) {
-        _basePlan.value = basePlanEntity
-    }
-
-    private fun handleFailure(failure: Failure) {
-
     }
 }

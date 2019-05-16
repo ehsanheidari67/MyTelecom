@@ -20,6 +20,13 @@ import android.app.Application
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import ir.ipack.ehsan.local.ipack.core.domain.basecost.UpdateBaseCostUseCase
+import ir.ipack.ehsan.local.ipack.core.domain.baseplan.GetBasePlan
+import ir.ipack.ehsan.local.ipack.core.domain.cycle.GetCycleByTypeUseCase
+import ir.ipack.ehsan.local.ipack.core.domain.cycle.UpdateCycleUseCase
+import ir.ipack.ehsan.local.ipack.core.domain.usage.GetDataUsageUseCase
+import ir.ipack.ehsan.local.ipack.core.domain.usage.GetTalkUsageUseCase
+import ir.ipack.ehsan.local.ipack.core.domain.usage.GetTextUsageUseCase
 
 import ir.ipack.ehsan.local.ipack.data.source.Repository
 import ir.ipack.ehsan.local.ipack.mydata.MyDataViewModel
@@ -36,13 +43,13 @@ class ViewModelFactory private constructor(
         with(modelClass) {
             when {
                 isAssignableFrom(MyPlanViewModel::class.java) ->
-                    MyPlanViewModel(application, tasksRepository)
+                    MyPlanViewModel(application, GetBasePlan(tasksRepository), GetCycleByTypeUseCase(tasksRepository), GetCycleByTypeUseCase(tasksRepository), GetCycleByTypeUseCase(tasksRepository))
                 isAssignableFrom(MyDataViewModel::class.java) ->
-                    MyDataViewModel(application, tasksRepository)
+                    MyDataViewModel(application, GetDataUsageUseCase(tasksRepository), GetCycleByTypeUseCase(tasksRepository), UpdateCycleUseCase(tasksRepository), UpdateBaseCostUseCase(tasksRepository))
                 isAssignableFrom(MyTalkViewModel::class.java) ->
-                    MyTalkViewModel(application, tasksRepository)
+                    MyTalkViewModel(application, GetTalkUsageUseCase(tasksRepository), GetCycleByTypeUseCase(tasksRepository), UpdateCycleUseCase(tasksRepository), UpdateBaseCostUseCase(tasksRepository))
                 isAssignableFrom(MyTextViewModel::class.java) ->
-                    MyTextViewModel(application, tasksRepository)
+                    MyTextViewModel(application, GetTextUsageUseCase(tasksRepository), GetCycleByTypeUseCase(tasksRepository), UpdateCycleUseCase(tasksRepository), UpdateBaseCostUseCase(tasksRepository))
                 else ->
                     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }

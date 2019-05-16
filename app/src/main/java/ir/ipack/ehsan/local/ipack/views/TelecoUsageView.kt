@@ -81,7 +81,6 @@ class TelecoUsageView(context: Context, attrs: AttributeSet) : LinearLayout(cont
         setProgressBarUI()
     }
 
-
     fun setImageSource(imageSource: Drawable?) {
         this.imageSource = imageSource
         setUsageImageUI()
@@ -90,7 +89,6 @@ class TelecoUsageView(context: Context, attrs: AttributeSet) : LinearLayout(cont
     fun setImageSource(cycleImageResource: Int) {
 
         usage_image.setImageResource(cycleImageResource)
-
     }
 
     fun setBottomLeftText(text: String) {
@@ -131,7 +129,6 @@ fun TelecoUsageView.setCycle(cycle: CycleEntity?) {
                 }
             )
         )
-
     }
 }
 
@@ -185,7 +182,6 @@ fun TelecoUsageView.setIncomingTalkUsage(usageEntity: UsageEntity?) {
             setPercentUsed(it.incoming * 100 / it.total)
         }
     }
-
 }
 
 @BindingAdapter("usageOutgoing")
