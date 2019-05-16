@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ir.ipack.ehsan.local.ipack.core.functional
+package ir.ipack.ehsan.local.ipack.core.result
 
 /**
  * Represents a value of one of two possible types (a disjoint union).

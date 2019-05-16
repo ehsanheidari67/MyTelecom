@@ -17,7 +17,6 @@ class PlanOverviewBinder(dataBinderAdapter: DataBindAdapter) :
     private var talkCycle: CycleEntity? = null
     private var textCycle: CycleEntity? = null
 
-
     override fun bindViewHolder(holder: PlanOverviewHolder?, position: Int) {
             holder?.bind(dataCycle, talkCycle, textCycle)
     }
@@ -26,13 +25,13 @@ class PlanOverviewBinder(dataBinderAdapter: DataBindAdapter) :
 
     override fun newViewHolder(parent: ViewGroup?): PlanOverviewHolder {
         val inflater = LayoutInflater.from(parent?.context)
-        val viewDataBinding:ViewDataBinding
-                = DataBindingUtil.inflate(inflater, R.layout.my_plan_header, parent, false)
+        val viewDataBinding: ViewDataBinding =
+                DataBindingUtil.inflate(inflater, R.layout.my_plan_header, parent, false)
         return PlanOverviewHolder(viewDataBinding)
     }
 
     class PlanOverviewHolder(private val binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(dataCycle: CycleEntity?, talkCycle: CycleEntity?, textCycle: CycleEntity?){
+        fun bind(dataCycle: CycleEntity?, talkCycle: CycleEntity?, textCycle: CycleEntity?) {
             binding.setVariable(BR.dataCycle, dataCycle)
             binding.setVariable(BR.talkCycle, talkCycle)
             binding.setVariable(BR.textCycle, textCycle)

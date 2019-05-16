@@ -4,14 +4,22 @@ import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import ir.ipack.ehsan.local.ipack.BaseViewModel
+import ir.ipack.ehsan.local.ipack.core.domain.basecost.UpdateBaseCostUseCase
+import ir.ipack.ehsan.local.ipack.core.domain.cycle.GetCycleByTypeUseCase
+import ir.ipack.ehsan.local.ipack.core.domain.cycle.UpdateCycleUseCase
+import ir.ipack.ehsan.local.ipack.core.domain.usage.GetTalkUsageUseCase
 import ir.ipack.ehsan.local.ipack.core.exception.Failure
+import ir.ipack.ehsan.local.ipack.core.result.Result
 import ir.ipack.ehsan.local.ipack.data.db.entity.CycleEntity
 import ir.ipack.ehsan.local.ipack.data.db.entity.UsageEntity
-import ir.ipack.ehsan.local.ipack.data.source.Repository
+import ir.ipack.ehsan.local.ipack.utils.CycleTypeEnum
 
 class MyTalkViewModel(
     override val context: Application,
-    private val repository: Repository
+    getTalkUsageUseCase: GetTalkUsageUseCase,
+    getCycleByTypeUseCase: GetCycleByTypeUseCase,
+    private val updateCycleUseCase: UpdateCycleUseCase,
+    private val baseCostUseCase: UpdateBaseCostUseCase
 ) : BaseViewModel(context) {
 
     private val _failure = MediatorLiveData<Failure>()
@@ -24,34 +32,25 @@ class MyTalkViewModel(
     val cycle: LiveData<CycleEntity>
         get() = _cycle
 
-    private val talkUsageResult = repository.getTalkUsageStreamLive()
-    private val talkCycleResult = repository.getTalkCycleStreamLive()
-
     init {
-        _usage.addSource(talkUsageResult) {
-            it.either(::handleFailure, ::handleUsage)
+        getTalkUsageUseCase.execute(Unit)
+        _usage.addSource(getTalkUsageUseCase.observe()) {
+            (it as? Result.Success)?.let { result ->
+                _usage.value = result.data
+            }
         }
 
-        _cycle.addSource(talkCycleResult) {
-            it.either(::handleFailure, ::handleCycle)
+        getCycleByTypeUseCase.execute(CycleTypeEnum.TALK)
+        _cycle.addSource(getCycleByTypeUseCase.observe()) {
+            (it as? Result.Success)?.let { result ->
+                _cycle.value = result.data
+            }
         }
     }
 
-    private fun handleCycle(cycleEntity: CycleEntity) {
-        _cycle.value = cycleEntity
-    }
-
-    private fun handleUsage(usageEntity: UsageEntity) {
-        _usage.value = usageEntity
-    }
-
-    private fun handleFailure(failure: Failure) {
-        _failure.value = Failure
-    }
-
-    fun updateTalkCycle(cycle: CycleEntity) = repository.updateTalkCycle(cycle)
+    fun updateTalkCycle(cycle: CycleEntity) = updateCycleUseCase.execute(cycle)
 
     override fun updateBaseCost(changeAmount: Int) {
-        repository.updateBaseCost(changeAmount)
+        baseCostUseCase.execute(changeAmount)
     }
 }

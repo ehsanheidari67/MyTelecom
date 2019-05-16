@@ -75,5 +75,4 @@ class MyTextFragment : Fragment() {
     private fun showContent() {
         my_text_recyclerview.visibility = View.VISIBLE
     }
-
 }

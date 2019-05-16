@@ -24,10 +24,10 @@ class MyDataFragment : Fragment() {
     private lateinit var viewModel: MyDataViewModel
     private lateinit var appResources: Resources
     private lateinit var rootView: View
-    private lateinit var binding : FragmentMyDataBinding
+    private lateinit var binding: FragmentMyDataBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding =  DataBindingUtil.inflate(inflater, R.layout.fragment_my_data, container,
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_my_data, container,
             false)
         return binding.root.also {
             rootView = it
@@ -87,5 +87,4 @@ class MyDataFragment : Fragment() {
     private fun showContent() {
         my_data_recyclerview.visibility = View.VISIBLE
     }
-
 }

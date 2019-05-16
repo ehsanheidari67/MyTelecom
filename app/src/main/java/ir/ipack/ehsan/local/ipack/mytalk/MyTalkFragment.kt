@@ -75,5 +75,4 @@ class MyTalkFragment : Fragment() {
     private fun showContent() {
         my_talk_recyclerview.visibility = View.VISIBLE
     }
-
 }
